@@ -8,10 +8,10 @@
             <a href="<c:url value="/login"/>"><fmt:message key="login.title"/></a>
         </li>
     </c:if>
-    <menu:displayMenu name="MainMenu"/>
-    <menu:displayMenu name="UserMenu"/>
-    <menu:displayMenu name="AdminMenu"/>
-    <menu:displayMenu name="Logout"/>
+<%--     <menu:displayMenu name="MainMenu"/> --%>
+<%--     <menu:displayMenu name="UserMenu"/> --%>
+<%--     <menu:displayMenu name="AdminMenu"/> --%>
+<%--     <menu:displayMenu name="Logout"/> --%>
 </ul>
 </div>
 </menu:useMenuDisplayer>

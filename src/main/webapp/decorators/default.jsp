@@ -33,11 +33,11 @@
                 </button>
                 <a class="brand" href="<c:url value='/'/>"><fmt:message key="webapp.name"/></a>
                 <%@ include file="/common/menu.jsp" %>
-                <c:if test="${pageContext.request.locale.language ne 'en'}">
-                    <div id="switchLocale"><a href="<c:url value='/?locale=en'/>">
-                        <fmt:message key="webapp.name"/> in English</a>
-                    </div>
-                </c:if>
+<%--                 <c:if test="${pageContext.request.locale.language ne 'en'}"> --%>
+<%--                     <div id="switchLocale"><a href="<c:url value='/?locale=en'/>"> --%>
+<%--                         <fmt:message key="webapp.name"/> in English</a> --%>
+<!--                     </div> -->
+<%--                 </c:if> --%>
             </div>
         </div>
     </div>
@@ -45,15 +45,15 @@
     <div class="container-fluid">
         <%@ include file="/common/messages.jsp" %>
         <div class="row-fluid">
-            <decorator:body/>
-
-            <c:if test="${currentMenu == 'AdminMenu'}">
-                <div class="span2">
+        	<div class="span2">
                 <menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm" permissions="rolesAdapter">
-                    <menu:displayMenu name="AdminMenu"/>
+                	<menu:displayMenu name="MainMenu"/>
+    				<menu:displayMenu name="UserMenu"/> 
+   					<menu:displayMenu name="AdminMenu"/> 
+     				<menu:displayMenu name="Logout"/> 
                 </menu:useMenuDisplayer>
-                </div>
-            </c:if>
+            </div>
+             <decorator:body/>
         </div>
     </div>
 
