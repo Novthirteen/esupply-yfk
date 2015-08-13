@@ -21,6 +21,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -42,13 +43,11 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  *         by David Carter david@carter.net
  */
 @Entity
-@Table(name = "app_user")
-@Indexed
+@Table(name = "user")
 @XmlRootElement
 public class User extends BaseObject implements Serializable, UserDetails {
     private static final long serialVersionUID = 3832626162173359411L;
 
-    private Long id;
     private String username;                    // required
     private String password;                    // required
     private String confirmPassword;
@@ -60,11 +59,14 @@ public class User extends BaseObject implements Serializable, UserDetails {
     private String website;
     private Address address = new Address();
     private Integer version;
-    private Set<Role> roles = new HashSet<Role>();
     private boolean enabled;
     private boolean accountExpired;
     private boolean accountLocked;
     private boolean credentialsExpired;
+    private String createUser;
+    private Timestamp createDate;
+    private String updateUser;
+    private Timestamp updateDate;
 
     /**
      * Default constructor - creates a new instance with no values set.
@@ -82,14 +84,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @DocumentId
-    public Long getId() {
-        return id;
-    }
-
-    @Column(nullable = false, length = 50, unique = true)
-    @Field
+    @Column(length = 50)
     public String getUsername() {
         return username;
     }
@@ -100,7 +95,8 @@ public class User extends BaseObject implements Serializable, UserDetails {
         return password;
     }
 
-    @Transient @XmlTransient
+    @Transient 
+    @XmlTransient
     public String getConfirmPassword() {
         return confirmPassword;
     }
@@ -112,30 +108,25 @@ public class User extends BaseObject implements Serializable, UserDetails {
     }
 
     @Column(name = "first_name", nullable = false, length = 50)
-    @Field
     public String getFirstName() {
         return firstName;
     }
 
     @Column(name = "last_name", nullable = false, length = 50)
-    @Field
     public String getLastName() {
         return lastName;
     }
 
     @Column(nullable = false, unique = true)
-    @Field
     public String getEmail() {
         return email;
     }
 
     @Column(name = "phone_number")
-    @Field(analyze= Analyze.NO)
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    @Field
     public String getWebsite() {
         return website;
     }
@@ -151,47 +142,8 @@ public class User extends BaseObject implements Serializable, UserDetails {
     }
 
     @Embedded
-    @IndexedEmbedded
     public Address getAddress() {
         return address;
-    }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    /**
-     * Convert user roles to LabelValue objects for convenience.
-     *
-     * @return a list of LabelValue objects with role information
-     */
-    @Transient
-    public List<LabelValue> getRoleList() {
-        List<LabelValue> userRoles = new ArrayList<LabelValue>();
-
-        if (this.roles != null) {
-            for (Role role : roles) {
-                // convert the user's roles to LabelValue Objects
-                userRoles.add(new LabelValue(role.getName(), role.getName()));
-            }
-        }
-
-        return userRoles;
-    }
-
-    /**
-     * Adds a role for the user
-     *
-     * @param role the fully instantiated role
-     */
-    public void addRole(Role role) {
-        getRoles().add(role);
     }
 
     /**
@@ -200,9 +152,10 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Transient
     public Set<GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
-        authorities.addAll(roles);
-        return authorities;
+//        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
+//        authorities.addAll(roles);
+//        return authorities;
+    	return null;
     }
 
     @Version
@@ -256,9 +209,25 @@ public class User extends BaseObject implements Serializable, UserDetails {
     public boolean isCredentialsNonExpired() {
         return !credentialsExpired;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    
+    @Column(name = "create_user", length = 50, nullable = false, updatable = false)
+    public String getCreateUser() {
+        return createUser;
+    }
+    
+    @Column(name = "create_date", nullable = false, updatable = false)
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+    
+    @Column(name = "update_user", length = 50, nullable = false)
+    public String getUpdateUser() {
+        return updateUser;
+    }
+    
+    @Column(name = "update_date", nullable = false)
+    public Timestamp getUpdateDate() {
+        return updateDate;
     }
 
     public void setUsername(String username) {
@@ -301,10 +270,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
         this.address = address;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
     public void setVersion(Integer version) {
         this.version = version;
     }
@@ -323,6 +288,22 @@ public class User extends BaseObject implements Serializable, UserDetails {
 
     public void setCredentialsExpired(boolean credentialsExpired) {
         this.credentialsExpired = credentialsExpired;
+    }
+    
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+    
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+    
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+    
+    public void setUpdateDate(Timestamp updateDate) {
+        this.updateDate = updateDate;
     }
 
     /**
@@ -360,20 +341,20 @@ public class User extends BaseObject implements Serializable, UserDetails {
                 .append("credentialsExpired", this.credentialsExpired)
                 .append("accountLocked", this.accountLocked);
 
-        if (roles != null) {
-            sb.append("Granted Authorities: ");
-
-            int i = 0;
-            for (Role role : roles) {
-                if (i > 0) {
-                    sb.append(", ");
-                }
-                sb.append(role.toString());
-                i++;
-            }
-        } else {
-            sb.append("No Granted Authorities");
-        }
+//        if (roles != null) {
+//            sb.append("Granted Authorities: ");
+//
+//            int i = 0;
+//            for (Role role : roles) {
+//                if (i > 0) {
+//                    sb.append(", ");
+//                }
+//                sb.append(role.toString());
+//                i++;
+//            }
+//        } else {
+//            sb.append("No Granted Authorities");
+//        }
         return sb.toString();
     }
 }

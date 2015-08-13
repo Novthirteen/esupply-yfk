@@ -14,7 +14,7 @@ import java.util.List;
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  *  Modified by <a href="mailto:dan@getrolling.com">Dan Kibler </a>
  */
-public interface UserManager extends GenericManager<User, Long> {
+public interface UserManager extends GenericManager<User, String> {
     /**
      * Convenience method for testing - allows you to mock the DAO and set it on an interface.
      * @param userDao the UserDao implementation to use
@@ -27,7 +27,7 @@ public interface UserManager extends GenericManager<User, Long> {
      * @param userId the identifier for the user
      * @return User
      */
-    User getUser(String userId);
+    User getUser(String userName);
 
     /**
      * Finds a user by their username.
@@ -63,9 +63,9 @@ public interface UserManager extends GenericManager<User, Long> {
     /**
      * Removes a user from the database by their userId
      *
-     * @param userId the user's id
+     * @param userName the user name
      */
-    void removeUser(String userId);
+    void removeUser(String userName);
 
     /**
      * Search a user for search terms.

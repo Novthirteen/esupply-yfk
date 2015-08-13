@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
-public interface UserDao extends GenericDao<User, Long> {
+public interface UserDao extends GenericDao<User, String> {
 
     /**
      * Gets users information based on login name.
@@ -45,6 +45,6 @@ public interface UserDao extends GenericDao<User, Long> {
      * @return the password in DB, if the user is already persisted
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    String getUserPassword(Long userId);
+    String getUserPassword(String userName);
     
 }

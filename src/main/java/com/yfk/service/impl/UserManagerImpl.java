@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Service("userManager")
 @WebService(serviceName = "UserService", endpointInterface = "com.yfk.service.UserService")
-public class UserManagerImpl extends GenericManagerImpl<User, Long> implements UserManager, UserService {
+public class UserManagerImpl extends GenericManagerImpl<User, String> implements UserManager, UserService {
     private PasswordEncoder passwordEncoder;
     private UserDao userDao;
     @Autowired(required = false)
@@ -40,13 +40,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     public void setUserDao(UserDao userDao) {
         this.dao = userDao;
         this.userDao = userDao;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public User getUser(String userId) {
-        return userDao.get(new Long(userId));
     }
 
     /**
@@ -75,7 +68,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
                 passwordChanged = true;
             } else {
                 // Existing user, check password in DB
-                String currentPassword = userDao.getUserPassword(user.getId());
+                String currentPassword = userDao.getUserPassword(user.getUsername());
                 if (currentPassword == null) {
                     passwordChanged = true;
                 } else {
@@ -120,9 +113,16 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     /**
      * {@inheritDoc}
      */
-    public void removeUser(String userId) {
-        log.debug("removing user: " + userId);
-        userDao.remove(new Long(userId));
+    public void removeUser(String userName) {
+        log.debug("removing user: " + userName);
+        userDao.remove(userName);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public User getUser(String username) {
+        return (User) userDao.loadUserByUsername(username);
     }
 
     /**
