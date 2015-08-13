@@ -10,15 +10,14 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "permission")
-public class Permission implements GrantedAuthority {
+@Table(name = "permission_group")
+public class PermissionGroup implements GrantedAuthority {
 
 	 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 364433575686941032L;
+	private static final long serialVersionUID = -194873122708757951L;
 		private String code;                    // required
-	    private String type;                    // required
 	    private String name;
 	    private String createUser;
 	    private Timestamp createDate;
@@ -26,19 +25,13 @@ public class Permission implements GrantedAuthority {
 	    private Timestamp updateDate;
 	    
 	    
-	    
 	    @Id
-	    @Column(length = 50)
+	    @Column(length = 20)
 	    public String getCode() {
 	        return this.code;
 	    }
-
-	    @Column(length = 1)
-	    public String getType() {
-	        return this.type;
-	    }
 	    
-	    @Column(length = 50)
+	    @Column(length = 100)
 	    public String getName() {
 	        return this.name;
 	    }
@@ -70,11 +63,6 @@ public class Permission implements GrantedAuthority {
 	    public void setName(String name) {
 	        this.name = name;
 	    }
-	    
-	    public void setType(String type) {
-	        this.type = type;
-	    }
-
 
 	    public void setCreateUser(String createUser) {
 	        this.createUser = createUser;
