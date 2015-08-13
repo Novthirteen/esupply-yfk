@@ -47,10 +47,9 @@
         <div class="row-fluid">
         	<div class="span2">
                 <menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm" permissions="rolesAdapter">
-                	<menu:displayMenu name="MainMenu"/>
+<%--                 	<menu:displayMenu name="MainMenu"/> --%>
     				<menu:displayMenu name="UserMenu"/> 
    					<menu:displayMenu name="AdminMenu"/> 
-     				<menu:displayMenu name="Logout"/> 
                 </menu:useMenuDisplayer>
             </div>
              <decorator:body/>
