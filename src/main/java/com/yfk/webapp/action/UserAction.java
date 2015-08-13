@@ -30,7 +30,7 @@ public class UserAction extends BaseAction implements Preparable {
     private static final long serialVersionUID = 6776558938712115191L;
     private List<User> users;
     private User user;
-    private String id;
+    private String userName;
     private String query;
 
     /**
@@ -38,8 +38,8 @@ public class UserAction extends BaseAction implements Preparable {
      */
     public void prepare() {
         // prevent failures on new
-        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("user.id")))) {
-            user = userManager.getUser(getRequest().getParameter("user.id"));
+        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("user.userName")))) {
+            user = userManager.getUser(getRequest().getParameter("user.userName"));
         }
     }
 
@@ -52,8 +52,8 @@ public class UserAction extends BaseAction implements Preparable {
         return users;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public User getUser() {
@@ -74,7 +74,7 @@ public class UserAction extends BaseAction implements Preparable {
      * @return success
      */
     public String delete() {
-        userManager.removeUser(user.getId().toString());
+        userManager.removeUser(user.getUsername());
         List<Object> args = new ArrayList<Object>();
         args.add(user.getFullName());
         saveMessage(getText("user.deleted", args));
@@ -83,7 +83,7 @@ public class UserAction extends BaseAction implements Preparable {
     }
 
     /**
-     * Grab the user from the database based on the "id" passed in.
+     * Grab the user from the database based on the "userName" passed in.
      *
      * @return success if user found
      * @throws IOException can happen when sending a "forbidden" from response.sendError()
@@ -93,22 +93,22 @@ public class UserAction extends BaseAction implements Preparable {
         boolean editProfile = request.getRequestURI().contains("editProfile");
 
         // if URL is "editProfile" - make sure it's the current user
-        if (editProfile && ((request.getParameter("id") != null) || (request.getParameter("from") != null))) {
+        if (editProfile && ((request.getParameter("userName") != null) || (request.getParameter("from") != null))) {
             ServletActionContext.getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
             log.warn("User '" + request.getRemoteUser() + "' is trying to edit user '" +
-                    request.getParameter("id") + "'");
+                    request.getParameter("userName") + "'");
             return null;
         }
 
-        // if a user's id is passed in
-        if (id != null) {
-            // lookup the user using that id
-            user = userManager.getUser(id);
+        // if a userName is passed in
+        if (userName != null) {
+            // lookup the user using userName
+            user = userManager.getUser(userName);
         } else if (editProfile) {
             user = userManager.getUserByUsername(request.getRemoteUser());
         } else {
             user = new User();
-            user.addRole(new Role(Constants.USER_ROLE));
+            //user.addRole(new Role(Constants.USER_ROLE));
         }
 
         if (user.getUsername() != null) {
@@ -168,13 +168,13 @@ public class UserAction extends BaseAction implements Preparable {
         // only attempt to change roles if user is admin
         // for other users, prepare() method will handle populating
         if (getRequest().isUserInRole(Constants.ADMIN_ROLE)) {
-            user.getRoles().clear(); // APF-788: Removing roles from user doesn't work
+            //user.getRoles().clear(); // APF-788: Removing roles from user doesn't work
             String[] userRoles = getRequest().getParameterValues("userRoles");
 
             for (int i = 0; userRoles != null && i < userRoles.length; i++) {
                 String roleName = userRoles[i];
                 try {
-                    user.addRole(roleManager.getRole(roleName));
+                    //user.addRole(roleManager.getRole(roleName));
                 } catch (DataIntegrityViolationException e) {
                     return showUserExistsException(originalVersion);
                 }

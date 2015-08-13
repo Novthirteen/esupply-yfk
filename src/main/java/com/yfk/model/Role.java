@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * This class is used to represent available roles in the database.
@@ -25,18 +26,15 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "role")
-@NamedQueries({
-        @NamedQuery(
-                name = "findRoleByName",
-                query = "select r from Role r where r.name = :name "
-        )
-})
-public class Role extends BaseObject implements Serializable, GrantedAuthority {
+public class Role extends BaseObject implements Serializable {
     private static final long serialVersionUID = 3690197650654049848L;
-    private Long id;
+    private String code;
     private String name;
-    private String description;
-
+    private String createUser;
+    private Timestamp createDate;
+    private String updateUser;
+    private Timestamp updateDate;
+    
     /**
      * Default constructor - creates a new instance with no values set.
      */
@@ -44,49 +42,67 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
     }
 
     /**
-     * Create a new instance and set the name.
+     * Create a new instance and set the code.
      *
-     * @param name name of the role.
+     * @param name code of the role.
      */
-    public Role(final String name) {
-        this.name = name;
+    public Role(final String code) {
+        this.code = code;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @return the name property (getAuthority required by Acegi's GrantedAuthority interface)
-     * @see org.springframework.security.core.GrantedAuthority#getAuthority()
-     */
-    @Transient
-    public String getAuthority() {
-        return getName();
-    }
-
     @Column(length = 20)
+    public String getCode() {
+        return code;
+    }
+
+    @Column(length = 50)
     public String getName() {
         return this.name;
     }
 
-    @Column(length = 64)
-    public String getDescription() {
-        return this.description;
+    @Column(name = "create_user", length = 50, nullable = false, updatable = false)
+    public String getCreateUser() {
+        return createUser;
+    }
+    
+    @Column(name = "create_date", nullable = false, updatable = false)
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+    
+    @Column(name = "update_user", length = 50, nullable = false)
+    public String getUpdateUser() {
+        return updateUser;
+    }
+    
+    @Column(name = "update_date", nullable = false)
+    public Timestamp getUpdateDate() {
+        return updateDate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+    
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+    
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+    
+    public void setUpdateDate(Timestamp updateDate) {
+        this.updateDate = updateDate;
     }
 
     /**
@@ -102,7 +118,7 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
 
         final Role role = (Role) o;
 
-        return !(name != null ? !name.equals(role.name) : role.name != null);
+        return !(code != null ? !code.equals(role.code) : role.code != null);
 
     }
 
@@ -110,7 +126,7 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
      * {@inheritDoc}
      */
     public int hashCode() {
-        return (name != null ? name.hashCode() : 0);
+        return (code != null ? code.hashCode() : 0);
     }
 
     /**
@@ -118,7 +134,7 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
      */
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
-                .append(this.name)
+                .append(this.code)
                 .toString();
     }
 }

@@ -30,7 +30,7 @@ import org.hibernate.criterion.Restrictions;
  *   Modified by jgarcia (updated to hibernate 4)
 */
 @Repository("userDao")
-public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements UserDao, UserDetailsService {
+public class UserDaoHibernate extends GenericDaoHibernate<User, String> implements UserDao, UserDetailsService {
 
     /**
      * Constructor that sets the entity to User.class.
@@ -53,7 +53,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
      */
     public User saveUser(User user) {
         if (log.isDebugEnabled()) {
-            log.debug("user's id: " + user.getId());
+            log.debug("user's name: " + user.getUsername());
         }
         getSession().saveOrUpdate(user);
         // necessary to throw a DataIntegrityViolation and catch it in UserManager
@@ -89,11 +89,11 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
     /**
      * {@inheritDoc}
     */
-    public String getUserPassword(Long userId) {
+    public String getUserPassword(String userName) {
         JdbcTemplate jdbcTemplate =
                 new JdbcTemplate(SessionFactoryUtils.getDataSource(getSessionFactory()));
         Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
         return jdbcTemplate.queryForObject(
-                "select password from " + table.name() + " where id=?", String.class, userId);
+                "select password from " + table.name() + " where userName=?", String.class, userName);
     }
 }

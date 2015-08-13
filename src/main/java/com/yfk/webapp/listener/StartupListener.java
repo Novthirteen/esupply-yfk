@@ -3,7 +3,6 @@ package com.yfk.webapp.listener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.yfk.Constants;
-import com.yfk.service.LookupManager;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,7 +16,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.util.HashMap;
 import java.util.Map;
-import com.yfk.service.GenericManager;
 
 /**
  * <p>StartupListener class used to initialize and database settings
@@ -89,22 +87,22 @@ public class StartupListener implements ServletContextListener {
      * @param context The servlet context
      */
     public static void setupContext(ServletContext context) {
-        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-        LookupManager mgr = (LookupManager) ctx.getBean("lookupManager");
-
-        // get list of possible roles
-        context.setAttribute(Constants.AVAILABLE_ROLES, mgr.getAllRoles());
-        log.debug("Drop-down initialization complete [OK]");
-
-        // Any manager extending GenericManager will do:
-        GenericManager manager = (GenericManager) ctx.getBean("userManager");
-        doReindexing(manager);
-        log.debug("Full text search reindexing complete [OK]");
+//        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+//        LookupManager mgr = (LookupManager) ctx.getBean("lookupManager");
+//
+//        // get list of possible roles
+//        context.setAttribute(Constants.AVAILABLE_ROLES, mgr.getAllRoles());
+//        log.debug("Drop-down initialization complete [OK]");
+//
+//        // Any manager extending GenericManager will do:
+//        GenericManager manager = (GenericManager) ctx.getBean("userManager");
+//        doReindexing(manager);
+//        log.debug("Full text search reindexing complete [OK]");
     }
 
-    private static void doReindexing(GenericManager manager) {
-        manager.reindexAll(false);
-    }
+//    private static void doReindexing(GenericManager manager) {
+//        manager.reindexAll(false);
+//    }
 
     /**
      * Shutdown servlet context (currently a no-op method).

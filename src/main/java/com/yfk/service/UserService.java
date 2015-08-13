@@ -19,12 +19,12 @@ public interface UserService {
     /**
      * Retrieves a user by userId.  An exception is thrown if user not found
      *
-     * @param userId the identifier for the user
+     * @param userName for the user
      * @return User
      */
     @GET
-    @Path("{id}")
-    User getUser(@PathParam("id") String userId);
+    @Path("{userName}")
+    User getUser(@PathParam("userName") String userName);
 
     /**
      * Finds a user by their username.
