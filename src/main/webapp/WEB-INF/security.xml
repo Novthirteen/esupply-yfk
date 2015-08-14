@@ -21,7 +21,7 @@
 	</http>
 
 	<beans:bean id="filterSecurityInterceptor"
-		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		class="com.yfk.webapp.security.SimpleFilterSecurityInterceptor">
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 		<beans:property name="accessDecisionManager" ref="accessDecisionManager" />
 		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />

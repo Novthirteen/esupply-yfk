@@ -1,17 +1,17 @@
 package com.yfk.model;
 
 public enum PermissionType {
-	URL('U'), 
-	SUPPLIER('S'),
-	PLANT('P');
+	U("URL"), 
+	S("SUPPLIER"),
+	P("PLANT");
 
-	public char type() {
+	public String type() {
 		return type;
 	}
 
-	private final char type;
+	private final String type;
 
-	private PermissionType(char type) {
+	private PermissionType(String type) {
 		this.type = type;
 	}
 }

@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -17,7 +19,7 @@ public class Permission extends BaseObject {
 	*/
 	private static final long serialVersionUID = 364433575686941032L;
 	private String code; // required
-	private String type; // required
+	private PermissionType type; // required
 	private String name;
 	private String createUser;
 	private Timestamp createDate;
@@ -32,7 +34,8 @@ public class Permission extends BaseObject {
 
 	@Id
 	@Column(length = 1)
-	public String getType() {
+	@Enumerated(EnumType.STRING)
+	public PermissionType getType() {
 		return this.type;
 	}
 
@@ -69,7 +72,7 @@ public class Permission extends BaseObject {
 		this.name = name;
 	}
 
-	public void setType(String type) {
+	public void setType(PermissionType type) {
 		this.type = type;
 	}
 
@@ -112,10 +115,7 @@ public class Permission extends BaseObject {
 				return false;
 		} else if (!code.equals(other.code))
 			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
+		if (type != other.type)
 			return false;
 		return true;
 	}
