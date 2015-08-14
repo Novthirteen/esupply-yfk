@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 @IdClass(RolePermissionId.class)
 @Table(name = "role_permission")
 
-public class RolePermission implements GrantedAuthority {
+public class RolePermission extends BaseObject {
 
 		/**
 	 * 
@@ -38,6 +38,7 @@ public class RolePermission implements GrantedAuthority {
 	        return this.permissionCode;
 	    }
 	    
+	    @Id
 	    @Column(name = "permission_type",length = 1, nullable = false)
 	    public String getPermissionType() {
 	        return this.permissionType;
@@ -72,12 +73,51 @@ public class RolePermission implements GrantedAuthority {
 	    public void setCreateDate(Timestamp createDate) {
 	        this.createDate = createDate;
 	    }
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((permissionCode == null) ? 0 : permissionCode.hashCode());
+			result = prime * result + ((permissionType == null) ? 0 : permissionType.hashCode());
+			result = prime * result + ((roleCode == null) ? 0 : roleCode.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			RolePermission other = (RolePermission) obj;
+			if (permissionCode == null) {
+				if (other.permissionCode != null)
+					return false;
+			} else if (!permissionCode.equals(other.permissionCode))
+				return false;
+			if (permissionType == null) {
+				if (other.permissionType != null)
+					return false;
+			} else if (!permissionType.equals(other.permissionType))
+				return false;
+			if (roleCode == null) {
+				if (other.roleCode != null)
+					return false;
+			} else if (!roleCode.equals(other.roleCode))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "RolePermission [roleCode=" + roleCode + ", permissionCode=" + permissionCode + ", permissionType="
+					+ permissionType + "]";
+		}
 	    
-	@Override
-	public String getAuthority() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
 
@@ -85,4 +125,5 @@ public class RolePermission implements GrantedAuthority {
 class RolePermissionId {
 	 String roleCode;                   
      String permissionCode;	
+     String permissionType;
 }

@@ -11,33 +11,33 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@IdClass(RolePermissionGroupId.class)
-@Table(name = "role_permission_group")
+@IdClass(UserRoleId.class)
+@Table(name = "user_role")
 
-public class RolePermissionGroup extends BaseObject {
+public class UserRole extends BaseObject {
 
 
 		/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1799221237122011806L;
-		private String roleCode;			                    // required
-	    private String permissionGroupCode;							// required
+	private static final long serialVersionUID = 2577359255023747822L;
+		private String username;			                    // required
+	    private String roleCode;								// required
 	    private String createUser;
 	    private Timestamp createDate;
 	
+	    @Id
+	    @Column(name = "username",length = 50, nullable = false)
+	    public String getUsername() {
+	        return this.username;
+	    }
+	    
 	    @Id
 	    @Column(name = "role_code",length = 20, nullable = false)
 	    public String getRoleCode() {
 	        return this.roleCode;
 	    }
 	    
-	    @Id
-	    @Column(name = "permission_group_code",length = 20, nullable = false)
-	    public String getPermissionGroupCode() {
-	        return this.permissionGroupCode;
-	    }
-
 	    @Column(name = "create_user", length = 50, nullable = false, updatable = false)
 	    public String getCreateUser() {
 	        return createUser;
@@ -48,14 +48,14 @@ public class RolePermissionGroup extends BaseObject {
 	        return createDate;
 	    }
 
+	    public void setUserName(String username) {
+	        this.username = username;
+	    }
+
 	    public void setRoleCode(String roleCode) {
 	        this.roleCode = roleCode;
 	    }
 
-	    public void setPermissionGroupCode(String permissionGroupCode) {
-	        this.permissionGroupCode = permissionGroupCode;
-	    }
-	   	  
 	    public void setCreateUser(String createUser) {
 	        this.createUser = createUser;
 	    }
@@ -65,11 +65,16 @@ public class RolePermissionGroup extends BaseObject {
 	    }
 
 		@Override
+		public String toString() {
+			return "UserRole [username=" + username + ", roleCode=" + roleCode + "]";
+		}
+
+		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((permissionGroupCode == null) ? 0 : permissionGroupCode.hashCode());
 			result = prime * result + ((roleCode == null) ? 0 : roleCode.hashCode());
+			result = prime * result + ((username == null) ? 0 : username.hashCode());
 			return result;
 		}
 
@@ -81,30 +86,24 @@ public class RolePermissionGroup extends BaseObject {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			RolePermissionGroup other = (RolePermissionGroup) obj;
-			if (permissionGroupCode == null) {
-				if (other.permissionGroupCode != null)
-					return false;
-			} else if (!permissionGroupCode.equals(other.permissionGroupCode))
-				return false;
+			UserRole other = (UserRole) obj;
 			if (roleCode == null) {
 				if (other.roleCode != null)
 					return false;
 			} else if (!roleCode.equals(other.roleCode))
 				return false;
+			if (username == null) {
+				if (other.username != null)
+					return false;
+			} else if (!username.equals(other.username))
+				return false;
 			return true;
 		}
-
-		@Override
-		public String toString() {
-			return "RolePermissionGroup [roleCode=" + roleCode + ", permissionGroupCode=" + permissionGroupCode + "]";
-		}
-	    
 	
 }
 
 
-class RolePermissionGroupId {
-	 String roleCode;                   
-     String permissionGroupCode;	
+class UserRoleId {
+	 String username;                   
+     String roleCode;	
 }

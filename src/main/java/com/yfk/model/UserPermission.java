@@ -11,27 +11,26 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@IdClass(PermissionGroupPermissionId.class)
-@Table(name = "permission_group_permission")
+@IdClass(RolePermissionId.class)
+@Table(name = "user_permission")
 
-public class PermissionGroupPermission extends BaseObject {
-
+public class UserPermission extends BaseObject {
 
 
 		/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2803610112510382412L;
-		private String permissionGroupCode;                    // required
+	private static final long serialVersionUID = 9053423844348595443L;
+		private String username;			                    // required
 	    private String permissionCode;							// required
 	    private String permissionType;							// required
 	    private String createUser;
 	    private Timestamp createDate;
 	
 	    @Id
-	    @Column(name = "permission_group_code",length = 20, nullable = false)
-	    public String getPermissionGroupCode() {
-	        return this.permissionGroupCode;
+	    @Column(length = 50)
+	    public String getUsername() {
+	        return this.username;
 	    }
 	    
 	    @Id
@@ -40,6 +39,7 @@ public class PermissionGroupPermission extends BaseObject {
 	        return this.permissionCode;
 	    }
 	    
+	    @Id
 	    @Column(name = "permission_type",length = 1, nullable = false)
 	    public String getPermissionType() {
 	        return this.permissionType;
@@ -55,8 +55,8 @@ public class PermissionGroupPermission extends BaseObject {
 	        return createDate;
 	    }
 
-	    public void setPermissionGroupCode(String permissionGroupCode) {
-	        this.permissionGroupCode = permissionGroupCode;
+	    public void setUsername(String username) {
+	        this.username = username;
 	    }
 
 	    public void setPermissionCode(String permissionCode) {
@@ -80,8 +80,8 @@ public class PermissionGroupPermission extends BaseObject {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((permissionCode == null) ? 0 : permissionCode.hashCode());
-			result = prime * result + ((permissionGroupCode == null) ? 0 : permissionGroupCode.hashCode());
 			result = prime * result + ((permissionType == null) ? 0 : permissionType.hashCode());
+			result = prime * result + ((username == null) ? 0 : username.hashCode());
 			return result;
 		}
 
@@ -93,29 +93,29 @@ public class PermissionGroupPermission extends BaseObject {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			PermissionGroupPermission other = (PermissionGroupPermission) obj;
+			UserPermission other = (UserPermission) obj;
 			if (permissionCode == null) {
 				if (other.permissionCode != null)
 					return false;
 			} else if (!permissionCode.equals(other.permissionCode))
-				return false;
-			if (permissionGroupCode == null) {
-				if (other.permissionGroupCode != null)
-					return false;
-			} else if (!permissionGroupCode.equals(other.permissionGroupCode))
 				return false;
 			if (permissionType == null) {
 				if (other.permissionType != null)
 					return false;
 			} else if (!permissionType.equals(other.permissionType))
 				return false;
+			if (username == null) {
+				if (other.username != null)
+					return false;
+			} else if (!username.equals(other.username))
+				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "PermissionGroupPermission [permissionGroupCode=" + permissionGroupCode + ", permissionCode="
-					+ permissionCode + ", permissionType=" + permissionType + "]";
+			return "RolePermission [username=" + username + ", permissionCode=" + permissionCode + ", permissionType="
+					+ permissionType + "]";
 		}
 	    
 
@@ -123,7 +123,8 @@ public class PermissionGroupPermission extends BaseObject {
 }
 
 
-class PermissionGroupPermissionId {
-	 String permissionGroupCode;                    // required
+class UserPermissionId {
+	 String username;                   
      String permissionCode;	
+     String permissionType;
 }

@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "permission_group")
-public class PermissionGroup implements GrantedAuthority {
+public class PermissionGroup extends BaseObject  {
 
 	 	/**
 	 * 
@@ -79,11 +79,37 @@ public class PermissionGroup implements GrantedAuthority {
 	    public void setUpdateDate(Timestamp updateDate) {
 	        this.updateDate = updateDate;
 	    }
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((code == null) ? 0 : code.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			PermissionGroup other = (PermissionGroup) obj;
+			if (code == null) {
+				if (other.code != null)
+					return false;
+			} else if (!code.equals(other.code))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "PermissionGroup [code=" + code + "]";
+		}
 	    
-	@Override
-	public String getAuthority() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }
