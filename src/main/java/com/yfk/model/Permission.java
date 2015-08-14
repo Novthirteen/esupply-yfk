@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @IdClass(PermissionId.class)
 @Table(name = "permission")
 public class Permission extends BaseObject {
-
 	/**
 	* 
 	*/
@@ -125,9 +124,4 @@ public class Permission extends BaseObject {
 	public String toString() {
 		return "Permission [code=" + code + ", type=" + type + ", name=" + name + "]";
 	}
-}
-
-class PermissionId {
-	String code;
-	String type;
 }

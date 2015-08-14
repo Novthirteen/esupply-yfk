@@ -67,6 +67,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     private Timestamp createDate;
     private String updateUser;
     private Timestamp updateDate;
+    private Set<PermissionView> permissions = new HashSet<PermissionView>(); 
 
     /**
      * Default constructor - creates a new instance with no values set.
@@ -152,10 +153,9 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Transient
     public Set<GrantedAuthority> getAuthorities() {
-//        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
-//        authorities.addAll(roles);
-//        return authorities;
-    	return null;
+        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
+        authorities.addAll(this.permissions);
+        return authorities;
     }
 
     @Version
@@ -305,6 +305,10 @@ public class User extends BaseObject implements Serializable, UserDetails {
     public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
+    
+    public void setPermissions(Set<PermissionView> permissions) {
+    	this.permissions = permissions;
+    }
 
     /**
      * {@inheritDoc}
@@ -320,7 +324,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
         final User user = (User) o;
 
         return !(username != null ? !username.equals(user.getUsername()) : user.getUsername() != null);
-
     }
 
     /**
