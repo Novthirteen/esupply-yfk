@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -22,7 +24,7 @@ public class RolePermission extends BaseObject {
 	private static final long serialVersionUID = -3291803526702181083L;
 		private String roleCode;			                    // required
 	    private String permissionCode;							// required
-	    private String permissionType;							// required
+	    private PermissionType permissionType;							// required
 	    private String createUser;
 	    private Timestamp createDate;
 	
@@ -39,10 +41,12 @@ public class RolePermission extends BaseObject {
 	    }
 	    
 	    @Id
-	    @Column(name = "permission_type",length = 1, nullable = false)
-	    public String getPermissionType() {
-	        return this.permissionType;
-	    }
+		@Column(length = 1)
+		@Enumerated(EnumType.STRING)
+		public PermissionType getPermissionType() {
+			return this.permissionType;
+		}
+
 
 	    @Column(name = "create_user", length = 50, nullable = false, updatable = false)
 	    public String getCreateUser() {
@@ -62,7 +66,7 @@ public class RolePermission extends BaseObject {
 	        this.permissionCode = permissionCode;
 	    }
 	    
-	    public void setPermissionType(String permissionType) {
+	    public void setPermissionType(PermissionType permissionType) {
 	        this.permissionType = permissionType;
 	    }
 
@@ -119,11 +123,4 @@ public class RolePermission extends BaseObject {
 	    
 
 
-}
-
-
-class RolePermissionId {
-	 String roleCode;                   
-     String permissionCode;	
-     String permissionType;
 }

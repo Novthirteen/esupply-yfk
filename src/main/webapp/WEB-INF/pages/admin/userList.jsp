@@ -30,8 +30,9 @@
 
     <display:table name="users" cellspacing="0" cellpadding="0" requestURI=""
                    defaultsort="1" id="users" pagesize="25" class="table table-condensed table-striped table-hover" export="true">
+        
         <display:column property="username" escapeXml="true" sortable="true" titleKey="user.username" style="width: 25%"
-                        url="/editUser?from=list" paramId="id" paramProperty="id"/>
+                        url="/editUser?from=list" paramId="username" paramProperty="username"/>
         <display:column property="fullName" escapeXml="true" sortable="true" titleKey="activeUsers.fullName"
                         style="width: 34%"/>
         <display:column property="email" sortable="true" titleKey="user.email" style="width: 25%" autolink="true"

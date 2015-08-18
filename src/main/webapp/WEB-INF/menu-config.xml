@@ -4,16 +4,16 @@
         <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
     </Displayers>
     <Menus>
-        <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu" roles="ROLE_ADMIN,ROLE_USER"/>
-        <Menu name="UserMenu" title="menu.user" description="User Menu" page="/editProfile" roles="ROLE_ADMIN,ROLE_USER">
+        <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu" />
+        <Menu name="UserMenu" title="menu.user" description="User Menu" page="/editProfile" >
         	 <Item name="ViewUsers" title="menu.user" page="/editProfile"/>
         </Menu>
-        <Menu name="AdminMenu" title="menu.admin" description="Admin Menu" roles="ROLE_ADMIN" page="/admin/users">
+        <Menu name="AdminMenu" title="menu.admin" description="Admin Menu"  page="/admin/users">
             <Item name="ViewUsers" title="menu.admin.users" page="/admin/users"/>
             <Item name="ViewRoles" title="menu.admin.roles" page="/admin/roles"/>
             <Item name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers"/>
         </Menu>
-        <Menu name="ReloadMenu" title="menu.admin.reload" page="/admin/reload" roles="ROLE_ADMIN,ROLE_USER"/>
-        <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
+        <Menu name="ReloadMenu" title="menu.admin.reload" page="/admin/reload" />
+        <Menu name="Logout" title="user.logout" page="/logout" />
     </Menus>
 </MenuConfig>
