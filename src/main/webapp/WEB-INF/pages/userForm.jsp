@@ -113,8 +113,9 @@
             <div class="controls readonly">
                 <s:iterator value="user.roleList" status="status">
                     <s:property value="label"/><s:if test="!#status.last">,</s:if>
-                    <input type="hidden" name="userRoles" value="<s:property value="value"/>"/>
-                </s:iterator>
+							<input type="hidden" name="userRoles"
+								value="<s:property value="value"/>" />
+						</s:iterator>
             </div>
             <s:hidden name="user.enabled" value="%{user.enabled}"/>
             <s:hidden name="user.accountExpired" value="%{user.accountExpired}"/>
@@ -128,7 +129,7 @@
                 <i class="icon-ok icon-white"></i>
                 <fmt:message key="button.save"/>
             </s:submit>
-            <c:if test="${param.from == 'list' and not empty user.id}">
+            <c:if test="${param.from == 'list' and not empty user.name}">
                 <s:submit type="button" cssClass="btn btn-danger" method="delete" key="button.delete"
                     onclick="return confirmMessage(msgDelConfirm)" theme="simple">
                     <i class="icon-trash"></i>
