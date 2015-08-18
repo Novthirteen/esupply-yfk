@@ -182,9 +182,6 @@
     <listener>
         <listener-class>com.yfk.webapp.listener.StartupListener</listener-class>
     </listener>
-     <listener>
-        <listener-class>com.yfk.webapp.listener.HoldUserContextListener</listener-class>
-    </listener>
     <listener>
         <listener-class>com.yfk.webapp.listener.UserCounterListener</listener-class>
     </listener>
