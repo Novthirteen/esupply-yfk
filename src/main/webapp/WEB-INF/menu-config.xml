@@ -12,8 +12,6 @@
             <Item name="ViewUsers" title="menu.admin.users" page="/admin/users"/>
             <Item name="ViewRoles" title="menu.admin.roles" page="/admin/roles"/>
             <Item name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers"/>
-<!--             <Item name="ReloadContext" title="menu.admin.reload" page="/admin/reload"/> -->
-<!--             <Item name="FileUpload" title="menu.selectFile" page="/uploadFile"/> -->
         </Menu>
         <Menu name="ReloadMenu" title="menu.admin.reload" page="/admin/reload" />
         <Menu name="Logout" title="user.logout" page="/logout" />

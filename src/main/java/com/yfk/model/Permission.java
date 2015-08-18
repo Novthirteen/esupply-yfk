@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @IdClass(PermissionId.class)
 @Table(name = "permission")
-public class Permission extends BaseObject {
+public class Permission extends BaseObject implements Auditable {
 	/**
 	* 
 	*/

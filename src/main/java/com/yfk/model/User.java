@@ -45,7 +45,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @Entity
 @Table(name = "user")
 @XmlRootElement
-public class User extends BaseObject implements Serializable, UserDetails {
+public class User extends BaseObject implements Serializable, UserDetails, Auditable {
     private static final long serialVersionUID = 3832626162173359411L;
 
     private String username;                    // required

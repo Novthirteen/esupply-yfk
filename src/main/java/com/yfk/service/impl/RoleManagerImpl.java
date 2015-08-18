@@ -40,8 +40,8 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
     /**
      * {@inheritDoc}
      */
-    public Role saveRole(Role role) {
-        return dao.save(role);
+    public void saveRole(Role role) {
+        dao.save(role);
     }
 
     /**

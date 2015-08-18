@@ -51,7 +51,7 @@ public interface UserManager extends GenericManager<User, String> {
      * @throws UserExistsException thrown when user already exists
      * @return user the updated user object
      */
-    User saveUser(User user) throws UserExistsException;
+    void saveUser(User user) throws UserExistsException;
 
     /**
      * Removes a user from the database

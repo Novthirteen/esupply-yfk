@@ -50,7 +50,7 @@ public interface UserService {
      * @throws UserExistsException thrown when user already exists
      */
     @POST
-    User saveUser(User user) throws UserExistsException;
+    void saveUser(User user) throws UserExistsException;
 
     /**
      * Removes a user from the database by their userId

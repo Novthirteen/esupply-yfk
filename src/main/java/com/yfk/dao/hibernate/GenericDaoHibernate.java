@@ -164,9 +164,18 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public T save(T object) {
+    public void save(T object) {
         Session sess = getSession();
-        return (T) sess.merge(object);
+        sess.save(object);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    public void update(T object) {
+        Session sess = getSession();
+        sess.update(object);
     }
 
     /**

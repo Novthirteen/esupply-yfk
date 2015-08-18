@@ -52,7 +52,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, String> implements
     /**
      * {@inheritDoc}
      */
-    public User saveUser(User user) throws UserExistsException {
+    public void saveUser(User user) throws UserExistsException {
 
         if (user.getVersion() == null) {
             // if new user, lowercase userId
@@ -94,7 +94,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, String> implements
         }
 
         try {
-            return userDao.saveUser(user);
+            this.save(user);
         } catch (Exception e) {
             e.printStackTrace();
             log.warn(e.getMessage());
