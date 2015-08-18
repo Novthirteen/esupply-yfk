@@ -65,8 +65,9 @@ public interface GenericDao <T, PK extends Serializable> {
      * @param object the object to save
      * @return the persisted object
      */
-    T save(T object);
-
+    void save(T object);
+    
+    void update(T object);
 
     /**
      * Generic method to delete an object

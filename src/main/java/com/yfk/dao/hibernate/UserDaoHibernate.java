@@ -50,32 +50,6 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String> implemen
 
     /**
      * {@inheritDoc}
-     */
-    public User saveUser(User user) {
-        if (log.isDebugEnabled()) {
-            log.debug("user's name: " + user.getUsername());
-        }
-        getSession().saveOrUpdate(user);
-        // necessary to throw a DataIntegrityViolation and catch it in UserManager
-        getSession().flush();
-        return user;
-    }
-
-    /**
-     * Overridden simply to call the saveUser method. This is happening
-     * because saveUser flushes the session and saveObject of BaseDaoHibernate
-     * does not.
-     *
-     * @param user the user to save
-     * @return the modified user (with a primary key set if they're new)
-     */
-    @Override
-    public User save(User user) {
-        return this.saveUser(user);
-    }
-
-    /**
-     * {@inheritDoc}
     */
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List users = getSession().createCriteria(User.class).add(Restrictions.eq("username", username)).list();

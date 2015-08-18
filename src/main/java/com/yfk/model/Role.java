@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 @Entity
 @Table(name = "role")
-public class Role extends BaseObject implements Serializable {
+public class Role extends BaseObject implements Serializable, Auditable {
     private static final long serialVersionUID = 3690197650654049848L;
     private String code;
     private String name;

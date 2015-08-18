@@ -46,7 +46,9 @@ public interface GenericManager<T, PK extends Serializable> {
      * @param object the object to save
      * @return the updated object
      */
-    T save(T object);
+    void save(T object);
+    
+    void update(T object);
 
     /**
      * Generic method to delete an object

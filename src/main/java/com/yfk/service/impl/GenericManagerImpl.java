@@ -3,11 +3,17 @@ package com.yfk.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.yfk.dao.GenericDao;
+import com.yfk.model.Auditable;
+import com.yfk.model.Traceable;
 import com.yfk.service.GenericManager;
+import com.yfk.webapp.util.UserContextHolder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,7 +21,9 @@ import java.util.List;
  * common CRUD methods that they might all use. You should only need to extend
  * this class when your require custom CRUD logic.
  * <p/>
- * <p>To register this class in your Spring context file, use the following XML.
+ * <p>
+ * To register this class in your Spring context file, use the following XML.
+ * 
  * <pre>
  *     &lt;bean id="userManager" class="com.yfk.service.impl.GenericManagerImpl"&gt;
  *         &lt;constructor-arg&gt;
@@ -27,7 +35,9 @@ import java.util.List;
  *     &lt;/bean&gt;
  * </pre>
  * <p/>
- * <p>If you're using iBATIS instead of Hibernate, use:
+ * <p>
+ * If you're using iBATIS instead of Hibernate, use:
+ * 
  * <pre>
  *     &lt;bean id="userManager" class="com.yfk.service.impl.GenericManagerImpl"&gt;
  *         &lt;constructor-arg&gt;
@@ -40,97 +50,116 @@ import java.util.List;
  *     &lt;/bean&gt;
  * </pre>
  *
- * @param <T>  a type variable
- * @param <PK> the primary key for that type
- * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
- *  Updated by jgarcia: added full text search + reindexing
+ * @param <T>
+ *            a type variable
+ * @param <PK>
+ *            the primary key for that type
+ * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a> Updated by
+ *         jgarcia: added full text search + reindexing
  */
 public class GenericManagerImpl<T, PK extends Serializable> implements GenericManager<T, PK> {
-    /**
-     * Log variable for all child classes. Uses LogFactory.getLog(getClass()) from Commons Logging
-     */
-    protected final Log log = LogFactory.getLog(getClass());
+	/**
+	 * Log variable for all child classes. Uses LogFactory.getLog(getClass())
+	 * from Commons Logging
+	 */
+	protected final Log log = LogFactory.getLog(getClass());
 
-    /**
-     * GenericDao instance, set by constructor of child classes
-     */
-    protected GenericDao<T, PK> dao;
+	/**
+	 * GenericDao instance, set by constructor of child classes
+	 */
+	protected GenericDao<T, PK> dao;
 
+	public GenericManagerImpl() {
+	}
 
-    public GenericManagerImpl() {
-    }
+	public GenericManagerImpl(GenericDao<T, PK> genericDao) {
+		this.dao = genericDao;
+	}
 
-    public GenericManagerImpl(GenericDao<T, PK> genericDao) {
-        this.dao = genericDao;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<T> getAll() {
+		return dao.getAll();
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public List<T> getAll() {
-        return dao.getAll();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public T get(PK id) {
+		return dao.get(id);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public T get(PK id) {
-        return dao.get(id);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean exists(PK id) {
+		return dao.exists(id);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public boolean exists(PK id) {
-        return dao.exists(id);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void save(T object) {
+		if (object instanceof Auditable) {
+			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setCreateUser(UserContextHolder.Get());
+			((Auditable) object).setUpdateDate(((Auditable) object).getCreateDate());
+			((Auditable) object).setUpdateUser(UserContextHolder.Get());
+		} else if (object instanceof Traceable) {
+			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setCreateUser(UserContextHolder.Get());
+		}
+		dao.save(object);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public T save(T object) {
-        return dao.save(object);
-    }
+	public void update(T object) {
+		if (object instanceof Auditable) {
+			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setUpdateUser(UserContextHolder.Get());
+		}
+		dao.update(object);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public void remove(T object) {
-        dao.remove(object);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void remove(T object) {
+		dao.remove(object);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public void remove(PK id) {
-        dao.remove(id);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void remove(PK id) {
+		dao.remove(id);
+	}
 
-    /**
-     * {@inheritDoc}
-     * <p/>
-     * Search implementation using Hibernate Search.
-     */
-    @SuppressWarnings("unchecked")
-    public List<T> search(String q, Class clazz) {
-        if (q == null || "".equals(q.trim())) {
-            return getAll();
-        }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * Search implementation using Hibernate Search.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> search(String q, Class clazz) {
+		if (q == null || "".equals(q.trim())) {
+			return getAll();
+		}
 
-        return dao.search(q);
-    }
+		return dao.search(q);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public void reindex() {
-        dao.reindex();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void reindex() {
+		dao.reindex();
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public void reindexAll(boolean async) {
-        dao.reindexAll(async);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void reindexAll(boolean async) {
+		dao.reindexAll(async);
+	}
 }

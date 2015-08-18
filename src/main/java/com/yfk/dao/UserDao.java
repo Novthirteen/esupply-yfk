@@ -33,13 +33,6 @@ public interface UserDao extends GenericDao<User, String> {
     List<User> getUsers();
 
     /**
-     * Saves a user's information.
-     * @param user the object to be saved
-     * @return the persisted User object
-     */
-    User saveUser(User user);
-
-    /**
      * Retrieves the password in DB for a user
      * @param userId the user's id
      * @return the password in DB, if the user is already persisted
