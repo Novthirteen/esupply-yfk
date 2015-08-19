@@ -27,4 +27,10 @@
         <property name="mailEngine" ref="mailEngine"/>
         <property name="mailMessage" ref="mailMessage"/>
     </bean>
+    
+     <bean id="roleAction" class="com.yfk.webapp.action.RoleAction" scope="prototype">
+     
+        <property name="roleManager" ref="roleManager"/>
+     
+    </bean>
 </beans>

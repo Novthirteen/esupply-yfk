@@ -2,6 +2,7 @@ package com.yfk.service.impl;
 
 import com.yfk.dao.RoleDao;
 import com.yfk.model.Role;
+import com.yfk.model.User;
 import com.yfk.service.RoleManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,4 +51,17 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
     public void removeRole(String rolename) {
         roleDao.removeRole(rolename);
     }
+
+	@Override
+	public List<Role> search(String searchTerm) {
+		// TODO Auto-generated method stub
+		  return super.search(searchTerm, Role.class);
+	}
+	
+	
+	@Override
+	public List<Role> getRoles() {
+		  return roleDao.getAllDistinct();
+	}
+
 }

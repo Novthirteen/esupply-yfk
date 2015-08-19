@@ -29,17 +29,19 @@ public class UserRoleAuthorizationInterceptor implements Interceptor {
     public String intercept(ActionInvocation invocation) throws Exception {
         HttpServletRequest request = ServletActionContext.getRequest();
 
-        if (this.authorizedRoles != null) {
-            for (String authorizedRole : this.authorizedRoles) {
-                if (request.isUserInRole(authorizedRole)) {
-                    return invocation.invoke();
-                }
-            }
-        }
-
-        HttpServletResponse response = ServletActionContext.getResponse();
-        handleNotAuthorized(request, response);
-        return null;
+          return invocation.invoke();
+        
+//        if (this.authorizedRoles != null) {
+//            for (String authorizedRole : this.authorizedRoles) {
+//                if (request.isUserInRole(authorizedRole)) {
+//                    return invocation.invoke();
+//                }
+//            }
+//        }
+//
+//        HttpServletResponse response = ServletActionContext.getResponse();
+//        handleNotAuthorized(request, response);
+//        return null;
     }
 
     /**

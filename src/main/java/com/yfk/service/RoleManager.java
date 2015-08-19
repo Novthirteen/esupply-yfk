@@ -1,6 +1,7 @@
 package com.yfk.service;
 
 import com.yfk.model.Role;
+import com.yfk.model.User;
 
 import java.util.List;
 
@@ -24,10 +25,15 @@ public interface RoleManager extends GenericManager<Role, Long> {
     /**
      * {@inheritDoc}
      */
-    void saveRole(Role role);
+    void saveRole(Role role) throws RoleExistsException;
 
     /**
      * {@inheritDoc}
      */
     void removeRole(String rolename);
+    
+    
+    List<Role> search(String searchTerm);
+    
+    List<Role> getRoles();
 }

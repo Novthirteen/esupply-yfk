@@ -28,7 +28,7 @@
         </a>
     </div>
 
-    <display:table name="users" cellspacing="0" cellpadding="0" requestURI=""
+    <display:table  name="users" cellspacing="0" cellpadding="0" requestURI=""  
                    defaultsort="1" id="users" pagesize="25" class="table table-condensed table-striped table-hover" export="true">
         
         <display:column property="username" escapeXml="true" sortable="true" titleKey="user.username" style="width: 25%"
