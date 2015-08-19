@@ -27,6 +27,7 @@ public class PermissionId implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	@Enumerated(EnumType.STRING)
 	public PermissionType getType() {
 		return type;

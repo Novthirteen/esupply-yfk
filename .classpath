@@ -425,5 +425,6 @@
 	<classpathentry kind="var" path="M2_REPO/velocity/velocity/1.4/velocity-1.4.jar" sourcepath="M2_REPO/velocity/velocity/1.4/velocity-1.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/velocity/velocity-dep/1.4/velocity-dep-1.4.jar" sourcepath="M2_REPO/velocity/velocity-dep/1.4/velocity-dep-1.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/velocity-tools/velocity-tools-view/1.0/velocity-tools-view-1.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
