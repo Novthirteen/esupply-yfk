@@ -35,16 +35,17 @@ public class RoleAction extends BaseAction implements Preparable {
 	
 	private List<Role> roles;
     private Role role;
-    private String roleName;
-    private String query;
+    private String code;
+    private String queryCode;
+    private String queryName;
 
     /**
      * Grab the entity from the database before populating with request parameters
      */
     public void prepare() {
         // prevent failures on new
-        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("role.roleCode")))) {
-            role = roleManager.getRole(getRequest().getParameter("role.roleCode"));
+        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("role.code")))) {
+            role = roleManager.getRole(getRequest().getParameter("role.code"));
         }
     }
 
@@ -57,8 +58,8 @@ public class RoleAction extends BaseAction implements Preparable {
         return roles;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Role getRole() {
@@ -69,8 +70,12 @@ public class RoleAction extends BaseAction implements Preparable {
         this.role = role;
     }
 
-    public void setQ(String q) {
-        this.query = q;
+    public void setQCode(String qCode) {
+        this.queryCode = qCode;
+    }
+    
+    public void setQName(String qName) {
+        this.queryName = qName;
     }
 
     /**
@@ -95,10 +100,10 @@ public class RoleAction extends BaseAction implements Preparable {
      */
     public String edit() throws IOException {
       
-        // if a roleName is passed in
-        if (roleName != null) {
-            // lookup the role using roleName
-            role = roleManager.getRole(roleName);
+        // if a roleCode is passed in
+        if (code != null) {
+            // lookup the role using code
+            role = roleManager.getRole(code);
         } else {
             role = new Role();
             //role.addRole(new Role(Constants.USER_ROLE));
@@ -173,7 +178,7 @@ public class RoleAction extends BaseAction implements Preparable {
      */
     public String list() {
         try {
-            roles = roleManager.search(query);
+            roles = roleManager.search(queryCode);
         } catch (SearchException se) {
             addActionError(se.getMessage());
             roles = roleManager.getRoles();

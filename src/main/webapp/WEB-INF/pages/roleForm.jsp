@@ -33,9 +33,20 @@
 	<s:form name="roleForm" action="saveRole" method="post" validate="true"
 		cssClass="well form-horizontal" autocomplete="off">
 		<input type="hidden" name="from" value="${param.from}" />
-		<s:textfield key="role.code" required="true" />
+
+		<c:choose>
+			<c:when test="${param.from == 'list' and not empty role.code}">
+				<s:hidden key="role.code" />
+				<s:label key="role.code" />
+			</c:when>
+			<c:otherwise>
+				<s:textfield key="role.code" required="true" />
+			</c:otherwise>
+		</c:choose>
+
+
 		<s:textfield key="role.name" required="true" />
-		
+
 		<div id="actions" class="form-actions">
 			<s:submit type="button" cssClass="btn btn-primary" method="save"
 				key="button.save" theme="simple">

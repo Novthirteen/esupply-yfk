@@ -8,6 +8,7 @@ import com.yfk.Constants;
 import com.yfk.model.User;
 import com.yfk.service.MailEngine;
 import com.yfk.service.RoleManager;
+import com.yfk.service.UniversalManager;
 import com.yfk.service.UserManager;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -51,6 +52,11 @@ public class BaseAction extends ActionSupport {
      */
     protected RoleManager roleManager;
 
+    /**
+     * The RoleManager
+     */
+    protected UniversalManager universalManager;
+    
     /**
      * Indicator if the user clicked cancel
      */

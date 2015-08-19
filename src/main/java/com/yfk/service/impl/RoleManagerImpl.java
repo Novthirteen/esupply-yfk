@@ -36,8 +36,8 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
     /**
      * {@inheritDoc}
      */
-    public Role getRole(String rolename) {
-        return roleDao.getRoleByName(rolename);
+    public Role getRole(String code) {
+        return roleDao.getRoleByCode(code);
     }
 
     /**

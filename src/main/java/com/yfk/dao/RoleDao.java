@@ -9,15 +9,15 @@ import com.yfk.model.Role;
  */
 public interface RoleDao extends GenericDao<Role, Long> {
     /**
-     * Gets role information based on rolename
-     * @param rolename the rolename
+     * Gets role information based on code
+     * @param rolename the code
      * @return populated role object
      */
-    Role getRoleByName(String rolename);
+    Role getRoleByCode(String code);
 
     /**
-     * Removes a role from the database by name
-     * @param rolename the role's rolename
+     * Removes a role from the database by code
+     * @param rolename the role's code
      */
-    void removeRole(String rolename);
+    void removeRole(String code);
 }

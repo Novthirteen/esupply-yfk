@@ -4,7 +4,7 @@
       #set ($title = $displayer.getMessage($menu.title))
 
       <ul class="nav nav-list">
-          #if (!$menu.parent) <li class="nav-header">$title</li>#end
+          #if (!$menu.parent) <li class="nav-header"><a href="$menu.url" title="$title" #if($menu.target)target="$menu.target"#end>${title}</a></li>#end
       #foreach ($menuItem in $menu.components)
         #if ($displayer.isAllowed($menuItem))
           #set ($title = $displayer.getMessage($menuItem.title))

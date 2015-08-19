@@ -1,3 +1,4 @@
+<%try{ %>
 <!DOCTYPE html>
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
@@ -50,6 +51,7 @@
 <%--                 	<menu:displayMenu name="MainMenu"/> --%>
     				<menu:displayMenu name="UserMenu"/> 
    					<menu:displayMenu name="AdminMenu"/> 
+   					<menu:displayMenu name="ViewRoles"/> 
                 </menu:useMenuDisplayer>
             </div>
              <decorator:body/>
@@ -69,3 +71,4 @@
 <%= (request.getAttribute("scripts") != null) ?  request.getAttribute("scripts") : "" %>
 </body>
 </html>
+<%}catch(Exception ex){ ex.printStackTrace();} %>

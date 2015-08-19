@@ -29,8 +29,8 @@ public class RoleDaoHibernate extends GenericDaoHibernate<Role, Long> implements
     /**
      * {@inheritDoc}
      */
-    public Role getRoleByName(String rolename) {
-        List roles = getSession().createCriteria(Role.class).add(Restrictions.eq("name", rolename)).list();
+    public Role getRoleByCode(String code) {
+        List roles = getSession().createCriteria(Role.class).add(Restrictions.eq("code", code)).list();
         if (roles.isEmpty()) {
             return null;
         } else {
@@ -41,8 +41,8 @@ public class RoleDaoHibernate extends GenericDaoHibernate<Role, Long> implements
     /**
      * {@inheritDoc}
      */
-    public void removeRole(String rolename) {
-        Object role = getRoleByName(rolename);
+    public void removeRole(String code) {
+        Object role = getRoleByCode(code);
         Session session = getSessionFactory().getCurrentSession();
         session.delete(role);
     }
