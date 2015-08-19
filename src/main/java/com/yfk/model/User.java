@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -67,7 +68,7 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
     private Timestamp createDate;
     private String updateUser;
     private Timestamp updateDate;
-    private Set<PermissionView> permissions = new HashSet<PermissionView>(); 
+    private Collection<UserAuthority> userAuthorities; 
 
     /**
      * Default constructor - creates a new instance with no values set.
@@ -152,9 +153,9 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
      * @see org.springframework.security.core.userdetails.UserDetails#getAuthorities()
      */
     @Transient
-    public Set<GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
-        authorities.addAll(this.permissions);
+        authorities.addAll(this.userAuthorities);
         return authorities;
     }
 
@@ -306,8 +307,8 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
         this.updateDate = updateDate;
     }
     
-    public void setPermissions(Set<PermissionView> permissions) {
-    	this.permissions = permissions;
+    public void setUserAuthorities(Collection<UserAuthority> userAuthorities) {
+    	this.userAuthorities = userAuthorities;
     }
 
     /**

@@ -21,9 +21,8 @@ import org.springframework.security.web.util.RegexRequestMatcher;
 import org.springframework.security.web.util.RequestMatcher;
 
 import com.yfk.model.Permission;
-import com.yfk.model.PermissionId;
 import com.yfk.model.PermissionType;
-import com.yfk.service.GenericManager;
+import com.yfk.service.UniversalManager;
 
 public class DataBaseFilterInvocationSecurityMetadataSource
 		implements FilterInvocationSecurityMetadataSource, InitializingBean {
@@ -31,10 +30,10 @@ public class DataBaseFilterInvocationSecurityMetadataSource
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
-	private GenericManager<Permission, PermissionId> permissionManager;
+	private UniversalManager universalManager;
 
-	public void setPermissionManager(GenericManager<Permission, PermissionId> permissionManager) {
-		this.permissionManager = permissionManager;
+	public void setUniversalManager(UniversalManager universalManager) {
+		this.universalManager = universalManager;
 	}
 
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
@@ -73,7 +72,7 @@ public class DataBaseFilterInvocationSecurityMetadataSource
 					requestMap = new LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>>();
 					RequestMatcher requestMatcher = null;
 					Collection<ConfigAttribute> attrs = null;
-					List<Permission> allPermissions = this.permissionManager.getAll();
+					List<Permission> allPermissions = this.universalManager.getAll(Permission.class);
 					if (!CollectionHelper.isEmpty(allPermissions)) {
 						for (Permission p : allPermissions) {
 							if (p.getType() == PermissionType.U) {

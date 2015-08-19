@@ -44,7 +44,7 @@
 
 	<beans:bean id="securityMetadataSource"
 		class="com.yfk.webapp.security.DataBaseFilterInvocationSecurityMetadataSource">
-		<beans:property name="permissionManager" ref="permissionManager" />
+		<beans:property name="universalManager" ref="universalManager" />
 	</beans:bean>
 
 	<beans:bean id="saltSource"

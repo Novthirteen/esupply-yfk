@@ -4,7 +4,7 @@
         <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
     </Displayers>
     <Menus>
-        <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu" />
+        <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu" action="/mainMenu.action"/>
         <Menu name="UserMenu" title="menu.user" description="User Menu" page="/editProfile" >
         	 <Item name="ViewUsers" title="menu.user" page="/editProfile"/>
         </Menu>

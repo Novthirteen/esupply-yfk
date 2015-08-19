@@ -1,3 +1,6 @@
+<% 
+try { 
+%>
 <!DOCTYPE html>
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
@@ -46,7 +49,7 @@
         <%@ include file="/common/messages.jsp" %>
         <div class="row-fluid">
         	<div class="span2">
-                <menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm" permissions="rolesAdapter">
+                <menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm" permissions="permissionAdapter">
 <%--                 	<menu:displayMenu name="MainMenu"/> --%>
     				<menu:displayMenu name="UserMenu"/> 
    					<menu:displayMenu name="AdminMenu"/> 
@@ -69,3 +72,8 @@
 <%= (request.getAttribute("scripts") != null) ?  request.getAttribute("scripts") : "" %>
 </body>
 </html>
+<% 
+} catch(Exception ex) {
+	ex.printStackTrace();
+}
+%>
