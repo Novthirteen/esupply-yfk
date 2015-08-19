@@ -24,10 +24,8 @@
 			<!-- Interceptor to handle accessDenied exceptions thrown from service/model 
 				layer called from within actions -->
 			<interceptor name="accessDenied" class="accessDeniedInterceptor" />
-			<interceptor name="holderUserContext" class="holderUserContextInterceptor" />
 			<!-- Copied from struts-default.xml and changed validation exclude methods -->
 			<interceptor-stack name="defaultStack">
-				<interceptor-ref name="holderUserContext" />
 				<interceptor-ref name="accessDenied" />
 				<interceptor-ref name="exception" />
 				<interceptor-ref name="alias" />

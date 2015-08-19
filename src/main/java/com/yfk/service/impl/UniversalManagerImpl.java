@@ -15,7 +15,7 @@ import com.yfk.dao.UniversalDao;
 import com.yfk.model.Auditable;
 import com.yfk.model.Traceable;
 import com.yfk.service.UniversalManager;
-import com.yfk.webapp.util.UserContextHolder;
+import com.yfk.webapp.util.PrincipalNullException;
 
 @Service("universalManager")
 public class UniversalManagerImpl implements UniversalManager {
@@ -46,25 +46,12 @@ public class UniversalManagerImpl implements UniversalManager {
 	}
 
 	@Override
-	public void save(Object object) {
-		if (object instanceof Auditable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(UserContextHolder.Get());
-			((Auditable) object).setUpdateDate(((Auditable) object).getCreateDate());
-			((Auditable) object).setUpdateUser(UserContextHolder.Get());
-		} else if (object instanceof Traceable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(UserContextHolder.Get());
-		}
+	public void save(Object object) throws PrincipalNullException {
 		dao.save(object);
 	}
 
 	@Override
-	public void update(Object object) {
-		if (object instanceof Auditable) {
-			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setUpdateUser(UserContextHolder.Get());
-		}
+	public void update(Object object) throws PrincipalNullException {
 		dao.update(object);
 	}
 

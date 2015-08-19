@@ -6,7 +6,8 @@ import com.yfk.dao.GenericDao;
 import com.yfk.model.Auditable;
 import com.yfk.model.Traceable;
 import com.yfk.service.GenericManager;
-import com.yfk.webapp.util.UserContextHolder;
+import com.yfk.webapp.util.PrincipalNullException;
+import com.yfk.webapp.util.SecurityContextHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -99,25 +100,13 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
 
 	/**
 	 * {@inheritDoc}
+	 * @throws PrincipalNullException 
 	 */
-	public void save(T object) {
-		if (object instanceof Auditable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(UserContextHolder.Get());
-			((Auditable) object).setUpdateDate(((Auditable) object).getCreateDate());
-			((Auditable) object).setUpdateUser(UserContextHolder.Get());
-		} else if (object instanceof Traceable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(UserContextHolder.Get());
-		}
+	public void save(T object) throws PrincipalNullException {
 		dao.save(object);
 	}
 
-	public void update(T object) {
-		if (object instanceof Auditable) {
-			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setUpdateUser(UserContextHolder.Get());
-		}
+	public void update(T object) throws PrincipalNullException  {
 		dao.update(object);
 	}
 

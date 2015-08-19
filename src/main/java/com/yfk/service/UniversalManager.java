@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import com.yfk.webapp.util.PrincipalNullException;
+
 public interface UniversalManager {
 	List getAll(Class clazz);
 
@@ -13,9 +15,9 @@ public interface UniversalManager {
 
 	boolean exists(Class clazz, Serializable id);
 
-	void save(Object object);
+	void save(Object object) throws PrincipalNullException;
 
-	void update(Object object);
+	void update(Object object) throws PrincipalNullException;
 
 	void remove(Object object);
 

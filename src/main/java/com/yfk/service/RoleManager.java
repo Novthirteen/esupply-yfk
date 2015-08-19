@@ -2,6 +2,7 @@ package com.yfk.service;
 
 import com.yfk.model.Role;
 import com.yfk.model.User;
+import com.yfk.webapp.util.PrincipalNullException;
 
 import java.util.List;
 
@@ -24,8 +25,9 @@ public interface RoleManager extends GenericManager<Role, Long> {
 
     /**
      * {@inheritDoc}
+     * @throws PrincipalNullException 
      */
-    void saveRole(Role role) throws RoleExistsException;
+    void saveRole(Role role) throws RoleExistsException, PrincipalNullException;
 
     /**
      * {@inheritDoc}

@@ -4,6 +4,8 @@ import com.yfk.dao.RoleDao;
 import com.yfk.model.Role;
 import com.yfk.model.User;
 import com.yfk.service.RoleManager;
+import com.yfk.webapp.util.PrincipalNullException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +42,9 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
 
     /**
      * {@inheritDoc}
+     * @throws PrincipalNullException 
      */
-    public void saveRole(Role role) {
+    public void saveRole(Role role) throws PrincipalNullException {
         dao.save(role);
     }
 

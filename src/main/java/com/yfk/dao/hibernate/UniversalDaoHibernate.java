@@ -1,8 +1,10 @@
 package com.yfk.dao.hibernate;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,10 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 
 import com.yfk.dao.UniversalDao;
+import com.yfk.model.Auditable;
+import com.yfk.model.Traceable;
+import com.yfk.webapp.util.PrincipalNullException;
+import com.yfk.webapp.util.SecurityContextHelper;
 
 @Repository("universalDao")
 public class UniversalDaoHibernate implements UniversalDao {
@@ -32,7 +38,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 	 * from Commons Logging
 	 */
 	protected final Log log = LogFactory.getLog(getClass());
-	
+
 	@Resource
 	private SessionFactory sessionFactory;
 
@@ -98,16 +104,34 @@ public class UniversalDaoHibernate implements UniversalDao {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws PrincipalNullException 
 	 */
-	public void save(Object object) {
+	public void save(Object object) throws PrincipalNullException {
+		if (object instanceof Auditable) {
+			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+			((Auditable) object).setUpdateDate(((Auditable) object).getCreateDate());
+			((Auditable) object).setUpdateUser(((Auditable) object).getCreateUser());
+		} else if (object instanceof Traceable) {
+			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+		}
+
 		Session sess = getSession();
 		sess.save(object);
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @throws PrincipalNullException 
 	 */
-	public void update(Object object) {
+	public void update(Object object) throws PrincipalNullException {
+
+		if (object instanceof Traceable) {
+			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+		}
+
 		Session sess = getSession();
 		sess.update(object);
 	}
@@ -157,7 +181,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 
 		return query.list();
 	}
-	
+
 	public List findByNativeSql(String sql, Map<String, Object> queryParams) {
 		Session sess = getSession();
 		SQLQuery query = sess.createSQLQuery(sql);
@@ -170,7 +194,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 
 		return query.list();
 	}
-	
+
 	public List findByNativeSql(String sql, Map<String, Object> queryParams, Class clazz) {
 		Session sess = getSession();
 		SQLQuery query = sess.createSQLQuery(sql);
@@ -180,7 +204,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 				query.setParameter(s, queryParams.get(s));
 			}
 		}
-		
+
 		query.addEntity(clazz);
 
 		return query.list();

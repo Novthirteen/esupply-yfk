@@ -10,20 +10,23 @@ public class PermissionId implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7501819615382332348L;
-	
+
 	private String code;
 	private PermissionType type;
-	
+
 	public PermissionId() {
-		
+
 	}
+
 	public PermissionId(String code, PermissionType type) {
 		this.code = code;
 		this.type = type;
 	}
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
@@ -32,10 +35,11 @@ public class PermissionId implements Serializable {
 	public PermissionType getType() {
 		return type;
 	}
+
 	public void setType(PermissionType type) {
 		this.type = type;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -44,7 +48,7 @@ public class PermissionId implements Serializable {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -66,6 +70,7 @@ public class PermissionId implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "PermissionId [code=" + code + ", type=" + type + "]";

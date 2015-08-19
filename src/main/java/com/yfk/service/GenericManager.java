@@ -3,6 +3,8 @@ package com.yfk.service;
 import java.io.Serializable;
 import java.util.List;
 
+import com.yfk.webapp.util.PrincipalNullException;
+
 /**
  * Generic Manager that talks to GenericDao to CRUD POJOs.
  *
@@ -46,9 +48,9 @@ public interface GenericManager<T, PK extends Serializable> {
      * @param object the object to save
      * @return the updated object
      */
-    void save(T object);
+    void save(T object) throws PrincipalNullException;
     
-    void update(T object);
+    void update(T object) throws PrincipalNullException;
 
     /**
      * Generic method to delete an object
