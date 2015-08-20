@@ -66,22 +66,22 @@ public class UniversalManagerImpl implements UniversalManager {
 	}
 
 	@Override
-	public List findByNamedQuery(String queryName, Map<String, Object> queryParams) {
+	public List findByNamedQuery(String queryName, Object[] queryParams) {
 		return dao.findByNamedQuery(queryName, queryParams);
 	}
 
 	@Override
-	public List findByHql(String hql, Map<String, Object> queryParams) {
+	public List findByHql(String hql, Object[] queryParams) {
 		return dao.findByHql(hql, queryParams);
 	}
 
 	@Override
-	public List findByNativeSql(String sql, Map<String, Object> queryParams) {
+	public List findByNativeSql(String sql, Object[] queryParams) {
 		return dao.findByNativeSql(sql, queryParams);
 	}
 
 	@Override
-	public List findByNativeSql(String sql, Map<String, Object> queryParams, Class clazz) {
+	public List findByNativeSql(String sql, Object[] queryParams, Class clazz) {
 		return dao.findByNativeSql(sql, queryParams, clazz);
 	}
 	

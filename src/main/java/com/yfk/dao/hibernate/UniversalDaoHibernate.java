@@ -156,52 +156,52 @@ public class UniversalDaoHibernate implements UniversalDao {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List findByNamedQuery(String queryName, Map<String, Object> queryParams) {
+	public List findByNamedQuery(String queryName, Object[] queryParams) {
 		Session sess = getSession();
 		Query namedQuery = sess.getNamedQuery(queryName);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
-			for (String s : queryParams.keySet()) {
-				namedQuery.setParameter(s, queryParams.get(s));
+		if (queryParams != null && queryParams.length > 0) {
+			for (int i = 0; i < queryParams.length; i++) {
+				namedQuery.setParameter(i, queryParams[i]);
 			}
 		}
 
 		return namedQuery.list();
 	}
 
-	public List findByHql(String hql, Map<String, Object> queryParams) {
+	public List findByHql(String hql, Object[] queryParams) {
 		Session sess = getSession();
 		Query query = sess.createQuery(hql);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
-			for (String s : queryParams.keySet()) {
-				query.setParameter(s, queryParams.get(s));
+		if (queryParams != null && queryParams.length > 0) {
+			for (int i = 0; i < queryParams.length; i++) {
+				query.setParameter(i, queryParams[i]);
 			}
 		}
 
 		return query.list();
 	}
 
-	public List findByNativeSql(String sql, Map<String, Object> queryParams) {
+	public List findByNativeSql(String sql, Object[] queryParams) {
 		Session sess = getSession();
 		SQLQuery query = sess.createSQLQuery(sql);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
-			for (String s : queryParams.keySet()) {
-				query.setParameter(s, queryParams.get(s));
+		if (queryParams != null && queryParams.length > 0) {
+			for (int i = 0; i < queryParams.length; i++) {
+				query.setParameter(i, queryParams[i]);
 			}
 		}
 
 		return query.list();
 	}
 
-	public List findByNativeSql(String sql, Map<String, Object> queryParams, Class clazz) {
+	public List findByNativeSql(String sql, Object[] queryParams, Class clazz) {
 		Session sess = getSession();
 		SQLQuery query = sess.createSQLQuery(sql);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
-			for (String s : queryParams.keySet()) {
-				query.setParameter(s, queryParams.get(s));
+		if (queryParams != null && queryParams.length > 0) {
+			for (int i = 0; i < queryParams.length; i++) {
+				query.setParameter(i, queryParams[i]);
 			}
 		}
 
