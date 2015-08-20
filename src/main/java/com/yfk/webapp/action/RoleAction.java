@@ -30,189 +30,191 @@ import java.util.Map;
  */
 public class RoleAction extends BaseAction implements Preparable {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Role> roles;
-    private Role role;
-    private String code;
-    private String queryCode;
-    private String queryName;
+	private Role role;
+	private String code;
+	private String queryCode;
+	private String queryName;
 
-    /**
-     * Grab the entity from the database before populating with request parameters
-     */
-    public void prepare() {
-        // prevent failures on new
-        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("role.code")))) {
-            role = roleManager.getRole(getRequest().getParameter("role.code"));
-        }
-    }
+	/**
+	 * Grab the entity from the database before populating with request
+	 * parameters
+	 */
+	public void prepare() {
+		// prevent failures on new
+		if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("role.code")))) {
+			role = roleManager.getRole(getRequest().getParameter("role.code"));
+		}
+	}
 
-    /**
-     * Holder for roles to display on list screen
-     *
-     * @return list of roles
-     */
-    public List<Role> getRoles() {
-        return roles;
-    }
+	/**
+	 * Holder for roles to display on list screen
+	 *
+	 * @return list of roles
+	 */
+	public List<Role> getRoles() {
+		return roles;
+	}
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-    public Role getRole() {
-        return role;
-    }
+	public Role getRole() {
+		return role;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
-    public void setQCode(String qCode) {
-        this.queryCode = qCode;
-    }
-    
-    public void setQName(String qName) {
-        this.queryName = qName;
-    }
+	public void setQCode(String qCode) {
+		this.queryCode = qCode;
+	}
 
-    /**
-     * Delete the role passed in.
-     *
-     * @return success
-     */
-    public String delete() {
-        roleManager.removeRole(role.getCode());
-        List<Object> args = new ArrayList<Object>();
-        args.add(role.getCode());
-        saveMessage(getText("role.deleted", args));
+	public void setQName(String qName) {
+		this.queryName = qName;
+	}
 
-        return SUCCESS;
-    }
+	/**
+	 * Delete the role passed in.
+	 *
+	 * @return success
+	 */
+	public String delete() {
+		roleManager.removeRole(role.getCode());
+		List<Object> args = new ArrayList<Object>();
+		args.add(role.getCode());
+		saveMessage(getText("role.deleted", args));
 
-    /**
-     * Grab the role from the database based on the "roleName" passed in.
-     *
-     * @return success if role found
-     * @throws IOException can happen when sending a "forbidden" from response.sendError()
-     */
-    public String edit() throws IOException {
-      
-        // if a roleCode is passed in
-        if (code != null) {
-            // lookup the role using code
-            role = roleManager.getRole(code);
-        } else {
-            role = new Role();
-            //role.addRole(new Role(Constants.USER_ROLE));
-        }
+		return SUCCESS;
+	}
 
-        
+	/**
+	 * Grab the role from the database based on the "roleName" passed in.
+	 *
+	 * @return success if role found
+	 * @throws IOException
+	 *             can happen when sending a "forbidden" from
+	 *             response.sendError()
+	 */
+	public String edit() throws IOException {
 
-        return SUCCESS;
-    }
+		// if a roleCode is passed in
+		if (code != null) {
+			// lookup the role using code
+			role = roleManager.getRole(code);
+		} else {
+			role = new Role();
+			// role.addRole(new Role(Constants.USER_ROLE));
+		}
 
-    /**
-     * Default: just returns "success"
-     *
-     * @return "success"
-     */
-    public String execute() {
-        return SUCCESS;
-    }
+		return SUCCESS;
+	}
 
-    /**
-     * Sends roles to "mainMenu" when !from.equals("list"). Sends everyone else to "cancel"
-     *
-     * @return "mainMenu" or "cancel"
-     */
-    public String cancel() {
-        if (!"list".equals(from)) {
-            return "mainMenu";
-        }
-        return "cancel";
-    }
+	/**
+	 * Default: just returns "success"
+	 *
+	 * @return "success"
+	 */
+	public String execute() {
+		return SUCCESS;
+	}
 
-    /**
-     * Save role
-     *
-     * @return success if everything worked, otherwise input
-     * @throws Exception when setting "access denied" fails on response
-     */
-    public String save() throws Exception {
+	/**
+	 * Sends roles to "mainMenu" when !from.equals("list"). Sends everyone else
+	 * to "cancel"
+	 *
+	 * @return "mainMenu" or "cancel"
+	 */
+	public String cancel() {
+		if (!"list".equals(from)) {
+			return "mainMenu";
+		}
+		return "cancel";
+	}
 
+	/**
+	 * Save role
+	 *
+	 * @return success if everything worked, otherwise input
+	 * @throws Exception
+	 *             when setting "access denied" fails on response
+	 */
+	public String save() throws Exception {
 
-        try {
-            roleManager.saveRole(role);
-        } catch (AccessDeniedException ade) {
-            // thrown by RoleSecurityAdvice configured in aop:advisor roleManagerSecurity
-            log.warn(ade.getMessage());
-            getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
-            return null;
-        } catch (RoleExistsException e) {
-            return showRoleExistsException();
-        }
+		try {
+			roleManager.saveRole(role);
+		} catch (AccessDeniedException ade) {
+			// thrown by RoleSecurityAdvice configured in aop:advisor
+			// roleManagerSecurity
+			log.warn(ade.getMessage());
+			getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
+			return null;
+		} catch (RoleExistsException e) {
+			return showRoleExistsException();
+		}
 
-        
-            saveMessage(getText("role.saved"));
-            return "mainMenu";
-         
-    }
+		saveMessage(getText("role.saved"));
+		return "mainMenu";
 
-    private String showRoleExistsException() {
-        List<Object> args = new ArrayList<Object>();
-        args.add(role.getCode());
-        args.add(role.getName());
-        addActionError(getText("errors.existing.role", args));
+	}
 
-       
-        return INPUT;
-    }
+	private String showRoleExistsException() {
+		List<Object> args = new ArrayList<Object>();
+		args.add(role.getCode());
+		args.add(role.getName());
+		addActionError(getText("errors.existing.role", args));
 
-    /**
-     * Fetch all roles from database and put into local "roles" variable for retrieval in the UI.
-     *
-     * @return "success" if no exceptions thrown
-     */
-    public String list() {
-    	query();
-        return SUCCESS;
-    }
-    
-    
+		return INPUT;
+	}
+
+	/**
+	 * Fetch all roles from database and put into local "roles" variable for
+	 * retrieval in the UI.
+	 *
+	 * @return "success" if no exceptions thrown
+	 */
+	public String list() {
+		query();
+		return SUCCESS;
+	}
+
 	@SuppressWarnings("unchecked")
 	private void query() {
-	
+
 		String hql = "from Role where 1=1 ";
-		Map<String,Object> args = new HashMap<String,Object>();
+		List args = new ArrayList();
 
 		if (role != null) {
-			if (role.getCode() != null && role.getCode().trim().length() != 0)
-			{
-				hql += "and code = ? ";
-				args.put("code",role.getCode());
+			if (role.getCode() != null && role.getCode().trim().length() != 0) {
+				hql += "and code like ? ";
+				args.add("%" + role.getCode() + "%");
 			}
-			
-			if (role.getName() != null && role.getName().trim().length() != 0)
-			{
-				hql += "and name = ? ";
-				args.put("name",role.getName());
+
+			if (role.getName() != null && role.getName().trim().length() != 0) {
+				hql += "and name like ? ";
+				args.add("%" + role.getName() + "%");
 			}
-			try{
-			roles = universalManager.findByHql(hql, args);
-			}catch(Exception ex)
-			{
-			ex.getMessage();
-			}
-		}else{
-			  roles = roleManager.getRoles();
 		}
 		
-		
+		if (args.size() > 0) {
+			Object[] objs = new Object[args.size()];
+
+			for (int i = 0; i < args.size(); i++) {
+				objs[i] = args.get(i);
+			}
+
+			roles = universalManager.findByHql(hql, objs);
+		}else {
+			roles = roleManager.getRoles();
+		}
+
 	}
 
 }
