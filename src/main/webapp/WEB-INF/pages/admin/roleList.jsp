@@ -10,34 +10,29 @@
 		<fmt:message key="roleList.heading" />
 	</h2>
 
-	<div id="actions" class="form-actions">
-		<form method="get" action="${ctx}/admin/roles" id="searchForm"
-			class="form-search">
-			<table class="table-striped">
-				<tr>
-					<td><input type="text" size="20" name="code" id="query"
-						value="${param.qCode}"
-						placeholder="<fmt:message key="search.enterTerms"/>"
-						class="input-medium search-query" /></td>
-					<td><input type="text" size="20" name="name" id="query"
-						value="${param.qName}"
-						placeholder="<fmt:message key="search.enterTerms"/>"
-						class="input-medium search-query" /></td>
-				</tr>
-			</table>
 
+	<s:form name="roleForm" action="/admin/roles" method="post"
+		validate="true">
+		<div class="left">
+			<s:textfield key="role.code" cssClass="text medium" />
+		</div>
+		<div>
+			<s:textfield key="role.name" cssClass="text medium" />
+		</div>
+		<div class="formbotton">
 			<a class="btn btn-primary"
-				href="<c:url value='/editRole?method=Add&from=list'/>"> <i
-				class="icon-plus icon-white"></i> <fmt:message key="button.add" />
+				href="<c:url value='/editRole?method=Add&from=list'/>"> 
+				<i class="icon-plus icon-white"></i> <fmt:message key="button.add" />
 			</a>
 
 			<button id="button.search" class="btn" type="submit">
 				<i class="icon-search"></i>
 				<fmt:message key="button.search" />
 			</button>
+		</div>
+	</s:form>
 
-		</form>
-	</div>
+
 	<display:table name="roles" cellspacing="0" cellpadding="0"
 		requestURI="" defaultsort="1" id="roles" pagesize="25"
 		class="table table-condensed table-striped table-hover" export="true">

@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Action for facilitating Role Management feature.
@@ -177,13 +179,40 @@ public class RoleAction extends BaseAction implements Preparable {
      * @return "success" if no exceptions thrown
      */
     public String list() {
-        try {
-            roles = roleManager.search(queryCode);
-        } catch (SearchException se) {
-            addActionError(se.getMessage());
-            roles = roleManager.getRoles();
-        }
+    	query();
         return SUCCESS;
     }
+    
+    
+	@SuppressWarnings("unchecked")
+	private void query() {
+	
+		String hql = "from Role where 1=1 ";
+		Map<String,Object> args = new HashMap<String,Object>();
+
+		if (role != null) {
+			if (role.getCode() != null && role.getCode().trim().length() != 0)
+			{
+				hql += "and code = ? ";
+				args.put("code",role.getCode());
+			}
+			
+			if (role.getName() != null && role.getName().trim().length() != 0)
+			{
+				hql += "and name = ? ";
+				args.put("name",role.getName());
+			}
+			try{
+			roles = universalManager.findByHql(hql, args);
+			}catch(Exception ex)
+			{
+			ex.getMessage();
+			}
+		}else{
+			  roles = roleManager.getRoles();
+		}
+		
+		
+	}
 
 }

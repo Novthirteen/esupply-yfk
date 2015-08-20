@@ -160,7 +160,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 		Session sess = getSession();
 		Query namedQuery = sess.getNamedQuery(queryName);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
+		if (!CollectionHelper.isEmpty(queryParams)) {
 			for (String s : queryParams.keySet()) {
 				namedQuery.setParameter(s, queryParams.get(s));
 			}
@@ -173,7 +173,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 		Session sess = getSession();
 		Query query = sess.createQuery(hql);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
+		if (!CollectionHelper.isEmpty(queryParams)) {
 			for (String s : queryParams.keySet()) {
 				query.setParameter(s, queryParams.get(s));
 			}
@@ -186,7 +186,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 		Session sess = getSession();
 		SQLQuery query = sess.createSQLQuery(sql);
 
-		if (CollectionHelper.isEmpty(queryParams)) {
+		if (!CollectionHelper.isEmpty(queryParams)) {
 			for (String s : queryParams.keySet()) {
 				query.setParameter(s, queryParams.get(s));
 			}

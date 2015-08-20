@@ -188,7 +188,11 @@ public class BaseAction extends ActionSupport {
     public void setRoleManager(RoleManager roleManager) {
         this.roleManager = roleManager;
     }
-
+    
+    public void setUniversalManager(UniversalManager universalManager) {
+		this.universalManager = universalManager;
+	}
+    
     public void setMailEngine(MailEngine mailEngine) {
         this.mailEngine = mailEngine;
     }
@@ -201,7 +205,9 @@ public class BaseAction extends ActionSupport {
         this.templateName = templateName;
     }
 
-    /**
+	
+
+	/**
      * Convenience method for setting a "from" parameter to indicate the previous page.
      *
      * @param from indicator for the originating page
