@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
-       default-lazy-init="true">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
 
-    <bean id="accessDeniedInterceptor" class="com.yfk.webapp.interceptor.AccessDeniedInterceptor" />
+	<bean id="accessDeniedInterceptor" class="com.yfk.webapp.interceptor.AccessDeniedInterceptor" />
 
-    <bean id="signupAction" class="com.yfk.webapp.action.SignupAction" scope="prototype">
-        <property name="userManager" ref="userManager"/>
-        <property name="roleManager" ref="roleManager"/>
-        <property name="mailEngine" ref="mailEngine"/>
-        <property name="mailMessage" ref="mailMessage"/>
-        <property name="templateName" value="accountCreated.vm"/>
-    </bean>
+	<bean id="signupAction" class="com.yfk.webapp.action.SignupAction"
+		scope="prototype">
+		<property name="userManager" ref="userManager" />
+		<property name="roleManager" ref="roleManager" />
+		<property name="mailEngine" ref="mailEngine" />
+		<property name="mailMessage" ref="mailMessage" />
+		<property name="templateName" value="accountCreated.vm" />
+	</bean>
 
-    <bean id="userAction" class="com.yfk.webapp.action.UserAction" scope="prototype">
-        <property name="userManager" ref="userManager"/>
-        <property name="roleManager" ref="roleManager"/>
-        <property name="mailEngine" ref="mailEngine"/>
-        <property name="mailMessage" ref="mailMessage"/>
-        <property name="templateName" value="accountCreated.vm"/>
-    </bean>
+	<bean id="userAction" class="com.yfk.webapp.action.UserAction"
+		scope="prototype">
+		<property name="userManager" ref="userManager" />
+		<property name="roleManager" ref="roleManager" />
+		<property name="mailEngine" ref="mailEngine" />
+		<property name="mailMessage" ref="mailMessage" />
+		<property name="templateName" value="accountCreated.vm" />
+	</bean>
 
-    <bean id="passwordHintAction" class="com.yfk.webapp.action.PasswordHintAction" scope="prototype">
-        <property name="userManager" ref="userManager"/>
-        <property name="mailEngine" ref="mailEngine"/>
-        <property name="mailMessage" ref="mailMessage"/>
-    </bean>
-    
-     <bean id="roleAction" class="com.yfk.webapp.action.RoleAction" scope="prototype">
-     
-        <property name="roleManager" ref="roleManager"/>
-     
-    </bean>
+	<bean id="passwordHintAction" class="com.yfk.webapp.action.PasswordHintAction"
+		scope="prototype">
+		<property name="userManager" ref="userManager" />
+		<property name="mailEngine" ref="mailEngine" />
+		<property name="mailMessage" ref="mailMessage" />
+	</bean>
+
+	<bean id="roleAction" class="com.yfk.webapp.action.RoleAction"
+		scope="prototype">
+		<property name="roleManager" ref="roleManager" />
+		<property name="universalManager" ref="universalManager" />
+	</bean>
 </beans>

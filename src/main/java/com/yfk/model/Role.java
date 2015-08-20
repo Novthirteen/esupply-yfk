@@ -6,19 +6,14 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-/**
- * This class is used to represent available roles in the database.
- *
- * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
- *         Version by Dan Kibler dan@getrolling.com
- *         Extended to implement Acegi GrantedAuthority interface
- *         by David Carter david@carter.net
- */
+
 @Entity
 @Table(name = "role")
 public class Role extends BaseObject implements Serializable, Auditable {
