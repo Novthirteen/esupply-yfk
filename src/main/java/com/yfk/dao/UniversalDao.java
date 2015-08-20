@@ -23,11 +23,11 @@ public interface UniversalDao {
 
 	void remove(Class clazz, Serializable id);
 
-	List findByNamedQuery(String queryName, Map<String, Object> queryParams);
+	List findByNamedQuery(String queryName, Object[] queryParams);
 
-	List findByHql(String hql, Map<String, Object> queryParams);
+	List findByHql(String hql, Object[] queryParams);
 
-	List findByNativeSql(String sql, Map<String, Object> queryParams);
+	List findByNativeSql(String sql, Object[] queryParams);
 	
-	List findByNativeSql(String sql, Map<String, Object> queryParams, Class clazz);
+	List findByNativeSql(String sql, Object[] queryParams, Class clazz);
 }
