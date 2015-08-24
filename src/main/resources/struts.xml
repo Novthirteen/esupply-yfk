@@ -135,5 +135,9 @@
 		<action name="roles" class="roleAction" method="list">
 			<result name="success">/WEB-INF/pages/admin/roleList.jsp</result>
 		</action>
+		
+		<action name="permissions" class="permissionAction" method="list">
+			<result name="success">/WEB-INF/pages/admin/permissionList.jsp</result>
+		</action>
 	</package>
 </struts>

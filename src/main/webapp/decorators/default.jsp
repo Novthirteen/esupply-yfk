@@ -52,6 +52,7 @@
     				<menu:displayMenu name="UserMenu"/> 
    					<menu:displayMenu name="AdminMenu"/> 
    					<menu:displayMenu name="ViewRoles"/> 
+   					<menu:displayMenu name="PermissionsMenu"/> 
                 </menu:useMenuDisplayer>
             </div>
              <decorator:body/>
