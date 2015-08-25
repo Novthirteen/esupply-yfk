@@ -1,13 +1,13 @@
 package com.yfk.webapp.action;
 
-import com.opensymphony.xwork2.Preparable;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
-import com.yfk.Constants;
-import com.yfk.dao.SearchException;
-import com.yfk.model.Role;
-import com.yfk.model.User;
-import com.yfk.service.UserExistsException;
-import com.yfk.webapp.util.RequestUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,11 +17,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.opensymphony.xwork2.Preparable;
+import com.yfk.Constants;
+import com.yfk.dao.SearchException;
+import com.yfk.model.User;
+import com.yfk.service.UserExistsException;
+import com.yfk.webapp.util.RequestUtil;
 
 /**
  * Action for facilitating User Management feature.

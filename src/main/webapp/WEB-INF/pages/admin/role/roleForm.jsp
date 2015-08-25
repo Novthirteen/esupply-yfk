@@ -1,8 +1,8 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 <head>
-<title><fmt:message key="roleProfile.title" /></title>
-<meta name="menu" content="RoleMenu" />
+<title><fmt:message key="role.title" /></title>
+<meta name="menu" content="AdminMenu" />
 </head>
 
 <c:set var="delObject" scope="request">
@@ -13,18 +13,18 @@
 </script>
 
 <h2>
-	<fmt:message key="roleProfile.heading" />
+	<fmt:message key="role.heading" />
 </h2>
 
 <c:choose>
-	<c:when test="${param.from == 'list'}">
+	<c:when test="${role.version == 0}">
 		<p>
-			<fmt:message key="roleProfile.admin.message" />
+			<fmt:message key="role.newMessage" />
 		</p>
 	</c:when>
 	<c:otherwise>
 		<p>
-			<fmt:message key="roleProfile.message" />
+			<fmt:message key="role.updateMessage" />
 		</p>
 	</c:otherwise>
 </c:choose>
@@ -35,8 +35,9 @@
 	<div class="row-fluid">
 		<div class="span4">
 			<c:choose>
-				<c:when test="${not empty role.code}">
+				<c:when test="${role.version != 0}">
 					<s:hidden key="role.code" />
+					<s:hidden key="role.version" />
 					<s:label key="role.code" />
 				</c:when>
 				<c:otherwise>
@@ -58,7 +59,7 @@
 			<fmt:message key="button.save" />
 		</s:submit>
 
-		<c:if test="${not empty role.code}">
+		<c:if test="${role.version != 0}">
 			<s:submit type="button" cssClass="btn btn-danger" method="delete"
 				key="button.delete" onclick="return confirmMessage(msgDelConfirm)"
 				theme="simple">
