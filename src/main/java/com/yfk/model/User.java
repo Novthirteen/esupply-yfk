@@ -58,6 +58,8 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
     private String email;                       // required; unique
     private String phoneNumber;
     private String website;
+    private String gender;
+    private String mobilephone;
     private Address address = new Address();
     private Integer version;
     private boolean enabled;
@@ -119,7 +121,6 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
         return lastName;
     }
 
-    @Column(nullable = false, unique = true)
     public String getEmail() {
         return email;
     }
@@ -133,7 +134,23 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
         return website;
     }
 
-    /**
+    public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getMobilephone() {
+		return mobilephone;
+	}
+
+	public void setMobilephone(String mobilephone) {
+		this.mobilephone = mobilephone;
+	}
+
+	/**
      * Returns the full name.
      *
      * @return firstName + ' ' + lastName

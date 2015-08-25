@@ -43,7 +43,17 @@
 			<input type="hidden" name="encryptPass" value="true" />
 		</s:if>
 
-		<s:textfield key="user.username" required="true" />
+
+		<c:choose>
+			<c:when test="${param.from == 'list' and not empty user.username}">
+				<s:hidden key="user.username" />
+				<s:label key="user.username" />
+			</c:when>
+			<c:otherwise>
+				<s:textfield key="user.username" required="true" />
+			</c:otherwise>
+		</c:choose>
+
 		<s:textfield key="user.lastName" required="true" />
 		<s:textfield key="user.firstName" required="true" />
 		<c:if test="${cookieLogin != 'true'}">
@@ -54,36 +64,15 @@
 				showPassword="true" onchange="passwordChanged(this)" />
 		</c:if>
 
-		<s:textfield key="user.passwordHint" required="true" />
+		<s:textfield key="user.email" />
+		<s:textfield key="user.website" />
+		<s:textfield key="user.address.address" />
+	
+		<s:radio key="user.gender" list="#{'M':'Male','F':'Female'}" listKey="key" listValue="value" value="'M'"/>
 
-
-		<s:textfield key="user.email" required="true" />
 		<s:textfield key="user.phoneNumber" />
-		<s:textfield key="user.website" required="true" />
-
-		<fieldset>
-			<legend class="accordion-heading">
-				<a data-toggle="collapse" href="#collapse-address"><fmt:message
-						key="user.address.address" /></a>
-			</legend>
-			<div id="collapse-address" class="accordion-body collapse">
-				<s:textfield key="user.address.address" />
-				<s:textfield key="user.address.city" />
-				<s:textfield key="user.address.province" />
-				<s:textfield key="user.address.postalCode" />
-				<s:set name="country" value="user.address.country" scope="page" />
-				<fieldset class="control-group">
-					<label for="user.address.country"> <fmt:message
-							key="user.address.country" />
-					</label>
-
-					<div class="controls">
-						<appfuse:country name="user.address.country" prompt=""
-							default="${country}" />
-					</div>
-				</fieldset>
-			</div>
-		</fieldset>
+		<s:textfield key="user.mobilephone" />
+		
 		<c:choose>
 			<c:when test="${param.from == 'list'}">
 				<fieldset class="control-group">
@@ -107,30 +96,9 @@
 						</label>
 					</div>
 				</fieldset>
-				<fieldset class="control-group">
-					<label for="userRoles" class="control-label"><fmt:message
-							key="userProfile.assignRoles" /></label>
-					<div class="controls">
-						<select id="userRoles" name="userRoles" multiple="true">
-							<c:forEach items="${availableRoles}" var="role">
-								<option value="${role.value}"
-									${fn:contains(user.roles, role.label) ? 'selected' : ''}>${role.label}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</fieldset>
 			</c:when>
 			<c:otherwise>
 				<fieldset class="control-group">
-					<label class="control-label"><fmt:message key="user.roles" />:</label>
-					<div class="controls readonly">
-						<s:iterator value="user.roleList" status="status">
-							<s:property value="label" />
-							<s:if test="!#status.last">,</s:if>
-							<input type="hidden" name="userRoles"
-								value="<s:property value="value"/>" />
-						</s:iterator>
-					</div>
 					<s:hidden name="user.enabled" value="%{user.enabled}" />
 					<s:hidden name="user.accountExpired" value="%{user.accountExpired}" />
 					<s:hidden name="user.accountLocked" value="%{user.accountLocked}" />
@@ -145,7 +113,7 @@
 				<i class="icon-ok icon-white"></i>
 				<fmt:message key="button.save" />
 			</s:submit>
-			<c:if test="${param.from == 'list' and not empty user.name}">
+			<c:if test="${param.from == 'list' and not empty user.username}">
 				<s:submit type="button" cssClass="btn btn-danger" method="delete"
 					key="button.delete" onclick="return confirmMessage(msgDelConfirm)"
 					theme="simple">

@@ -30,7 +30,7 @@ public class UserAction extends BaseAction implements Preparable {
     private static final long serialVersionUID = 6776558938712115191L;
     private List<User> users;
     private User user;
-    private String userName;
+    private String username;
     private String query;
 
     /**
@@ -38,8 +38,8 @@ public class UserAction extends BaseAction implements Preparable {
      */
     public void prepare() {
         // prevent failures on new
-        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("user.userName")))) {
-            user = userManager.getUser(getRequest().getParameter("user.userName"));
+        if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("user.username")))&& (!"".equals(getRequest().getParameter("user.version")))&& (getRequest().getParameter("user.username") != null)) {
+            user = userManager.getUser(getRequest().getParameter("user.username"));
         }
     }
 
@@ -52,8 +52,8 @@ public class UserAction extends BaseAction implements Preparable {
         return users;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public User getUser() {
@@ -83,7 +83,7 @@ public class UserAction extends BaseAction implements Preparable {
     }
 
     /**
-     * Grab the user from the database based on the "userName" passed in.
+     * Grab the user from the database based on the "username" passed in.
      *
      * @return success if user found
      * @throws IOException can happen when sending a "forbidden" from response.sendError()
@@ -93,17 +93,17 @@ public class UserAction extends BaseAction implements Preparable {
         boolean editProfile = request.getRequestURI().contains("editProfile");
 
         // if URL is "editProfile" - make sure it's the current user
-        if (editProfile && ((request.getParameter("userName") != null) || (request.getParameter("from") != null))) {
+        if (editProfile && ((request.getParameter("username") != null) || (request.getParameter("from") != null))) {
             ServletActionContext.getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
             log.warn("User '" + request.getRemoteUser() + "' is trying to edit user '" +
-                    request.getParameter("userName") + "'");
+                    request.getParameter("username") + "'");
             return null;
         }
 
-        // if a userName is passed in
-        if (userName != null) {
-            // lookup the user using userName
-            user = userManager.getUser(userName);
+        // if a username is passed in
+        if (username != null) {
+            // lookup the user using username
+            user = userManager.getUser(username);
         } else if (editProfile) {
             user = userManager.getUserByUsername(request.getRemoteUser());
         } else {
@@ -182,7 +182,12 @@ public class UserAction extends BaseAction implements Preparable {
         }
 
         try {
-            userManager.saveUser(user);
+        	if(isNew){
+        		userManager.saveUser(user);
+            }
+        	else{
+        		   userManager.update(user);
+        	}
         } catch (AccessDeniedException ade) {
             // thrown by UserSecurityAdvice configured in aop:advisor userManagerSecurity
             log.warn(ade.getMessage());
@@ -238,12 +243,47 @@ public class UserAction extends BaseAction implements Preparable {
      */
     public String list() {
         try {
-            users = userManager.search(query);
+        	query();
         } catch (SearchException se) {
             addActionError(se.getMessage());
             users = userManager.getUsers();
         }
         return SUCCESS;
     }
+    
+    @SuppressWarnings("unchecked")
+	private void query() {
 
+		String hql = "from User where 1=1 ";
+		List args = new ArrayList();
+
+		if (user != null) {
+			if (user.getUsername() != null && user.getUsername().trim().length() != 0) {
+				hql += "and username like ? ";
+				args.add("%" + user.getUsername() + "%");
+			}
+
+			if (user.getFirstName() != null && user.getFirstName().trim().length() != 0) {
+				hql += "and firstName like ? ";
+				args.add("%" + user.getFirstName() + "%");
+			}
+			if (user.getLastName() != null && user.getLastName().trim().length() != 0) {
+				hql += "and firstName like ? ";
+				args.add("%" + user.getLastName() + "%");
+			}
+		}
+		
+		if (args.size() > 0) {
+			Object[] objs = new Object[args.size()];
+
+			for (int i = 0; i < args.size(); i++) {
+				objs[i] = args.get(i);
+			}
+
+			users = universalManager.findByHql(hql, objs);
+		}else {
+			users = universalManager.getAll(User.class);
+		}
+
+	}
 }

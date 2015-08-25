@@ -1,4 +1,4 @@
-<%try{ %>
+
 <!DOCTYPE html>
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
@@ -49,9 +49,12 @@
         	<div class="span2">
                 <menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm" permissions="permissionAdapter">
 <%--                 	<menu:displayMenu name="MainMenu"/> --%>
-    				<menu:displayMenu name="UserMenu"/> 
-   					<menu:displayMenu name="AdminMenu"/> 
+    				<menu:displayMenu name="EditProfile"/> 
+    			
+   					<menu:displayMenu name="ViewUsers"/> 
    					<menu:displayMenu name="ViewRoles"/> 
+   					<menu:displayMenu name="ViewUserRoles"/> 
+   					<menu:displayMenu name="ActiveUsers"/> 
                 </menu:useMenuDisplayer>
             </div>
              <decorator:body/>
@@ -71,4 +74,4 @@
 <%= (request.getAttribute("scripts") != null) ?  request.getAttribute("scripts") : "" %>
 </body>
 </html>
-<%}catch(Exception ex){ ex.printStackTrace();} %>
+
