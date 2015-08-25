@@ -136,7 +136,7 @@ public class RoleAction extends BaseAction implements Preparable {
 		if (!"list".equals(from)) {
 			return "mainMenu";
 		}
-		return "cancel";
+		return CANCEL;
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class RoleAction extends BaseAction implements Preparable {
 		}
 
 		saveMessage(getText("role.saved"));
-		return "mainMenu";
+		return SUCCESS;
 
 	}
 
@@ -202,7 +202,7 @@ public class RoleAction extends BaseAction implements Preparable {
 				args.add("%" + role.getName() + "%");
 			}
 		}
-		
+
 		if (args.size() > 0) {
 			Object[] objs = new Object[args.size()];
 
@@ -211,7 +211,7 @@ public class RoleAction extends BaseAction implements Preparable {
 			}
 
 			roles = universalManager.findByHql(hql, objs);
-		}else {
+		} else {
 			roles = universalManager.getAll(Role.class);
 		}
 
