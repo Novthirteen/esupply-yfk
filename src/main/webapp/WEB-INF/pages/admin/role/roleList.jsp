@@ -9,7 +9,7 @@
 	<fmt:message key="roleList.heading" />
 </h2>
 
-<s:form name="roleForm" method="post" validate="true">
+<s:form name="roleForm" action="roles" method="post" validate="true">
 	<div class="row-fluid">
 		<div class="span3">
 			<s:textfield key="role.code" />
@@ -20,7 +20,7 @@
 	</div>
 	<div class="row-fluid">
 		<div class="span3">
-			<s:hidden id="from" name="from" value="list" />
+			<input type="hidden" name="from" value="list" />
 			<s:submit type="button" cssClass="btn btn-primary" action="editRole"
 				key="button.add" theme="simple">
 				<i class="icon-plus icon-white"></i>
@@ -36,7 +36,7 @@
 </s:form>
 
 <display:table name="roles" cellspacing="0" cellpadding="0"
-	requestURI="roles" defaultsort="1" id="role" pagesize="25"
+	requestURI="/admin/roles" defaultsort="1" id="roles" pagesize="25"
 	class="table table-condensed table-striped table-hover" export="true">
 
 	<display:column property="code" escapeXml="true" sortable="true"

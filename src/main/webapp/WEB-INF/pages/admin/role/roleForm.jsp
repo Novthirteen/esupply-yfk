@@ -15,6 +15,7 @@
 <h2>
 	<fmt:message key="roleProfile.heading" />
 </h2>
+
 <c:choose>
 	<c:when test="${param.from == 'list'}">
 		<p>
@@ -31,17 +32,24 @@
 <s:form name="roleForm" action="saveRole" method="post" validate="true"
 	cssClass="well form-horizontal" autocomplete="off">
 	<input type="hidden" name="from" value="${param.from}" />
-	<c:choose>
-		<c:when test="${not empty role.code}">
-			<s:hidden key="role.code" />
-			<s:label key="role.code" />
-		</c:when>
-		<c:otherwise>
-			<s:textfield key="role.code" required="true" />
-		</c:otherwise>
-	</c:choose>
-
-	<s:textfield key="role.name" required="true" />
+	<div class="row-fluid">
+		<div class="span4">
+			<c:choose>
+				<c:when test="${not empty role.code}">
+					<s:hidden key="role.code" />
+					<s:label key="role.code" />
+				</c:when>
+				<c:otherwise>
+					<s:textfield key="role.code" required="true" />
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span4">
+			<s:textfield key="role.name" required="true" />
+		</div>
+	</div>
 
 	<div id="actions" class="form-actions">
 		<s:submit type="button" cssClass="btn btn-primary" method="save"
@@ -49,7 +57,7 @@
 			<i class="icon-ok icon-white"></i>
 			<fmt:message key="button.save" />
 		</s:submit>
-		
+
 		<c:if test="${not empty role.code}">
 			<s:submit type="button" cssClass="btn btn-danger" method="delete"
 				key="button.delete" onclick="return confirmMessage(msgDelConfirm)"
@@ -58,7 +66,7 @@
 				<fmt:message key="button.delete" />
 			</s:submit>
 		</c:if>
-		
+
 		<s:submit type="button" cssClass="btn" method="cancel"
 			key="button.cancel" theme="simple">
 			<i class="icon-remove"></i>
