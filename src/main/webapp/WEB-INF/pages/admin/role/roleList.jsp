@@ -11,12 +11,12 @@
 	</h2>
 
 
-	<s:form name="roleForm" action="/admin/roles" method="post"
+	<s:form name="roleForm" action="/roles" method="post"
 		validate="true">
 		<div class="left">
 			<s:textfield key="role.code" cssClass="text medium" />
 		</div>
-		<div class="left">
+		<div >
 			<s:textfield key="role.name" cssClass="text medium" />
 		</div>
 		<div class="formbotton">

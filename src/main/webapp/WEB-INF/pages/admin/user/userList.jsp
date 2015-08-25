@@ -11,7 +11,7 @@
 		<fmt:message key="userList.heading" />
 	</h2>
 
-	<s:form name="userForm" action="/admin/users" method="post"
+	<s:form name="userForm" action="/users" method="post"
 		validate="true">
 		<div class="left">
 			<s:textfield key="user.username" cssClass="text medium" />
