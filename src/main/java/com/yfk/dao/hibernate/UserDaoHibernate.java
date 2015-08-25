@@ -1,22 +1,27 @@
 package com.yfk.dao.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Table;
 
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import com.yfk.dao.UserDao;
+import com.yfk.model.Menu;
 import com.yfk.model.User;
 import com.yfk.model.UserAuthority;
+import com.yfk.model.UserMenu;
 
 /**
  * This class interacts with Hibernate session to save/delete and retrieve User
@@ -59,6 +64,8 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 			User user = (User) users.get(0);
 			user.setUserAuthorities(getSession().createCriteria(UserAuthority.class)
 					.add(Restrictions.eq("username", username)).list());
+			
+			AssemblyUserMenu(user);
 			return (UserDetails) user;
 		}
 	}
@@ -71,5 +78,31 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 		Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
 		return jdbcTemplate.queryForObject("select password from " + table.name() + " where userName=?", String.class,
 				userName);
+	}
+	
+	private List<UserMenu> AssemblyUserMenu(User user)
+	{
+		List<UserMenu> userMenus = new ArrayList<UserMenu>();
+		List<Menu> menus = getSession().createCriteria(Menu.class).addOrder(Order.asc("sequence")).list();
+		for (Menu menu : menus) 
+		{
+			if(menu.getParent() == null ||"".equals(menu.getParent()))
+			{
+				UserMenu userMenu = new UserMenu();
+				userMenu.setCode(menu.getCode());
+				userMenu.setName(menu.getName());
+				userMenu.setSequence(menu.getSequence());
+				userMenu.setUrl(menu.getUrl());
+				userMenus.add(userMenu);
+			}
+			else
+			{
+				for(GrantedAuthority authority : user.getAuthorities())
+				{
+					String aa =authority.getAuthority();
+				}
+			}
+		}
+		return userMenus;
 	}
 }

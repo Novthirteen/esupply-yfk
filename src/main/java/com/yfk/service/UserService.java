@@ -12,8 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.yfk.model.User;
-import com.yfk.model.UserList;
-
 /**
  * Web Service interface so hierarchy of Generic Manager isn't carried through.
  */
@@ -31,11 +29,6 @@ public interface UserService {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<User> getUsers();
     
-    
-    @GET
-    @Path("getAllUser")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public UserList getAllUser();
     /**
      * Retrieves a user by userId.  An exception is thrown if user not found
      *

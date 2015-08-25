@@ -2,7 +2,6 @@ package com.yfk.service;
 
 import com.yfk.dao.UserDao;
 import com.yfk.model.User;
-import com.yfk.model.UserList;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -46,12 +45,6 @@ public interface UserManager extends GenericManager<User, String> {
      */
     List<User> getUsers();
     
-    /**
-     * Retrieves a list of all users.
-     * @return List
-     */
-    UserList getAllUser();
-
     /**
      * Saves a user's information.
      *

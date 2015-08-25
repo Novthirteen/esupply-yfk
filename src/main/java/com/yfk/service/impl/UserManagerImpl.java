@@ -2,7 +2,6 @@ package com.yfk.service.impl;
 
 import com.yfk.dao.UserDao;
 import com.yfk.model.User;
-import com.yfk.model.UserList;
 import com.yfk.service.UserExistsException;
 import com.yfk.service.UserManager;
 import com.yfk.service.UserService;
@@ -48,15 +47,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, String> implements
      */
     public List<User> getUsers() {
         return userDao.getAllDistinct();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public UserList getAllUser() {
-    	UserList userList = new UserList();
-    	userList.setUsers(userDao.getAllDistinct());
-        return userList;
     }
 
     /**

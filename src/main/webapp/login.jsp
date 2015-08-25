@@ -6,6 +6,59 @@
 </head>
 <body id="login">
 
+<div id="example">                    
+   <div style="width:200px;">
+       <h4>Menu</h4>
+       <ul id="menu" style="width:150px">
+           <li>
+               First Item
+               <ul>
+                   <li>Sub Item 1</li>
+                   <li>Sub Item 2</li>
+                   <li>Sub Item 3</li>
+                   <li>Sub Item 4</li>
+               </ul>
+           </li>
+           <li>
+               Second Item
+               <ul>
+                   <li>Sub Item 1</li>
+                   <li>Sub Item 2</li>
+                   <li>Sub Item 3</li>
+                   <li>Sub Item 4</li>
+               </ul>
+           </li>
+           <li>
+               Third Item
+               <ul>
+                   <li>Sub Item 1</li>
+                   <li>Sub Item 2</li>
+                   <li>Sub Item 3</li>
+                   <li>Sub Item 4</li>
+               </ul>
+           </li>
+           <li>
+               Fourth Item
+               <ul>
+                   <li>Sub Item 1</li>
+                   <li>Sub Item 2</li>
+                   <li>Sub Item 3</li>
+                   <li>Sub Item 4</li>
+               </ul>
+           </li>
+           <li>
+               Fifth Item
+               <ul>
+                   <li>Sub Item 1</li>
+                   <li>Sub Item 2</li>
+                   <li>Sub Item 3</li>
+                   <li>Sub Item 4</li>
+               </ul>
+           </li>
+       </ul>
+   </div>
+</div>
+
 <form method="post" id="loginForm" action="<c:url value='/j_security_check'/>"
     onsubmit="saveUsername(this);return validateForm(this)" class="form-signin" autocomplete="off">
     <h2 class="form-signin-heading">
@@ -43,4 +96,41 @@
 </c:set>
 
 <p><fmt:message key="login.passwordHint"/></p>
+<script>
+       $(document).ready(function() {
+           function onOpen(e) {
+               
+           }
+
+           function onClose(e) {
+               
+           }
+
+           function onSelect(e) {
+               
+           }
+
+           function onActivate(e) {
+               
+           }
+
+           function onDeactivate(e) {
+           		
+           }
+
+           $("#menu").kendoMenu({
+               select: onSelect,
+			   openOnClick: true,
+			   orientation: "vertical",
+               open: onOpen,
+               close: onClose,
+               activate: onActivate,
+               deactivate: onDeactivate
+           });
+
+       });
+   </script>
+
 </body>
+
+
