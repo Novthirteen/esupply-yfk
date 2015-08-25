@@ -10,39 +10,42 @@
 		<fmt:message key="roleList.heading" />
 	</h2>
 
-
-	<s:form name="roleForm" action="/admin/roles" method="post"
-		validate="true">
-		<div class="left">
-			<s:textfield key="role.code" cssClass="text medium" />
+	<s:form name="roleForm" method="post" validate="true">
+		<div class="row-fluid">
+			<div class="span4">
+				<s:textfield key="role.code" />
+			</div>
+			<div class="span4">
+				<s:textfield key="role.name" />
+			</div>
 		</div>
-		<div>
-			<s:textfield key="role.name" cssClass="text medium" />
-		</div>
-		<div class="formbotton">
-			<a class="btn btn-primary"
-				href="<c:url value='/editRole?method=Add&from=list'/>"> 
-				<i class="icon-plus icon-white"></i> <fmt:message key="button.add" />
-			</a>
-
-			<button id="button.search" class="btn" type="submit">
-				<i class="icon-search"></i>
-				<fmt:message key="button.search" />
-			</button>
+		<div class="row-fluid">
+			<div class="span8">
+				<s:hidden name="from" value="list" />
+				<s:submit type="button" cssClass="btn btn-primary" action="editRole"
+					key="button.add" theme="simple">
+					<i class="icon-plus icon-white"></i>
+					<fmt:message key="button.add" />
+				</s:submit>
+				<s:submit type="button" cssClass="btn" action="roles"
+					key="button.search" theme="simple">
+					<i class="icon-search"></i>
+					<fmt:message key="button.search" />
+				</s:submit>
+			</div>
 		</div>
 	</s:form>
 
-
 	<display:table name="roles" cellspacing="0" cellpadding="0"
-		requestURI="" defaultsort="1" id="roles" pagesize="25"
+		requestURI="roles" defaultsort="1" id="role" pagesize="25"
 		class="table table-condensed table-striped table-hover" export="true">
 
 		<display:column property="code" escapeXml="true" sortable="true"
-			titleKey="role.code" style="width: 25%" url="/editRole?from=list"
-			paramId="code" paramProperty="code" />
+			titleKey="role.code" url="/admin/editRole?from=list" paramId="code"
+			paramProperty="code" />
 		<display:column property="name" escapeXml="true" sortable="true"
-			titleKey="role.name" style="width: 34%" />
-
+			titleKey="role.name" url="/admin/editRole?from=list" paramId="code"
+			paramProperty="code" />
 
 		<display:setProperty name="paging.banner.item_name">
 			<fmt:message key="roleList.role" />
