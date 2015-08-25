@@ -114,6 +114,10 @@
             <param-value>com.yfk.webapp.action</param-value>
         </init-param>
     </filter>
+     <filter>
+        <filter-name>menuPermissionFilter</filter-name>
+        <filter-class>com.yfk.webapp.filter.MenuPermissionFilter</filter-class>
+    </filter>
 
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
@@ -169,6 +173,13 @@
         <filter-name>exportFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>menuPermissionFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -190,9 +201,6 @@
     </listener>
     <listener>
         <listener-class>net.sf.navigator.menu.MenuContextListener</listener-class>
-    </listener>
-     <listener>
-        <listener-class>com.yfk.webapp.listener.MenuPermissionListener</listener-class>
     </listener>
 
     <servlet>
