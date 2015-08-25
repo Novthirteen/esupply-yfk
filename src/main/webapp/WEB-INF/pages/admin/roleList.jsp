@@ -16,7 +16,7 @@
 		<div class="left">
 			<s:textfield key="role.code" cssClass="text medium" />
 		</div>
-		<div>
+		<div class="left">
 			<s:textfield key="role.name" cssClass="text medium" />
 		</div>
 		<div class="formbotton">

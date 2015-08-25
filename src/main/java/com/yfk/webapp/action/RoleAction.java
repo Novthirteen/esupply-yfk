@@ -212,7 +212,7 @@ public class RoleAction extends BaseAction implements Preparable {
 
 			roles = universalManager.findByHql(hql, objs);
 		}else {
-			roles = roleManager.getRoles();
+			roles = universalManager.getAll(Role.class);
 		}
 
 	}
