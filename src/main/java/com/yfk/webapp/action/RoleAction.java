@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
 
 import com.yfk.model.Role;
 
@@ -49,10 +49,14 @@ public class RoleAction extends BaseAction {
 	 * @return success
 	 */
 	public String delete() {
-		universalManager.remove(role.getCode());
-		List<Object> args = new ArrayList<Object>();
-		args.add(role.getCode());
-		saveMessage(getText("role.deleted", args));
+		try {
+			universalManager.remove(Role.class, role.getCode());
+			List<Object> args = new ArrayList<Object>();
+			args.add(role.getCode());
+			saveMessage(getText("role.deleted", args));
+		} catch (Exception ex) {
+			return showUnexpectException(ex);
+		}
 
 		return SUCCESS;
 	}
@@ -109,33 +113,29 @@ public class RoleAction extends BaseAction {
 	 *             when setting "access denied" fails on response
 	 */
 	public String save() throws Exception {
-
 		try {
+			List<Object> args = new ArrayList<Object>();
+			args.add(role.getCode());
 			if (role.getVersion() == 0) {
-				universalManager.save(role);
-				saveMessage(getText("role.created"));
+				if (!universalManager.exists(Role.class, role.getCode())) {
+					universalManager.save(role);
+					saveMessage(getText("role.created", args));
+				} else {
+					return showRoleExistsException();
+				}
 			} else {
 				universalManager.update(role);
-				saveMessage(getText("role.updated"));
+				saveMessage(getText("role.updated", args));
 			}
-		} catch(DataIntegrityViolationException e) {
-			return showRoleExistsException();
-		} catch (Exception e) {
-			return showRoleExistsException();
+		} catch (HibernateOptimisticLockingFailureException ex) {
+			return showStaleObjectStateException();
+		} catch (Exception ex) {
+			return showUnexpectException(ex);
 		}
 
 		return SUCCESS;
 	}
-
-	private String showRoleExistsException() {
-		List<Object> args = new ArrayList<Object>();
-		args.add(role.getCode());
-		args.add(role.getName());
-		addActionError(getText("errors.existing.role", args));
-
-		return INPUT;
-	}
-
+	
 	/**
 	 * Fetch all roles from database and put into local "roles" variable for
 	 * retrieval in the UI.
@@ -146,7 +146,7 @@ public class RoleAction extends BaseAction {
 		query();
 		return SUCCESS;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private void query() {
 		String hql = "from Role where 1=1 ";
@@ -165,5 +165,28 @@ public class RoleAction extends BaseAction {
 		}
 
 		roles = universalManager.findByHql(hql, args.toArray());
+	}
+
+	private String showRoleExistsException() {
+		List<Object> args = new ArrayList<Object>();
+		args.add(role.getCode());
+		addActionError(getText("role.errors.existingRole", args));
+
+		return INPUT;
+	}
+
+	private String showStaleObjectStateException() {
+		addActionError(getText("errors.staleObjectStateException"));
+
+		return INPUT;
+	}
+
+	private String showUnexpectException(Exception ex) {
+		log.error("Unexpect exception occur.", ex);
+		List<Object> args = new ArrayList<Object>();
+		args.add(ex.getMessage());
+		addActionError(getText("errors.unexpectError", args));
+
+		return INPUT;
 	}
 }

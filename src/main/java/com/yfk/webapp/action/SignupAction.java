@@ -84,7 +84,7 @@ public class SignupAction extends BaseAction {
             List<Object> args = new ArrayList<Object>();
             args.add(user.getUsername());
             args.add(user.getEmail());
-            addActionError(getText("errors.existing.user", args));
+            addActionError(getText("user.errors.existingUser", args));
 
             // redisplay the unencrypted passwords
             user.setPassword(user.getConfirmPassword());
