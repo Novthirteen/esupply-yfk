@@ -9,18 +9,20 @@ public class UserMenu extends BaseObject  {
 	 */
 	private static final long serialVersionUID = 2556637617544139689L;
 	
-	private String code;		// required
-	private String name;
+	private String value;		// required
+	private String text;
 	private String url;
+	private String imageUrl;
 	private Integer sequence;
-	private List<UserMenu> childUserMenu;
+	private boolean isPathUpdate;
+	private List<UserMenu> items;
 	
-	public String getCode() {
-		return code;
+	public String getValue() {
+		return value;
 	}
 
-	public String getName() {
-		return name;
+	public String getText() {
+		return text;
 	}
 	
 	public String getUrl() {
@@ -31,20 +33,28 @@ public class UserMenu extends BaseObject  {
 		return sequence;
 	}
 	
-	public List<UserMenu> getChildUserMenu() {
-		return childUserMenu;
+	public List<UserMenu> getItems() {
+		return items;
 	}
 
-	public void setChildUserMenu(List<UserMenu> childUserMenu) {
-		this.childUserMenu = childUserMenu;
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
-	public void setCode(String code) {
-		this.code = code;
+	public void setItems(List<UserMenu> items) {
+		this.items = items;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 
@@ -61,7 +71,7 @@ public class UserMenu extends BaseObject  {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -72,8 +82,18 @@ public class UserMenu extends BaseObject  {
 
 	@Override
 	public String toString() {
-		return "UserMenu [code=" + code + "]";
+		return "UserMenu [value=" + value + "]";
 	}
+
+	public boolean isPathUpdate() {
+		return isPathUpdate;
+	}
+
+	public void setPathUpdate(boolean isPathUpdate) {
+		this.isPathUpdate = isPathUpdate;
+	}
+
+
 
 
 }

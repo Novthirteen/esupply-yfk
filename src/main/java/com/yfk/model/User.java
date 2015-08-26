@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -57,6 +58,7 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
     private String updateUser;
     private Timestamp updateDate;
     private Collection<UserAuthority> userAuthorities; 
+    private List<UserMenu> userMenus; 
 
     /**
      * Default constructor - creates a new instance with no values set.
@@ -350,4 +352,14 @@ public class User extends BaseObject implements Serializable, UserDetails, Audit
 //        }
         return sb.toString();
     }
+
+    @Transient
+    @JsonIgnore
+	public List<UserMenu> getUserMenus() {
+		return userMenus;
+	}
+
+	public void setUserMenus(List<UserMenu> userMenus) {
+		this.userMenus = userMenus;
+	}
 }

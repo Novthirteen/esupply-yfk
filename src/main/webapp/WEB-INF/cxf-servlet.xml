@@ -23,6 +23,7 @@
         <jaxrs:serviceBeans>
             <ref bean="userManager"/>
             <ref bean="menuManager"/>
+            <ref bean="userMenuManager"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider"/>

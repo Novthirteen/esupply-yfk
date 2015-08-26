@@ -17,8 +17,12 @@ public class Menu extends BaseObject  {
 	private String code;		// required
 	private String name;
 	private String parent;
-	private String url;
+	private String pageUrl;
 	private Integer sequence;
+	private String description;
+	private String imageUrl;
+	private String permissionCode;
+	private boolean active; 
 	
     @Id
     @Column(length = 50)
@@ -36,9 +40,9 @@ public class Menu extends BaseObject  {
 		return parent;
 	}
     
-    @Column(length = 255)
-	public String getUrl() {
-		return url;
+    @Column(name="page_url", length = 255)
+	public String getPageUrl() {
+		return pageUrl;
 	}
 
     @Column
@@ -46,6 +50,42 @@ public class Menu extends BaseObject  {
 		return sequence;
 	}
 	
+    @Column(length = 255)
+	public String getDescription() {
+		return description;
+	}
+    
+    @Column(name="image_url", length = 255)
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	
+    @Column(name="permission_code", length = 50)
+	public String getPermissionCode() {
+		return permissionCode;
+	}
+
+    @Column(name="is_active")
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public void setPermissionCode(String permissionCode) {
+		this.permissionCode = permissionCode;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+    
 	public void setCode(String code) {
 		this.code = code;
 	}
@@ -58,8 +98,8 @@ public class Menu extends BaseObject  {
 		this.parent = parent;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setPageUrl(String pageUrl) {
+		this.pageUrl = pageUrl;
 	}
 
 	public void setSequence(Integer sequence) {
@@ -96,4 +136,8 @@ public class Menu extends BaseObject  {
 	public String toString() {
 		return "Menu [code=" + code + "]";
 	}
+
+
+
+
 }

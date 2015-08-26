@@ -3,9 +3,7 @@ package com.yfk.webapp.listener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.yfk.Constants;
-import com.yfk.model.Menu;
-import com.yfk.model.Permission;
-import com.yfk.service.MenuManager;
+import com.yfk.webapp.util.AppContextUtil;
 
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +17,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +32,7 @@ import java.util.Map;
  */
 public class StartupListener implements ServletContextListener {
     private static final Log log = LogFactory.getLog(StartupListener.class);
-   
+
     /**
      * {@inheritDoc}
      */
@@ -44,7 +41,7 @@ public class StartupListener implements ServletContextListener {
         log.debug("Initializing context...");
 
         ServletContext context = event.getServletContext();
-
+        AppContextUtil.setServletContext(context);
         // Orion starts Servlets before Listeners, so check if the config
         // object already exists
         Map<String, Object> config = (HashMap<String, Object>) context.getAttribute(Constants.CONFIG);
@@ -54,8 +51,8 @@ public class StartupListener implements ServletContextListener {
         }
 
         ApplicationContext ctx =
-                WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-
+                WebApplicationContextUtils.getRequiredWebApplicationContext(context); 
+        
         PasswordEncoder passwordEncoder = null;
         try {
             ProviderManager provider = (ProviderManager) ctx.getBean("org.springframework.security.authentication.ProviderManager#0");
@@ -82,6 +79,7 @@ public class StartupListener implements ServletContextListener {
             }
             log.debug("Populating drop-downs...");
         }
+
         setupContext(context);
     }
 
@@ -91,10 +89,7 @@ public class StartupListener implements ServletContextListener {
      * @param context The servlet context
      */
     public static void setupContext(ServletContext context) {
-        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-        MenuManager menuManager = (MenuManager) ctx.getBean("menuManager");
-        List<Menu> menus = menuManager.getAll();
-        context.setAttribute(Constants.ALL_MENUS, menus);
+//        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
 //        LookupManager mgr = (LookupManager) ctx.getBean("lookupManager");
 //
 //        // get list of possible roles

@@ -80,29 +80,50 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 				userName);
 	}
 	
-	private List<UserMenu> AssemblyUserMenu(User user)
+	private void AssemblyUserMenu(User user)
 	{
 		List<UserMenu> userMenus = new ArrayList<UserMenu>();
-		List<Menu> menus = getSession().createCriteria(Menu.class).addOrder(Order.asc("sequence")).list();
+		List<Menu> menus = getSession().createCriteria(Menu.class).add(Restrictions.eq("active", true)).addOrder(Order.asc("sequence")).list();
 		for (Menu menu : menus) 
 		{
 			if(menu.getParent() == null ||"".equals(menu.getParent()))
 			{
 				UserMenu userMenu = new UserMenu();
-				userMenu.setCode(menu.getCode());
-				userMenu.setName(menu.getName());
+				userMenu.setValue(menu.getCode());
+				userMenu.setText(menu.getName());
+				userMenu.setImageUrl(menu.getImageUrl());
 				userMenu.setSequence(menu.getSequence());
-				userMenu.setUrl(menu.getUrl());
+				userMenu.setUrl(menu.getPageUrl());
 				userMenus.add(userMenu);
 			}
 			else
 			{
 				for(GrantedAuthority authority : user.getAuthorities())
 				{
-					String aa =authority.getAuthority();
+					if(menu.getPermissionCode().equalsIgnoreCase(authority.getAuthority()))
+					{
+						for(UserMenu um : userMenus)
+						{
+							if(menu.getParent().equalsIgnoreCase(um.getValue()))
+							{
+								UserMenu userMenu = new UserMenu();
+								userMenu.setValue(menu.getCode());
+								userMenu.setText(menu.getName());
+								userMenu.setImageUrl(menu.getImageUrl());
+								userMenu.setSequence(menu.getSequence());
+								userMenu.setUrl(menu.getPageUrl());
+								if(um.getItems() == null)
+								{
+									um.setItems(new ArrayList<UserMenu>());
+								}
+								um.getItems().add(userMenu);
+							}
+						}
+					}
 				}
 			}
 		}
-		return userMenus;
+		user.setUserMenus(userMenus);
+		//return userMenus;
 	}
 }
