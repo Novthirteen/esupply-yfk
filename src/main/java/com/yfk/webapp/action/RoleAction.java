@@ -16,7 +16,7 @@ public class RoleAction extends BaseAction {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4453515369924540643L;
 
 	private List<Role> roles;
 	private Role role;
@@ -99,9 +99,6 @@ public class RoleAction extends BaseAction {
 	 * @return "mainMenu" or "cancel"
 	 */
 	public String cancel() {
-		if (!"list".equals(from)) {
-			return "mainMenu";
-		}
 		return CANCEL;
 	}
 
