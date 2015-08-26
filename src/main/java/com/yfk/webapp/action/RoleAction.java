@@ -1,35 +1,17 @@
 package com.yfk.webapp.action;
 
-import com.opensymphony.xwork2.Preparable;
-import org.apache.struts2.ServletActionContext;
-import com.yfk.Constants;
-import com.yfk.dao.SearchException;
-import com.yfk.model.Role;
-import com.yfk.model.User;
-import com.yfk.model.Role;
-import com.yfk.service.RoleExistsException;
-import com.yfk.webapp.util.RequestUtil;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.mail.MailException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.springframework.dao.DataIntegrityViolationException;
+
+import com.yfk.model.Role;
 
 /**
  * Action for facilitating Role Management feature.
  */
-public class RoleAction extends BaseAction implements Preparable {
+public class RoleAction extends BaseAction {
 
 	/**
 	 * 
@@ -39,19 +21,6 @@ public class RoleAction extends BaseAction implements Preparable {
 	private List<Role> roles;
 	private Role role;
 	private String code;
-	private List<User> allUsers;
-	private List<User> assignUsers;
-
-	/**
-	 * Grab the entity from the database before populating with request
-	 * parameters
-	 */
-	public void prepare() {
-		// prevent failures on new
-		if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("role.code")))) {
-			role = roleManager.getRole(getRequest().getParameter("role.code"));
-		}
-	}
 
 	/**
 	 * Holder for roles to display on list screen
@@ -73,24 +42,14 @@ public class RoleAction extends BaseAction implements Preparable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	public List<User> getAllUsers()
-	{
-		return allUsers;
-	}
-	
-	public List<User> getAssignUsers()
-	{
-		return assignUsers;
-	}
-	
+
 	/**
 	 * Delete the role passed in.
 	 *
 	 * @return success
 	 */
 	public String delete() {
-		roleManager.removeRole(role.getCode());
+		universalManager.remove(role.getCode());
 		List<Object> args = new ArrayList<Object>();
 		args.add(role.getCode());
 		saveMessage(getText("role.deleted", args));
@@ -111,9 +70,7 @@ public class RoleAction extends BaseAction implements Preparable {
 		// if a roleCode is passed in
 		if (code != null) {
 			// lookup the role using code
-			role = roleManager.getRole(code);
-			
-			allUsers = universalManager.getAll(User.class);
+			role = (Role) universalManager.get(Role.class, code);
 		} else {
 			role = new Role();
 			// role.addRole(new Role(Constants.USER_ROLE));
@@ -141,7 +98,7 @@ public class RoleAction extends BaseAction implements Preparable {
 		if (!"list".equals(from)) {
 			return "mainMenu";
 		}
-		return "cancel";
+		return CANCEL;
 	}
 
 	/**
@@ -154,20 +111,20 @@ public class RoleAction extends BaseAction implements Preparable {
 	public String save() throws Exception {
 
 		try {
-			roleManager.saveRole(role);
-		} catch (AccessDeniedException ade) {
-			// thrown by RoleSecurityAdvice configured in aop:advisor
-			// roleManagerSecurity
-			log.warn(ade.getMessage());
-			getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
-			return null;
-		} catch (RoleExistsException e) {
+			if (role.getVersion() == 0) {
+				universalManager.save(role);
+				saveMessage(getText("role.created"));
+			} else {
+				universalManager.update(role);
+				saveMessage(getText("role.updated"));
+			}
+		} catch(DataIntegrityViolationException e) {
+			return showRoleExistsException();
+		} catch (Exception e) {
 			return showRoleExistsException();
 		}
 
-		saveMessage(getText("role.saved"));
-		return "mainMenu";
-
+		return SUCCESS;
 	}
 
 	private String showRoleExistsException() {
@@ -192,9 +149,8 @@ public class RoleAction extends BaseAction implements Preparable {
 
 	@SuppressWarnings("unchecked")
 	private void query() {
-
 		String hql = "from Role where 1=1 ";
-		List args = new ArrayList();
+		List<Object> args = new ArrayList<Object>();
 
 		if (role != null) {
 			if (role.getCode() != null && role.getCode().trim().length() != 0) {
@@ -207,19 +163,7 @@ public class RoleAction extends BaseAction implements Preparable {
 				args.add("%" + role.getName() + "%");
 			}
 		}
-		
-		if (args.size() > 0) {
-			Object[] objs = new Object[args.size()];
 
-			for (int i = 0; i < args.size(); i++) {
-				objs[i] = args.get(i);
-			}
-
-			roles = universalManager.findByHql(hql, objs);
-		}else {
-			roles = universalManager.getAll(Role.class);
-		}
-
+		roles = universalManager.findByHql(hql, args.toArray());
 	}
-
 }
