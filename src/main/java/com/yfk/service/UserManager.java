@@ -1,10 +1,11 @@
 package com.yfk.service;
 
-import com.yfk.dao.UserDao;
-import com.yfk.model.User;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.List;
+import com.yfk.dao.UserDao;
+import com.yfk.model.User;
 
 
 /**

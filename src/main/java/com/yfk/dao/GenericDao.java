@@ -123,4 +123,8 @@ public interface GenericDao<T, PK extends Serializable> {
 	 *            true to perform the reindexing asynchronously
 	 */
 	void reindexAll(boolean async);
+	
+	void flushSession();
+	
+	void cleanSession();
 }

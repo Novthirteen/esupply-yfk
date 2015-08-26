@@ -202,8 +202,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 	@SuppressWarnings("unchecked")
 	public void update(T object) throws PrincipalNullException {
 		if (object instanceof Traceable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setUpdateUser(SecurityContextHelper.getRemoteUser());
 		}
 		
 		Session sess = getSession();
@@ -255,5 +255,15 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 	 */
 	public void reindexAll(boolean async) {
 		HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
+	}
+	
+	public void flushSession() {
+		Session sess = getSession();
+		sess.flush();
+	}
+	
+	public void cleanSession() {
+		Session sess = getSession();
+		sess.clear();
 	}
 }
