@@ -5,18 +5,27 @@
     </Displayers>
     <Menus>
         <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu" action="/mainMenu.action" />
-        <Menu name="UserMenu" title="menu.user" description="User Menu" page="/editProfile" >
+        <Menu name="UserMenu" title="menu.user" description="User Menu" page="/editProfile"  action="/editProfile.action">
         	 <Item name="ViewUsers" title="menu.user" page="/editProfile"/>
         </Menu>
        	
        	<Menu name="EditProfile" title="menu.user" page="/editProfile" action="/users.action"/>
         <Menu name="ViewUsers" title="menu.admin.users" page="/admin/users" action="/users.action" />
         <Menu name="ViewRoles" title="menu.admin.roles" page="/admin/roles" action="/roles.action"/>
+<<<<<<< HEAD
+        <Menu name="AdminMenu" title="menu.admin" description="Admin Menu"  page="/admin/users">
+            <Item name="ViewUsers" title="menu.admin.users" page="/admin/users"/>
+            <Item name="ViewRoles" title="menu.admin.roles" page="/admin/roles" action="/roles.action"/>
+            <Item name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers"/>
+        </Menu>
+        <Menu name="PermissionsMenu" title="menu.admin.permissions" page="/admin/Permissions" action="/permissions.action" />
+=======
         <Menu name="ViewUserRoles" title="menu.admin.userroles" page="/admin/userRoles" action="/userRoles.action"/>
         <Menu name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers" action="/activeUsers.action"/>
       
-	<Menu name="PermissionsMenu" title="menu.admin.permissions" page="/admin/Permissions" action="/permissions.action" />
+>>>>>>> origin/master
         <Menu name="ReloadMenu" title="menu.admin.reload" page="/admin/reload" />
+        
         <Menu name="Logout" title="user.logout" page="/logout" action="/logout.action"/>
     </Menus>
 </MenuConfig>

@@ -59,8 +59,12 @@
     			
    					<menu:displayMenu name="ViewUsers"/> 
    					<menu:displayMenu name="ViewRoles"/> 
+<<<<<<< HEAD
+   					<menu:displayMenu name="PermissionsMenu"/> 
+=======
    					<menu:displayMenu name="ViewUserRoles"/> 
    					<menu:displayMenu name="ActiveUsers"/> 
+>>>>>>> origin/master
                 </menu:useMenuDisplayer>
             </div>
              <decorator:body/>

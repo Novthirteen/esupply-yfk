@@ -69,6 +69,34 @@
 		</div>
 	</s:form>
 </div>
+<div class="span7">
+	<s:form name="userForm" action="saveUser" method="post" validate="true"
+		cssClass="well form-horizontal" autocomplete="off">
+		<fieldset class="control-group">
+			<label for="allUserRoles" class="control-label"><fmt:message
+					key="userRoles.allUserRoles" /></label>
+			<div class="controls">
+				<select id="allUserRoles" name="allUserRoles" multiple="true">
+					<c:forEach items="${availableRoles}" var="role">
+						<option value="${role.value}">${role.label}</option>
+					</c:forEach>
+				</select>
+			</div>
+			<label for="userRoles" class="control-label"><fmt:message
+					key="userRoles.assignRoles" /></label>
+			<div class="controls">
+				<select id="userRoles" name="userRoles" multiple="true">
+					<c:forEach items="${availableRoles}" var="role">
+						<option value="${role.value}"
+							${fn:contains(user.roles, role.label) ? 'selected' : ''}>${role.label}</option>
+					</c:forEach>
+				</select>
+			</div>
+		</fieldset>
+
+
+	</s:form>
+</div>
 
 <script type="text/javascript">
 	$(document).ready(
