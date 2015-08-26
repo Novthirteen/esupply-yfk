@@ -1,24 +1,25 @@
 package com.yfk.webapp.action;
 
-import com.opensymphony.xwork2.ActionSupport;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.struts2.ServletActionContext;
-import com.yfk.Constants;
-import com.yfk.model.User;
-import com.yfk.service.MailEngine;
-import com.yfk.service.RoleManager;
-import com.yfk.service.UniversalManager;
-import com.yfk.service.UserManager;
-import org.springframework.mail.SimpleMailMessage;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.mail.SimpleMailMessage;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.yfk.Constants;
+import com.yfk.model.User;
+import com.yfk.service.MailEngine;
+import com.yfk.service.UniversalManager;
+import com.yfk.service.UserManager;
 
 
 /**
@@ -36,6 +37,11 @@ public class BaseAction extends ActionSupport {
      * Constant for cancel result String
      */
     public static final String CANCEL = "cancel";
+    
+    /**
+     * Constant for mainMenu result String
+     */
+    public static final String MAIN_MENU = "mainMenu";
 
     /**
      * Transient log to prevent session synchronization issues - children can use instance for logging.
@@ -48,12 +54,7 @@ public class BaseAction extends ActionSupport {
     protected UserManager userManager;
 
     /**
-     * The RoleManager
-     */
-    protected RoleManager roleManager;
-
-    /**
-     * The RoleManager
+     * The UniversalManager
      */
     protected UniversalManager universalManager;
     
@@ -183,10 +184,6 @@ public class BaseAction extends ActionSupport {
 
     public void setUserManager(UserManager userManager) {
         this.userManager = userManager;
-    }
-
-    public void setRoleManager(RoleManager roleManager) {
-        this.roleManager = roleManager;
     }
     
     public void setUniversalManager(UniversalManager universalManager) {

@@ -1,56 +1,26 @@
 package com.yfk.webapp.action;
 
-import com.opensymphony.xwork2.Preparable;
-import org.apache.struts2.ServletActionContext;
-import com.yfk.Constants;
-import com.yfk.dao.SearchException;
-import com.yfk.model.Role;
-import com.yfk.model.Role;
-import com.yfk.service.RoleExistsException;
-import com.yfk.webapp.util.RequestUtil;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.mail.MailException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
+
+import com.yfk.model.Role;
 
 /**
  * Action for facilitating Role Management feature.
  */
-public class RoleAction extends BaseAction implements Preparable {
+public class RoleAction extends BaseAction {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4453515369924540643L;
 
 	private List<Role> roles;
 	private Role role;
 	private String code;
-	private String queryCode;
-	private String queryName;
-
-	/**
-	 * Grab the entity from the database before populating with request
-	 * parameters
-	 */
-	public void prepare() {
-		// prevent failures on new
-		if (getRequest().getMethod().equalsIgnoreCase("post") && (!"".equals(getRequest().getParameter("role.code")))) {
-			role = roleManager.getRole(getRequest().getParameter("role.code"));
-		}
-	}
 
 	/**
 	 * Holder for roles to display on list screen
@@ -73,24 +43,20 @@ public class RoleAction extends BaseAction implements Preparable {
 		this.role = role;
 	}
 
-	public void setQCode(String qCode) {
-		this.queryCode = qCode;
-	}
-
-	public void setQName(String qName) {
-		this.queryName = qName;
-	}
-
 	/**
 	 * Delete the role passed in.
 	 *
 	 * @return success
 	 */
 	public String delete() {
-		roleManager.removeRole(role.getCode());
-		List<Object> args = new ArrayList<Object>();
-		args.add(role.getCode());
-		saveMessage(getText("role.deleted", args));
+		try {
+			universalManager.remove(Role.class, role.getCode());
+			List<Object> args = new ArrayList<Object>();
+			args.add(role.getCode());
+			saveMessage(getText("role.deleted", args));
+		} catch (Exception ex) {
+			return showUnexpectException(ex);
+		}
 
 		return SUCCESS;
 	}
@@ -108,7 +74,7 @@ public class RoleAction extends BaseAction implements Preparable {
 		// if a roleCode is passed in
 		if (code != null) {
 			// lookup the role using code
-			role = roleManager.getRole(code);
+			role = (Role) universalManager.get(Role.class, code);
 		} else {
 			role = new Role();
 			// role.addRole(new Role(Constants.USER_ROLE));
@@ -133,10 +99,7 @@ public class RoleAction extends BaseAction implements Preparable {
 	 * @return "mainMenu" or "cancel"
 	 */
 	public String cancel() {
-		if (!"list".equals(from)) {
-			return "mainMenu";
-		}
-		return "cancel";
+		return CANCEL;
 	}
 
 	/**
@@ -147,33 +110,29 @@ public class RoleAction extends BaseAction implements Preparable {
 	 *             when setting "access denied" fails on response
 	 */
 	public String save() throws Exception {
-
 		try {
-			roleManager.saveRole(role);
-		} catch (AccessDeniedException ade) {
-			// thrown by RoleSecurityAdvice configured in aop:advisor
-			// roleManagerSecurity
-			log.warn(ade.getMessage());
-			getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
-			return null;
-		} catch (RoleExistsException e) {
-			return showRoleExistsException();
+			List<Object> args = new ArrayList<Object>();
+			args.add(role.getCode());
+			if (role.getVersion() == 0) {
+				if (!universalManager.exists(Role.class, role.getCode())) {
+					universalManager.save(role);
+					saveMessage(getText("role.created", args));
+				} else {
+					return showRoleExistsException();
+				}
+			} else {
+				universalManager.update(role);
+				saveMessage(getText("role.updated", args));
+			}
+		} catch (HibernateOptimisticLockingFailureException ex) {
+			return showStaleObjectStateException();
+		} catch (Exception ex) {
+			return showUnexpectException(ex);
 		}
 
-		saveMessage(getText("role.saved"));
-		return "mainMenu";
-
+		return SUCCESS;
 	}
-
-	private String showRoleExistsException() {
-		List<Object> args = new ArrayList<Object>();
-		args.add(role.getCode());
-		args.add(role.getName());
-		addActionError(getText("errors.existing.role", args));
-
-		return INPUT;
-	}
-
+	
 	/**
 	 * Fetch all roles from database and put into local "roles" variable for
 	 * retrieval in the UI.
@@ -184,12 +143,11 @@ public class RoleAction extends BaseAction implements Preparable {
 		query();
 		return SUCCESS;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private void query() {
-
 		String hql = "from Role where 1=1 ";
-		List args = new ArrayList();
+		List<Object> args = new ArrayList<Object>();
 
 		if (role != null) {
 			if (role.getCode() != null && role.getCode().trim().length() != 0) {
@@ -202,19 +160,30 @@ public class RoleAction extends BaseAction implements Preparable {
 				args.add("%" + role.getName() + "%");
 			}
 		}
-		
-		if (args.size() > 0) {
-			Object[] objs = new Object[args.size()];
 
-			for (int i = 0; i < args.size(); i++) {
-				objs[i] = args.get(i);
-			}
-
-			roles = universalManager.findByHql(hql, objs);
-		}else {
-			roles = universalManager.getAll(Role.class);
-		}
-
+		roles = universalManager.findByHql(hql, args.toArray());
 	}
 
+	private String showRoleExistsException() {
+		List<Object> args = new ArrayList<Object>();
+		args.add(role.getCode());
+		addActionError(getText("role.errors.existingRole", args));
+
+		return INPUT;
+	}
+
+	private String showStaleObjectStateException() {
+		addActionError(getText("errors.staleObjectStateException"));
+
+		return INPUT;
+	}
+
+	private String showUnexpectException(Exception ex) {
+		log.error("Unexpect exception occur.", ex);
+		List<Object> args = new ArrayList<Object>();
+		args.add(ex.getMessage());
+		addActionError(getText("errors.unexpectError", args));
+
+		return INPUT;
+	}
 }

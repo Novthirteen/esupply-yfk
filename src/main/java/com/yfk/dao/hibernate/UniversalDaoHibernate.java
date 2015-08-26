@@ -128,8 +128,8 @@ public class UniversalDaoHibernate implements UniversalDao {
 	public void update(Object object) throws PrincipalNullException {
 
 		if (object instanceof Traceable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
+			((Auditable) object).setUpdateUser(SecurityContextHelper.getRemoteUser());
 		}
 
 		Session sess = getSession();

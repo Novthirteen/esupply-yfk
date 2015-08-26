@@ -6,9 +6,8 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -24,6 +23,7 @@ public class Role extends BaseObject implements Serializable, Auditable {
     private Timestamp createDate;
     private String updateUser;
     private Timestamp updateDate;
+    private int version;
     
     /**
      * Default constructor - creates a new instance with no values set.
@@ -70,6 +70,12 @@ public class Role extends BaseObject implements Serializable, Auditable {
     public Timestamp getUpdateDate() {
         return updateDate;
     }
+    
+    @Column(insertable = false)
+    @Version
+    public int getVersion() {
+    	return version;
+    }
 
     public void setCode(String code) {
         this.code = code;
@@ -93,6 +99,10 @@ public class Role extends BaseObject implements Serializable, Auditable {
     
     public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
+    }
+    
+    public void setVersion(int version) {
+    	this.version = version;
     }
 
     /**
