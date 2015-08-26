@@ -124,7 +124,7 @@
 			<result name="success">/WEB-INF/pages/admin/user/userList.jsp</result>
 		</action>
 		<action name="editUser" class="userAction" method="edit">
-			<result name="success">/WEB-INF/pages/admin/userForm.jsp</result>
+			<result name="success">/WEB-INF/pages/admin/user/userForm.jsp</result>
 			<result name="input">/WEB-INF/pages/admin/user/userList.jsp</result>
 		</action>
 

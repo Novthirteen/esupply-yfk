@@ -11,7 +11,7 @@
 		<fmt:message key="userList.heading" />
 	</h2>
 
-	<s:form name="userForm" action="/users" method="post"
+	<s:form name="userForm" action="/admin/users" method="post"
 		validate="true">
 		<div class="left">
 			<s:textfield key="user.username" cssClass="text medium" />
@@ -24,7 +24,7 @@
 		</div>
 		<div class="formbotton">
 			<a class="btn btn-primary"
-				href="<c:url value='/editUser?method=Add&from=list'/>"> <i
+				href="<c:url value='/admin/editUser?method=Add&from=list'/>"> <i
 				class="icon-plus icon-white"></i> <fmt:message key="button.add" />
 			</a>
 
@@ -39,7 +39,7 @@
 		requestURI="" defaultsort="1" id="users" pagesize="25"
 		class="table table-condensed table-striped table-hover" export="true">
 		<display:column property="username" escapeXml="true" sortable="true"
-			titleKey="user.username"  url="/editUser?from=list"
+			titleKey="user.username"  url="/admin/editUser?from=list"
 			paramId="username" paramProperty="username" />
 		<display:column property="lastName" escapeXml="true" sortable="true"
 			titleKey="user.lastName"  />

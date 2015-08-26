@@ -5,6 +5,7 @@ import org.apache.struts2.ServletActionContext;
 import com.yfk.Constants;
 import com.yfk.dao.SearchException;
 import com.yfk.model.Role;
+import com.yfk.model.User;
 import com.yfk.model.Role;
 import com.yfk.service.RoleExistsException;
 import com.yfk.webapp.util.RequestUtil;
@@ -38,8 +39,8 @@ public class RoleAction extends BaseAction implements Preparable {
 	private List<Role> roles;
 	private Role role;
 	private String code;
-	private String queryCode;
-	private String queryName;
+	private List<User> allUsers;
+	private List<User> assignUsers;
 
 	/**
 	 * Grab the entity from the database before populating with request
@@ -72,15 +73,17 @@ public class RoleAction extends BaseAction implements Preparable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	public void setQCode(String qCode) {
-		this.queryCode = qCode;
+	
+	public List<User> getAllUsers()
+	{
+		return allUsers;
 	}
-
-	public void setQName(String qName) {
-		this.queryName = qName;
+	
+	public List<User> getAssignUsers()
+	{
+		return assignUsers;
 	}
-
+	
 	/**
 	 * Delete the role passed in.
 	 *
@@ -109,6 +112,8 @@ public class RoleAction extends BaseAction implements Preparable {
 		if (code != null) {
 			// lookup the role using code
 			role = roleManager.getRole(code);
+			
+			allUsers = universalManager.getAll(User.class);
 		} else {
 			role = new Role();
 			// role.addRole(new Role(Constants.USER_ROLE));

@@ -5,6 +5,10 @@
 		<field-validator type="requiredstring">
 			<message key="errors.required" />
 		</field-validator>
+		<field-validator type="stringlength">
+			 <param name="maxLength">20</param>  
+			 <message key="errors.length.morethan20" />   
+		</field-validator>
 	</field>
 	<field name="role.Name">
 		<field-validator type="requiredstring">

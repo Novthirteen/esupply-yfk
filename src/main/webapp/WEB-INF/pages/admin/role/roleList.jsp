@@ -11,7 +11,7 @@
 	</h2>
 
 
-	<s:form name="roleForm" action="/roles" method="post"
+	<s:form name="roleForm" action="/admin/roles" method="post"
 		validate="true">
 		<div class="left">
 			<s:textfield key="role.code" cssClass="text medium" />
@@ -21,7 +21,7 @@
 		</div>
 		<div class="formbotton">
 			<a class="btn btn-primary"
-				href="<c:url value='/editRole?method=Add&from=list'/>"> 
+				href="<c:url value='/admin/editRole?method=Add&from=list'/>"> 
 				<i class="icon-plus icon-white"></i> <fmt:message key="button.add" />
 			</a>
 
@@ -38,7 +38,7 @@
 		class="table table-condensed table-striped table-hover" export="true">
 
 		<display:column property="code" escapeXml="true" sortable="true"
-			titleKey="role.code" style="width: 25%" url="/editRole?from=list"
+			titleKey="role.code" style="width: 25%" url="/admin/editRole?from=list"
 			paramId="code" paramProperty="code" />
 		<display:column property="name" escapeXml="true" sortable="true"
 			titleKey="role.name" style="width: 34%" />
