@@ -10,20 +10,20 @@ public class PurchaseOrder extends BaseObject {
 	 * 
 	 */
 	private static final long serialVersionUID = -7886126588988285842L;
-	private int xpyhmstro_seq;                            //ĞòºÅ(Ç°¶ËÅÅĞòÌõ¼ş)
-	private String xpyhmstro_yhdnbr;         			  //Òª»õµ¥ºÅ
-	private String xpyhmstro_suppcode;     				  //¹©Ó¦ÉÌ´úÂë 
-	private String xpyhmstro_shipto;        			  //ÊÕ»õµØÖ·
-	private String xpyhmstro_startdt;   				  //¿ªÊ¼ÈÕÆÚÊ±¼ä   
-	private String xpyhmstro_receptdt;                    //´°¿ÚÈÕÆÚÊ±¼ä
-	private int xpyhmstro_stat;           				  //×´Ì¬
-	private String xpyhmstro_priority;       			  //ÓÅÏÈ¼¶
-	private String xpyhmstro_creator;        			  //´´½¨ÈË
-	private String xpyhmstro_xpyhmstroid;   			  //xpyhmstrÎ¨Ò»±êÊ¾(Òşº¬£¬ÓÃ»§²»¿É¼û)
-	private String xpyhmstro_conf;          			  //ÊÇ·ñÒÑÈ·ÈÏ
-	private String supplierContactPerson;    			  //ÊÇ·ñÒÑ´òÓ¡
-	private Boolean isDetail;                  			  //Ã÷Ï¸
-	private String remark;    				     		  //±¸×¢
+	private int xpyhmstro_seq;                            //åºå·(å‰ç«¯æ’åºæ¡ä»¶)
+	private String xpyhmstro_yhdnbr;         			  //è¦è´§å•å·
+	private String xpyhmstro_suppcode;     				  //ä¾›åº”å•†ä»£ç  
+	private String xpyhmstro_shipto;        			  //æ”¶è´§åœ°å€
+	private String xpyhmstro_startdt;   				  //å¼€å§‹æ—¥æœŸæ—¶é—´   
+	private String xpyhmstro_receptdt;                    //çª—å£æ—¥æœŸæ—¶é—´
+	private int xpyhmstro_stat;           				  //çŠ¶æ€
+	private String xpyhmstro_priority;       			  //ä¼˜å…ˆçº§
+	private String xpyhmstro_creator;        			  //åˆ›å»ºäºº
+	private String xpyhmstro_xpyhmstroid;   			  //xpyhmstrå”¯ä¸€æ ‡ç¤º(éšå«ï¼Œç”¨æˆ·ä¸å¯è§)
+	private String xpyhmstro_conf;          			  //æ˜¯å¦å·²ç¡®è®¤
+	private String supplierContactPerson;    			  //æ˜¯å¦å·²æ‰“å°
+	private Boolean isDetail;                  			  //æ˜ç»†
+	private String remark;    				     		  //å¤‡æ³¨
 	private List<PurchaseOrderDetail> purchaseOrderDetailList;
 	
 
