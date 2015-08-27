@@ -12,9 +12,11 @@
        	<Menu name="EditProfile" title="menu.user" page="/editProfile" action="/users.action"/>
         <Menu name="ViewUsers" title="menu.admin.users" page="/admin/users" action="/users.action" />
         <Menu name="ViewRoles" title="menu.admin.roles" page="/admin/roles" action="/roles.action"/>
-        <Menu name="ViewUserRoles" title="menu.admin.userroles" page="/admin/userRoles" action="/userRoles.action"/>
+        <Menu name="ViewRoles" title="menu.admin.roles" page="/admin/roles" action="/roles.action"/>
+        <Menu name="ViewPurchaseOrders" title="menu.purchaseOrders" page="purchaseOrders" action="/purchaseOrders.action"/>
         <Menu name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers" action="/activeUsers.action"/>
       
+	<Menu name="PermissionsMenu" title="menu.admin.permissions" page="/admin/Permissions" action="/permissions.action" />
         <Menu name="ReloadMenu" title="menu.admin.reload" page="/admin/reload" />
         <Menu name="Logout" title="user.logout" page="/logout" action="/logout.action"/>
     </Menus>

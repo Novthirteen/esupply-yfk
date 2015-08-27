@@ -1,6 +1,6 @@
 package com.yfk.service;
 
-import com.yfk.model.User;
+import java.util.List;
 
 import javax.jws.WebService;
 import javax.ws.rs.DELETE;
@@ -8,14 +8,27 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import java.util.List;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
+import com.yfk.model.User;
 /**
  * Web Service interface so hierarchy of Generic Manager isn't carried through.
  */
 @WebService
 @Path("/users")
 public interface UserService {
+	
+	/**
+     * Retrieves a list of all users.
+     *
+     * @return List
+     */
+    @GET
+    @Path("getUsers")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<User> getUsers();
+    
     /**
      * Retrieves a user by userId.  An exception is thrown if user not found
      *
@@ -23,8 +36,8 @@ public interface UserService {
      * @return User
      */
     @GET
-    @Path("{userName}")
-    User getUser(@PathParam("userName") String userName);
+    @Path("getuser/{userName}")
+    public User getUser(@PathParam("userName") String userName);
 
     /**
      * Finds a user by their username.
@@ -32,15 +45,7 @@ public interface UserService {
      * @param username the user's username used to login
      * @return User a populated user object
      */
-    User getUserByUsername(@PathParam("username") String username);
-
-    /**
-     * Retrieves a list of all users.
-     *
-     * @return List
-     */
-    @GET
-    List<User> getUsers();
+    public User getUserByUsername(@PathParam("username") String username);
 
     /**
      * Saves a user's information

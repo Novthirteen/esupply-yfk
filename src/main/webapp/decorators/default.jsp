@@ -18,6 +18,17 @@
 	href="<c:url value='/styles/style.css'/>" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/styles/lib/bootstrap-duallistbox.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.common.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.rtl.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.default.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.dataviz.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.dataviz.default.min.css'/>" />
+
 <decorator:head />
 
 <script type="text/javascript"
@@ -29,6 +40,8 @@
 <script type="text/javascript" src="<c:url value='/scripts/script.js'/>"></script>
 <script type="text/javascript"
 	src="<c:url value='/scripts/lib/jquery.bootstrap-duallistbox.min.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/scripts/kendoui/kendo.all.js'/>"></script>
 </head>
 <body
 	<decorator:getProperty property="body.id" writeEntireProperty="true"/>
@@ -69,7 +82,7 @@
 
 					<menu:displayMenu name="ViewUsers" />
 					<menu:displayMenu name="ViewRoles" />
-					<menu:displayMenu name="ViewUserRoles" />
+					<menu:displayMenu name="ViewPurchaseOrders" />
 					<menu:displayMenu name="ActiveUsers" />
 				</menu:useMenuDisplayer>
 			</div>

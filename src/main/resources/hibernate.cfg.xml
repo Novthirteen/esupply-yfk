@@ -11,5 +11,6 @@
         <mapping class="com.yfk.model.RolePermission"/>
         <mapping class="com.yfk.model.Permission"/>
         <mapping class="com.yfk.model.UserAuthority"/>
+        <mapping class="com.yfk.model.Menu"/>
     </session-factory>
 </hibernate-configuration>
