@@ -16,6 +16,8 @@
 	href="<c:url value='/styles/lib/bootstrap-responsive.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="<c:url value='/styles/style.css'/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/styles/lib/bootstrap-duallistbox.min.css'/>" />
 <decorator:head />
 
 <script type="text/javascript"
@@ -25,6 +27,8 @@
 <script type="text/javascript"
 	src="<c:url value='/scripts/lib/plugins/jquery.cookie.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/script.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/scripts/lib/jquery.bootstrap-duallistbox.min.js'/>"></script>
 </head>
 <body
 	<decorator:getProperty property="body.id" writeEntireProperty="true"/>

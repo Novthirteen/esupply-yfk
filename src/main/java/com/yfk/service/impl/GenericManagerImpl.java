@@ -1,21 +1,14 @@
 package com.yfk.service.impl;
 
+import java.io.Serializable;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import com.yfk.dao.GenericDao;
-import com.yfk.model.Auditable;
-import com.yfk.model.Traceable;
 import com.yfk.service.GenericManager;
 import com.yfk.webapp.util.PrincipalNullException;
-import com.yfk.webapp.util.SecurityContextHelper;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * This class serves as the Base class for all other Managers - namely to hold

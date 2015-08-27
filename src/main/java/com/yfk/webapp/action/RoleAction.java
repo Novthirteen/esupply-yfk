@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.internal.util.StringHelper;
 import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
 
+import com.yfk.model.LabelValue;
+import com.yfk.model.Permission;
+import com.yfk.model.PermissionType;
 import com.yfk.model.Role;
+import com.yfk.service.RoleManager;
 
 /**
  * Action for facilitating Role Management feature.
@@ -21,6 +26,10 @@ public class RoleAction extends BaseAction {
 	private List<Role> roles;
 	private Role role;
 	private String code;
+	private String permissionType;
+	private List<LabelValue> availablePermissions;
+	private List<String> assignedPermissions;
+	private RoleManager roleManager;
 
 	/**
 	 * Holder for roles to display on list screen
@@ -35,12 +44,45 @@ public class RoleAction extends BaseAction {
 		this.code = code;
 	}
 
+	public void setPermissionType(String permissionType) {
+		this.permissionType = permissionType;
+	}
+
 	public Role getRole() {
 		return role;
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public List<LabelValue> getAvailablePermissions() {
+		return availablePermissions;
+	}
+
+	public void setAvailablePermissions(List<LabelValue> availablePermissions) {
+		this.availablePermissions = availablePermissions;
+	}
+
+	public List<String> getAssignedPermissions() {
+		return assignedPermissions;
+	}
+
+	public void setAssignedPermissions(List<String> assignedPermissions) {
+		this.assignedPermissions = assignedPermissions;
+	}
+
+	public void setRoleManager(RoleManager roleManager) {
+		this.roleManager = roleManager;
+	}
+
+	public List<LabelValue> getPermissionTypeList() {
+		List<LabelValue> permissionTypeList = new ArrayList<LabelValue>();
+		permissionTypeList.add(new LabelValue(PermissionType.U.toString(), getText("permission.url")));
+		permissionTypeList.add(new LabelValue(PermissionType.S.toString(), getText("permission.supplier")));
+		permissionTypeList.add(new LabelValue(PermissionType.P.toString(), getText("permission.plant")));
+
+		return permissionTypeList;
 	}
 
 	/**
@@ -50,7 +92,7 @@ public class RoleAction extends BaseAction {
 	 */
 	public String delete() {
 		try {
-			universalManager.remove(Role.class, role.getCode());
+			this.roleManager.deleteRole(role.getCode());
 			List<Object> args = new ArrayList<Object>();
 			args.add(role.getCode());
 			saveMessage(getText("role.deleted", args));
@@ -58,7 +100,7 @@ public class RoleAction extends BaseAction {
 			return showUnexpectException(ex);
 		}
 
-		return SUCCESS;
+		return CANCEL;
 	}
 
 	/**
@@ -73,11 +115,9 @@ public class RoleAction extends BaseAction {
 
 		// if a roleCode is passed in
 		if (code != null) {
-			// lookup the role using code
-			role = (Role) universalManager.get(Role.class, code);
+			prepare();
 		} else {
 			role = new Role();
-			// role.addRole(new Role(Constants.USER_ROLE));
 		}
 
 		return SUCCESS;
@@ -130,9 +170,10 @@ public class RoleAction extends BaseAction {
 			return showUnexpectException(ex);
 		}
 
+		prepare();
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * Fetch all roles from database and put into local "roles" variable for
 	 * retrieval in the UI.
@@ -143,7 +184,22 @@ public class RoleAction extends BaseAction {
 		query();
 		return SUCCESS;
 	}
-	
+
+	public String saveRolePermission() {
+		try {
+			this.roleManager.saveRolePermission(code, PermissionType.valueOf(permissionType), assignedPermissions);
+			prepare();
+			
+			List<Object> args = new ArrayList<Object>();
+			args.add(role.getCode());
+			saveMessage(getText("role.assignPermissionSuccess", args));
+		} catch (Exception e) {
+			return showUnexpectException(e);
+		}
+
+		return SUCCESS;
+	}
+
 	@SuppressWarnings("unchecked")
 	private void query() {
 		String hql = "from Role where 1=1 ";
@@ -162,6 +218,41 @@ public class RoleAction extends BaseAction {
 		}
 
 		roles = universalManager.findByHql(hql, args.toArray());
+	}
+
+	private void prepare() {
+		if (role == null && StringHelper.isNotEmpty(code)) {
+			role = (Role) this.universalManager.get(Role.class, code);
+		}
+		
+		if (role != null && role.getVersion() != 0) {
+			prepareAssignRolePermission();
+		}
+	}
+
+
+	private void prepareAssignRolePermission() {
+		List<Permission> availablePermissionList = universalManager.findByNativeSql(Permission.class,
+				NativeSqlRepository.SELECT_ROLE_AVAILABLE_PERMISSION_STATEMENT,
+				new Object[] { permissionType != null ? permissionType : PermissionType.U.toString() });
+
+		List<String> assignedPermissionList = universalManager.findByNativeSql(
+				NativeSqlRepository.SELECT_ROLE_ASSIGNED_PERMISSION_STATEMENT,
+				new Object[] { permissionType != null ? permissionType : PermissionType.U.toString(), code });
+
+		this.assignedPermissions = assignedPermissionList;
+		this.availablePermissions = transferPermissionToLabelValue(availablePermissionList);
+	}
+
+	private List<LabelValue> transferPermissionToLabelValue(List<Permission> permissionList) {
+		List<LabelValue> lvList = new ArrayList<LabelValue>();
+		if (permissionList != null && permissionList.size() > 0) {
+			for (Permission permission : permissionList) {
+				lvList.add(new LabelValue(permission.getName(), permission.getCode()));
+			}
+		}
+
+		return lvList;
 	}
 
 	private String showRoleExistsException() {

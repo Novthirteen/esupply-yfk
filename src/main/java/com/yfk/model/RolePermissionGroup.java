@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
-
 @Entity
 @IdClass(RolePermissionGroupId.class)
 @Table(name = "role_permission_group")

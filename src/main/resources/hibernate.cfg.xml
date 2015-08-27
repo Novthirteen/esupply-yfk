@@ -8,6 +8,7 @@
     <session-factory>
         <mapping class="com.yfk.model.User"/>
         <mapping class="com.yfk.model.Role"/>
+        <mapping class="com.yfk.model.RolePermission"/>
         <mapping class="com.yfk.model.Permission"/>
         <mapping class="com.yfk.model.UserAuthority"/>
     </session-factory>
