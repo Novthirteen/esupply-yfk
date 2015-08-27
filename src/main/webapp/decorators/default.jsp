@@ -65,7 +65,7 @@
 
 					<menu:displayMenu name="ViewUsers" />
 					<menu:displayMenu name="ViewRoles" />
-					<menu:displayMenu name="ViewUserRoles" />
+					<menu:displayMenu name="ViewPurchaseOrders" />
 					<menu:displayMenu name="ActiveUsers" />
 				</menu:useMenuDisplayer>
 			</div>

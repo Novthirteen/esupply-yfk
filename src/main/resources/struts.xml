@@ -92,7 +92,13 @@
 		</action>
 
 		<!-- Add additional actions here -->
-	
+		<action name="purchaseOrders" class="purchaseOrderAction" method="list">
+			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderList.jsp</result>
+		</action>
+		<action name="editPurchaseOrder" class="purchaseOrderAction" method="edit">
+			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderList.jsp</result>
+		</action>
 	</package>
 
 	<!-- Actions in this package will be prefixed with /admin/ -->

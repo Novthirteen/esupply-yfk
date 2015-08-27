@@ -12,7 +12,7 @@
 	var msgDelConfirm = "<fmt:message key="delete.confirm"><fmt:param value="${delObject}"/></fmt:message>";
 </script>
 
-<div class="span2">
+
 	<h2>
 		<fmt:message key="userProfile.heading" />
 	</h2>
@@ -28,8 +28,8 @@
 			</p>
 		</c:otherwise>
 	</c:choose>
-</div>
-<div class="span7">
+
+
 	<s:form name="userForm" action="saveUser" method="post" validate="true"
 		cssClass="well form-horizontal" autocomplete="off">
 		<s:hidden key="user.version" />
@@ -128,7 +128,7 @@
 			</s:submit>
 		</div>
 	</s:form>
-</div>
+
 
 <c:set var="scripts" scope="request">
 	<script type="text/javascript">

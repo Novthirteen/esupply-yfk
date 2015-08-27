@@ -34,4 +34,8 @@
 		scope="prototype">
 		<property name="universalManager" ref="universalManager" />
 	</bean>
+	<bean id="purchaseOrderAction" class="com.yfk.webapp.action.PurchaseOrderAction"
+		scope="prototype">
+		<property name="universalManager" ref="universalManager" />
+	</bean>
 </beans>
