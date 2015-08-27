@@ -3,6 +3,8 @@ package com.yfk.webapp.listener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.yfk.Constants;
+import com.yfk.webapp.util.AppContextUtil;
+
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -39,7 +41,7 @@ public class StartupListener implements ServletContextListener {
         log.debug("Initializing context...");
 
         ServletContext context = event.getServletContext();
-
+        AppContextUtil.setServletContext(context);
         // Orion starts Servlets before Listeners, so check if the config
         // object already exists
         Map<String, Object> config = (HashMap<String, Object>) context.getAttribute(Constants.CONFIG);
@@ -49,8 +51,8 @@ public class StartupListener implements ServletContextListener {
         }
 
         ApplicationContext ctx =
-                WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-
+                WebApplicationContextUtils.getRequiredWebApplicationContext(context); 
+        
         PasswordEncoder passwordEncoder = null;
         try {
             ProviderManager provider = (ProviderManager) ctx.getBean("org.springframework.security.authentication.ProviderManager#0");

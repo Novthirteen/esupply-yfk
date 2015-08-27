@@ -228,7 +228,7 @@ public class UserAction extends BaseAction implements Preparable {
         List<Object> args = new ArrayList<Object>();
         args.add(user.getUsername());
         args.add(user.getEmail());
-        addActionError(getText("errors.existing.user", args));
+        addActionError(getText("user.errors.existingUser", args));
 
         // reset the version # to what was passed in
         user.setVersion(originalVersion);

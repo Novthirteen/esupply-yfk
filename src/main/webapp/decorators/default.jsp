@@ -16,6 +16,12 @@
 	href="<c:url value='/styles/lib/bootstrap-responsive.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="<c:url value='/styles/style.css'/>" />
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.common.min.css'/>" />
+    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.rtl.min.css'/>" />
+    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.default.min.css'/>" />
+    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.dataviz.min.css'/>" />
+    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.dataviz.default.min.css'/>" />
+
 <decorator:head />
 
 <script type="text/javascript"
@@ -25,6 +31,7 @@
 <script type="text/javascript"
 	src="<c:url value='/scripts/lib/plugins/jquery.cookie.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/script.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/kendoui/kendo.all.js'/>"></script>
 </head>
 <body
 	<decorator:getProperty property="body.id" writeEntireProperty="true"/>

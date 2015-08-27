@@ -16,6 +16,7 @@
         <Menu name="ViewPurchaseOrders" title="menu.purchaseOrders" page="purchaseOrders" action="/purchaseOrders.action"/>
         <Menu name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers" action="/activeUsers.action"/>
       
+	<Menu name="PermissionsMenu" title="menu.admin.permissions" page="/admin/Permissions" action="/permissions.action" />
         <Menu name="ReloadMenu" title="menu.admin.reload" page="/admin/reload" />
         <Menu name="Logout" title="user.logout" page="/logout" action="/logout.action"/>
     </Menus>

@@ -37,6 +37,11 @@ public class BaseAction extends ActionSupport {
      * Constant for cancel result String
      */
     public static final String CANCEL = "cancel";
+    
+    /**
+     * Constant for mainMenu result String
+     */
+    public static final String MAIN_MENU = "mainMenu";
 
     /**
      * Transient log to prevent session synchronization issues - children can use instance for logging.

@@ -10,7 +10,7 @@
     </c:if>
      	 <menu:displayMenu name="MainMenu"/> 
 	     <menu:displayMenu name="ReloadMenu"/> 
-<%--     <menu:displayMenu name="AdminMenu"/> --%>
+	     <menu:displayMenu name="AdminMenu"/> 
 	     <menu:displayMenu name="Logout"/> 
 </ul>
 </div>
