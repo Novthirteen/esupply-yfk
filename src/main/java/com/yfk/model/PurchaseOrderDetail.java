@@ -9,25 +9,25 @@ public class PurchaseOrderDetail extends BaseObject {
 	 * 
 	 */
 	private static final long serialVersionUID = -7409249741178402255L;
-	private BigDecimal xpyhddeto_seq;                               //ĞòºÅ(Ç°¶ËÅÅĞòÌõ¼ş)   
-	private String xpyhddeto_yhdnbr;						 //Òª»õµ¥ºÅ  
-	private String xpyhddeto_partnbr;						 //ÎïÁÏºÅ
-	private String xpyhddeto_partdesc;						 //ÎïÁÏÃèÊö	
-	private String xpyhddeto_supppart;						 //¹©Ó¦ÉÌÎïÁÏºÅ
-	private String xpyhddeto_suppcode;						 //¹©Ó¦ÉÌ´úÂë
-	private String xpyhddeto_shipto;						 //ÊÕ»õµØÖ·
-	private String xpyhddeto_startdt;						 //¿ªÊ¼ÈÕÆÚÊ±¼ä
-	private String xpyhddeto_receptdt;						 //´°¿ÚÈÕÆÚÊ±¼ä	
-	private String xpyhddeto_priority;						 //ÓÅÏÈ¼¶
-	private String xpyhddeto_currcy;						 //»õ±Ò
-	private String xpyhddeto_uom;							 //µ¥Î»
-	private BigDecimal xpyhddeto_spq;						 //µ¥°ü×°
-	private int xpyhddeto_stat;								 //×´Ì¬	
-	private BigDecimal xpyhddeto_reqqty;					 //ĞèÇóÊı
-	private BigDecimal xpyhddeto_ordqty;					 //¶©µ¥Êı	
-	private String xpyhddeto_creator;						 //´´½¨ÈË	
-	private String xpyhddeto_xpyhmstroid;					 //xpyhmstrÎ¨Ò»±êÊ¾(Òşº¬£¬ÓÃ»§²»¿É¼û)
-	private String xpyhddeto_xpyhddetoid;	                 //xpyhddetÎ¨Ò»±êÊ¾(Òşº¬£¬ÓÃ»§²»¿É¼û)
+	private BigDecimal xpyhddeto_seq;                        //åºå·(å‰ç«¯æ’åºæ¡ä»¶)
+	private String xpyhddeto_yhdnbr;						 //è¦è´§å•å·
+	private String xpyhddeto_partnbr;						 //ç‰©æ–™å·
+	private String xpyhddeto_partdesc;						 //ç‰©æ–™æè¿°
+	private String xpyhddeto_supppart;						 //ä¾›åº”å•†ç‰©æ–™å·
+	private String xpyhddeto_suppcode;						 //ä¾›åº”å•†ä»£ç 
+	private String xpyhddeto_shipto;						 //æ”¶è´§åœ°å€
+	private String xpyhddeto_startdt;						 //å¼€å§‹æ—¥æœŸæ—¶é—´
+	private String xpyhddeto_receptdt;						 //çª—å£æ—¥æœŸæ—¶é—´
+	private String xpyhddeto_priority;						 //ä¼˜å…ˆçº§
+	private String xpyhddeto_currcy;						 //è´§å¸
+	private String xpyhddeto_uom;							 //å•ä½
+	private BigDecimal xpyhddeto_spq;						 //å•åŒ…è£…
+	private int xpyhddeto_stat;								 //çŠ¶æ€
+	private BigDecimal xpyhddeto_reqqty;					 //éœ€æ±‚æ•°
+	private BigDecimal xpyhddeto_ordqty;					 //è®¢å•æ•°	
+	private String xpyhddeto_creator;						 //åˆ›å»ºäºº	
+	private String xpyhddeto_xpyhmstroid;					 //xpyhmstrå”¯ä¸€æ ‡ç¤º(éšå«ï¼Œç”¨æˆ·ä¸å¯è§)
+	private String xpyhddeto_xpyhddetoid;	                 //xpyhddetå”¯ä¸€æ ‡ç¤º(éšå«ï¼Œç”¨æˆ·ä¸å¯è§)
 	
 	public BigDecimal getXpyhddeto_seq() {
 		return xpyhddeto_seq;

@@ -9,7 +9,7 @@
 	<fmt:message key="purchaseOrder.heading" />
 </h2>
 
-<s:form name="purchaseOrderForm" action="saveRole" method="post"
+<s:form name="purchaseOrderForm" action="editPurchaseOrder" method="post"
 	validate="true" cssClass="well form-horizontal" autocomplete="off">
 	<input type="hidden" name="from" value="${param.from}" />
 	<div class="row-fluid">
@@ -44,7 +44,7 @@
 	</div>
 	<div class="row-fluid">
 		<div class="span8">
-			<s:textfield key="purchaseOrder.remark" />
+			<s:label key="purchaseOrder.remark" />
 		</div>
 	</div>
 
@@ -76,42 +76,27 @@
 </s:form>
 
 <display:table name="purchaseOrderDetails" cellspacing="0" cellpadding="0"
-	requestURI="/purchaseOrderDetails" defaultsort="1" id="purchaseOrderDetails"
-	pagesize="25" class="table table-condensed table-striped table-hover"
-	export="true">
+	requestURI="/purchaseOrderDetails"  id="purchaseOrderDetails" 
+	class="table table-condensed table-striped table-hover"
+	export="false">
 
-	<display:column property="xpyhddeto_seq" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_seq" escapeXml="true"
 		titleKey="purchaseOrderDetail.xpyhddeto_seq" />
-	<display:column property="xpyhddeto_partnbr" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_partnbr" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_partnbr" />
-	<display:column property="xpyhddeto_partdesc" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_partdesc" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_partdesc" />
-	<display:column property="xpyhddeto_supppart" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_supppart" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_supppart" />
-	<display:column property="xpyhddeto_uom" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_uom" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_uom" />
-	<display:column property="xpyhddeto_spq" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_spq" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_spq" />		
-	<display:column property="xpyhddeto_reqqty" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_reqqty" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_reqqty" />
-	<display:column property="xpyhddeto_ordqty" escapeXml="true" sortable="true"
+	<display:column property="xpyhddeto_ordqty" escapeXml="true" 
 		titleKey="purchaseOrderDetail.xpyhddeto_ordqty" />
 
-	<display:column ></display:column>
-	
-	<display:setProperty name="paging.banner.item_name">
-		<fmt:message key="purchaseOrderList.purchaseOrder" />
-	</display:setProperty>
-	<display:setProperty name="paging.banner.items_name">
-		<fmt:message key="purchaseOrderList.purchaseOrders" />
-	</display:setProperty>
-
-	<display:setProperty name="export.excel.filename"
-		value="PurchaseOrder List.xls" />
-	<display:setProperty name="export.csv.filename"
-		value="PurchaseOrder List.csv" />
-	<display:setProperty name="export.pdf.filename"
-		value="PurchaseOrder List.pdf" />
 </display:table>
 
 <script type="text/javascript">
