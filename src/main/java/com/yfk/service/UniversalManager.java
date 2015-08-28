@@ -22,6 +22,14 @@ public interface UniversalManager {
 	void remove(Object object);
 
 	void remove(Class clazz, Serializable id);
+	
+	void executeByHql(String hql);
+
+	void executeByHql(String hql, Object[] params);
+
+	void executeByNativeSql(String sql);
+
+	void executeByNativeSql(String sql, Object[] params);
 
 	List findByNamedQuery(String queryName, Object[] queryParams);
 
@@ -29,5 +37,5 @@ public interface UniversalManager {
 
 	List findByNativeSql(String sql, Object[] queryParams);
 	
-	List findByNativeSql(String sql, Object[] queryParams, Class clazz);
+	List findByNativeSql(Class clazz, String sql, Object[] queryParams);
 }

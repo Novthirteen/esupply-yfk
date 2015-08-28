@@ -77,7 +77,7 @@
 			<result name="success" type="redirectAction">mainMenu</result>
 		</action>
 
-	
+
 
 		<action name="uploadFile" class="com.yfk.webapp.action.FileUploadAction">
 			<interceptor-ref name="fileUploadStack" />
@@ -92,6 +92,7 @@
 		</action>
 
 		<!-- Add additional actions here -->
+
 		<action name="purchaseOrders" class="purchaseOrderAction" method="list">
 			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderList.jsp</result>
 		</action>
@@ -116,15 +117,20 @@
 			<result name="success">/WEB-INF/pages/admin/role/roleList.jsp</result>
 		</action>
 		<action name="editRole" class="roleAction" method="edit">
+			<result name="cancel" type="redirectAction">roles</result>
 			<result name="success">/WEB-INF/pages/admin/role/roleForm.jsp</result>
 			<result name="input">/WEB-INF/pages/admin/role/roleList.jsp</result>
 		</action>
 		<action name="saveRole" class="roleAction" method="save">
 			<result name="cancel" type="redirectAction">roles</result>
 			<result name="input">/WEB-INF/pages/admin/role/roleForm.jsp</result>
-			<result name="success" type="redirectAction">roles</result>
+			<result name="success">/WEB-INF/pages/admin/role/roleForm.jsp</result>
 		</action>
-		
+		<action name="saveRolePermission" class="roleAction" method="saveRolePermission">
+			<result name="input">/WEB-INF/pages/admin/role/roleForm.jsp</result>
+			<result name="success">/WEB-INF/pages/admin/role/roleForm.jsp</result>
+		</action>
+
 		<!-- user -->
 		<action name="users" class="userAction" method="list">
 			<result name="success">/WEB-INF/pages/admin/user/userList.jsp</result>
@@ -139,7 +145,7 @@
 			<result name="input">/WEB-INF/pages/admin/user/userForm.jsp</result>
 			<result name="success" type="redirectAction">users</result>
 		</action>
-		
+
 		<!-- profile -->
 		<action name="editProfile" class="userAction" method="edit">
 			<result name="success">/WEB-INF/pages/admin/user/userForm.jsp</result>

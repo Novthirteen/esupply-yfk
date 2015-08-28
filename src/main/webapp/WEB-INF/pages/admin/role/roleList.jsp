@@ -9,7 +9,8 @@
 	<fmt:message key="roleList.heading" />
 </h2>
 
-<s:form name="roleForm" action="roles" method="post" validate="true">
+<s:form name="roleForm" action="roles" method="post" validate="true"
+	cssClass="form-horizontal">
 	<div class="row-fluid">
 		<div class="span3">
 			<s:textfield key="role.code" />
@@ -17,19 +18,17 @@
 		<div class="span3">
 			<s:textfield key="role.name" />
 		</div>
-	</div>
-	<div class="row-fluid">
 		<div class="span3">
 			<input type="hidden" name="from" value="list" />
-			<s:submit type="button" cssClass="btn btn-primary" action="editRole"
-				key="button.add" theme="simple">
-				<i class="icon-plus icon-white"></i>
-				<fmt:message key="button.add" />
-			</s:submit>
 			<s:submit type="button" cssClass="btn" action="roles"
 				key="button.search" theme="simple">
 				<i class="icon-search"></i>
 				<fmt:message key="button.search" />
+			</s:submit>
+			<s:submit type="button" cssClass="btn btn-primary" action="editRole"
+				key="button.add" theme="simple">
+				<i class="icon-plus icon-white"></i>
+				<fmt:message key="button.add" />
 			</s:submit>
 		</div>
 	</div>

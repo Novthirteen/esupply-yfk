@@ -19,12 +19,12 @@ import com.yfk.webapp.util.PrincipalNullException;
 
 @Service("universalManager")
 public class UniversalManagerImpl implements UniversalManager {
-	
+
 	private final Log log = LogFactory.getLog(getClass());
-	
+
 	@Autowired
 	private UniversalDao dao;
-	
+
 	@Override
 	public List getAll(Class clazz) {
 		return dao.getAll(clazz);
@@ -65,6 +65,22 @@ public class UniversalManagerImpl implements UniversalManager {
 		dao.remove(clazz, id);
 	}
 
+	public void executeByHql(String hql) {
+		dao.executeByHql(hql);
+	}
+
+	public void executeByHql(String hql, Object[] params) {
+		dao.executeByHql(hql, params);
+	}
+
+	public void executeByNativeSql(String sql) {
+		dao.executeByNativeSql(sql);
+	}
+
+	public void executeByNativeSql(String sql, Object[] params) {
+		dao.executeByNativeSql(sql, params);
+	}
+
 	@Override
 	public List findByNamedQuery(String queryName, Object[] queryParams) {
 		return dao.findByNamedQuery(queryName, queryParams);
@@ -81,9 +97,7 @@ public class UniversalManagerImpl implements UniversalManager {
 	}
 
 	@Override
-	public List findByNativeSql(String sql, Object[] queryParams, Class clazz) {
-		return dao.findByNativeSql(sql, queryParams, clazz);
+	public List findByNativeSql(Class clazz, String sql, Object[] queryParams) {
+		return dao.findByNativeSql(clazz, sql, queryParams);
 	}
-	
-
 }

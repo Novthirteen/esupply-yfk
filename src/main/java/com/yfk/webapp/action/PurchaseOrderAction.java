@@ -77,7 +77,7 @@ public class PurchaseOrderAction extends BaseAction {
 			purchaseOrder.setXpyhmstro_startdt("20150831");
 			purchaseOrder.setXpyhmstro_seq(1);
 			purchaseOrder.setXpyhmstro_suppcode("ADKJ");
-			purchaseOrder.setXpyhmstro_shipto("ĞãÆÖÂ·426ºÅ");
+			purchaseOrder.setXpyhmstro_shipto("ç§€æµ¦è·¯426å·");
 			purchaseOrder.setXpyhmstro_stat(2);
 			
 			purchaseOrderDetails = new ArrayList<PurchaseOrderDetail>();
@@ -127,7 +127,7 @@ public class PurchaseOrderAction extends BaseAction {
 		po.setXpyhmstro_startdt("20150831");
 		po.setXpyhmstro_seq(1);
 		po.setXpyhmstro_suppcode("ADKJ");
-		po.setXpyhmstro_shipto("ĞãÆÖÂ·426ºÅ");
+		po.setXpyhmstro_shipto("ç§€æµ¦è·¯426å·");
 		purchaseOrders.add(po);
 	}
 }

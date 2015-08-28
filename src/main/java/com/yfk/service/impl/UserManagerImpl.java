@@ -1,21 +1,20 @@
 package com.yfk.service.impl;
 
-import com.yfk.dao.UserDao;
-import com.yfk.model.User;
-import com.yfk.service.UserExistsException;
-import com.yfk.service.UserManager;
-import com.yfk.service.UserService;
-import org.hibernate.exception.ConstraintViolationException;
+import java.util.List;
+
+import javax.jws.WebService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.jws.WebService;
-import java.util.List;
+import com.yfk.dao.UserDao;
+import com.yfk.model.User;
+import com.yfk.service.UserExistsException;
+import com.yfk.service.UserManager;
+import com.yfk.service.UserService;
 
 
 /**
