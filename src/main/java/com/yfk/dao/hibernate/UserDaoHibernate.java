@@ -62,9 +62,9 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 			throw new UsernameNotFoundException("user '" + username + "' not found...");
 		} else {
 			User user = (User) users.get(0);
-			user.setUserAuthorities(getSession().createCriteria(UserAuthority.class)
-					.add(Restrictions.eq("username", username)).list());
-			
+			user.setUserAuthorities(
+					getSession().createCriteria(UserAuthority.class).add(Restrictions.eq("username", username)).list());
+
 			AssemblyUserMenu(user);
 			return (UserDetails) user;
 		}
@@ -79,15 +79,13 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 		return jdbcTemplate.queryForObject("select password from " + table.name() + " where userName=?", String.class,
 				userName);
 	}
-	
-	private void AssemblyUserMenu(User user)
-	{
+
+	private void AssemblyUserMenu(User user) {
 		List<UserMenu> userMenus = new ArrayList<UserMenu>();
-		List<Menu> menus = getSession().createCriteria(Menu.class).add(Restrictions.eq("active", true)).addOrder(Order.asc("sequence")).list();
-		for (Menu menu : menus) 
-		{
-			if(menu.getParent() == null ||"".equals(menu.getParent()))
-			{
+		List<Menu> menus = getSession().createCriteria(Menu.class).add(Restrictions.eq("active", true))
+				.addOrder(Order.asc("sequence")).list();
+		for (Menu menu : menus) {
+			if (menu.getParent() == null || "".equals(menu.getParent())) {
 				UserMenu userMenu = new UserMenu();
 				userMenu.setValue(menu.getCode());
 				userMenu.setText(menu.getName());
@@ -95,25 +93,18 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 				userMenu.setSequence(menu.getSequence());
 				userMenu.setUrl(menu.getPageUrl());
 				userMenus.add(userMenu);
-			}
-			else
-			{
-				for(GrantedAuthority authority : user.getAuthorities())
-				{
-					if(menu.getPermissionCode().equalsIgnoreCase(authority.getAuthority()))
-					{
-						for(UserMenu um : userMenus)
-						{
-							if(menu.getParent().equalsIgnoreCase(um.getValue()))
-							{
+			} else {
+				for (GrantedAuthority authority : user.getAuthorities()) {
+					if (menu.getPermissionCode().equalsIgnoreCase(authority.getAuthority())) {
+						for (UserMenu um : userMenus) {
+							if (menu.getParent().equalsIgnoreCase(um.getValue())) {
 								UserMenu userMenu = new UserMenu();
 								userMenu.setValue(menu.getCode());
 								userMenu.setText(menu.getName());
 								userMenu.setImageUrl(menu.getImageUrl());
 								userMenu.setSequence(menu.getSequence());
 								userMenu.setUrl(menu.getPageUrl());
-								if(um.getItems() == null)
-								{
+								if (um.getItems() == null) {
 									um.setItems(new ArrayList<UserMenu>());
 								}
 								um.getItems().add(userMenu);
@@ -124,6 +115,5 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 			}
 		}
 		user.setUserMenus(userMenus);
-		//return userMenus;
 	}
 }

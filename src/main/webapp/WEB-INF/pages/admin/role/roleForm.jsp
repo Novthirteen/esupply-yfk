@@ -29,7 +29,9 @@
 			<div class="tab-pane fade" id="assignPermission">
 				<%@ include file="assignPermission.jsp"%>
 			</div>
-			<div class="tab-pane fade" id="assignUser"></div>
+			<div class="tab-pane fade" id="assignUser">
+				<%@ include file="assignUser.jsp"%>
+			</div>
 		</div>
 
 		<c:if test="${param.tab != null}">

@@ -10,12 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
-
 @Entity
 @IdClass(UserPermissionId.class)
 @Table(name = "user_permission")
-
 public class UserPermission extends BaseObject {
 
 	/**
@@ -41,7 +38,7 @@ public class UserPermission extends BaseObject {
 	}
 
 	@Id
-	@Column(length = 1)
+	@Column(name = "permission_type", length = 1, nullable = false)
 	@Enumerated(EnumType.STRING)
 	public PermissionType getPermissionType() {
 		return this.permissionType;
@@ -119,5 +116,4 @@ public class UserPermission extends BaseObject {
 		return "RolePermission [username=" + username + ", permissionCode=" + permissionCode + ", permissionType="
 				+ permissionType + "]";
 	}
-
 }
