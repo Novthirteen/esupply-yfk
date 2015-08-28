@@ -8,102 +8,92 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
-
 @Entity
 @IdClass(UserRoleId.class)
 @Table(name = "user_role")
+public class UserRole extends BaseObject implements Traceable {
 
-public class UserRole extends BaseObject {
-
-
-		/**
-	 * 
-	 */
+	/**
+	* 
+	*/
 	private static final long serialVersionUID = 2577359255023747822L;
-		private String username;			                    // required
-	    private String roleCode;								// required
-	    private String createUser;
-	    private Timestamp createDate;
-	
-	    @Id
-	    @Column(name = "username",length = 50, nullable = false)
-	    public String getUsername() {
-	        return this.username;
-	    }
-	    
-	    @Id
-	    @Column(name = "role_code",length = 20, nullable = false)
-	    public String getRoleCode() {
-	        return this.roleCode;
-	    }
-	    
-	    @Column(name = "create_user", length = 50, nullable = false, updatable = false)
-	    public String getCreateUser() {
-	        return createUser;
-	    }
-	    
-	    @Column(name = "create_date", nullable = false, updatable = false)
-	    public Timestamp getCreateDate() {
-	        return createDate;
-	    }
+	private String username; // required
+	private String roleCode; // required
+	private String createUser;
+	private Timestamp createDate;
 
-	    public void setUserName(String username) {
-	        this.username = username;
-	    }
+	@Id
+	@Column(name = "username", length = 50, nullable = false)
+	public String getUsername() {
+		return this.username;
+	}
 
-	    public void setRoleCode(String roleCode) {
-	        this.roleCode = roleCode;
-	    }
+	@Id
+	@Column(name = "role_code", length = 20, nullable = false)
+	public String getRoleCode() {
+		return this.roleCode;
+	}
 
-	    public void setCreateUser(String createUser) {
-	        this.createUser = createUser;
-	    }
-	    
-	    public void setCreateDate(Timestamp createDate) {
-	        this.createDate = createDate;
-	    }
+	@Column(name = "create_user", length = 50, nullable = false, updatable = false)
+	public String getCreateUser() {
+		return createUser;
+	}
 
-		@Override
-		public String toString() {
-			return "UserRole [username=" + username + ", roleCode=" + roleCode + "]";
-		}
+	@Column(name = "create_date", nullable = false, updatable = false)
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((roleCode == null) ? 0 : roleCode.hashCode());
-			result = prime * result + ((username == null) ? 0 : username.hashCode());
-			return result;
-		}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			UserRole other = (UserRole) obj;
-			if (roleCode == null) {
-				if (other.roleCode != null)
-					return false;
-			} else if (!roleCode.equals(other.roleCode))
-				return false;
-			if (username == null) {
-				if (other.username != null)
-					return false;
-			} else if (!username.equals(other.username))
-				return false;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
+	@Override
+	public String toString() {
+		return "UserRole [username=" + username + ", roleCode=" + roleCode + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((roleCode == null) ? 0 : roleCode.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-	
-}
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserRole other = (UserRole) obj;
+		if (roleCode == null) {
+			if (other.roleCode != null)
+				return false;
+		} else if (!roleCode.equals(other.roleCode))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
 
-
-class UserRoleId {
-	 String username;                   
-     String roleCode;	
 }

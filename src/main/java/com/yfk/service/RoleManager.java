@@ -10,5 +10,8 @@ public interface RoleManager extends GenericManager<Role, String> {
 	void saveRolePermission(String roleCode, PermissionType permissionType, List<String> assignedPermissions)
 			throws PrincipalNullException;
 	
+	void saveRoleUser(String roleCode, List<String> assignedUsers)
+			throws PrincipalNullException;
+	
 	void deleteRole(String roleCode); 
 }

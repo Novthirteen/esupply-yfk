@@ -11,6 +11,7 @@ import com.yfk.model.LabelValue;
 import com.yfk.model.Permission;
 import com.yfk.model.PermissionType;
 import com.yfk.model.Role;
+import com.yfk.model.User;
 import com.yfk.service.RoleManager;
 
 /**
@@ -29,6 +30,8 @@ public class RoleAction extends BaseAction {
 	private String permissionType;
 	private List<LabelValue> availablePermissions;
 	private List<String> assignedPermissions;
+	private List<LabelValue> availableUsers;
+	private List<String> assignedUsers;
 	private RoleManager roleManager;
 
 	/**
@@ -72,6 +75,22 @@ public class RoleAction extends BaseAction {
 		this.assignedPermissions = assignedPermissions;
 	}
 
+	public List<LabelValue> getAvailableUsers() {
+		return availableUsers;
+	}
+
+	public void setAvailableUsers(List<LabelValue> availableUsers) {
+		this.availableUsers = availableUsers;
+	}
+
+	public List<String> getAssignedUsers() {
+		return assignedUsers;
+	}
+
+	public void setAssignedUsers(List<String> assignedUsers) {
+		this.assignedUsers = assignedUsers;
+	}
+
 	public void setRoleManager(RoleManager roleManager) {
 		this.roleManager = roleManager;
 	}
@@ -79,6 +98,7 @@ public class RoleAction extends BaseAction {
 	public List<LabelValue> getPermissionTypeList() {
 		List<LabelValue> permissionTypeList = new ArrayList<LabelValue>();
 		permissionTypeList.add(new LabelValue(PermissionType.U.toString(), getText("permission.url")));
+		permissionTypeList.add(new LabelValue(PermissionType.B.toString(), getText("permission.button")));
 		permissionTypeList.add(new LabelValue(PermissionType.S.toString(), getText("permission.supplier")));
 		permissionTypeList.add(new LabelValue(PermissionType.P.toString(), getText("permission.plant")));
 
@@ -97,7 +117,9 @@ public class RoleAction extends BaseAction {
 			args.add(role.getCode());
 			saveMessage(getText("role.deleted", args));
 		} catch (Exception ex) {
-			return showUnexpectException(ex);
+			saveErrorForUnexpectException(ex);
+			prepare();
+			return INPUT;
 		}
 
 		return CANCEL;
@@ -165,9 +187,13 @@ public class RoleAction extends BaseAction {
 				saveMessage(getText("role.updated", args));
 			}
 		} catch (HibernateOptimisticLockingFailureException ex) {
-			return showStaleObjectStateException();
+			saveErrorForStaleObjectStateException();
+			prepare();
+			return INPUT;
 		} catch (Exception ex) {
-			return showUnexpectException(ex);
+			saveErrorForUnexpectException(ex);
+			prepare();
+			return INPUT;
 		}
 
 		prepare();
@@ -188,15 +214,32 @@ public class RoleAction extends BaseAction {
 	public String saveRolePermission() {
 		try {
 			this.roleManager.saveRolePermission(code, PermissionType.valueOf(permissionType), assignedPermissions);
+		} catch (Exception ex) {
+			saveErrorForUnexpectException(ex);
 			prepare();
-			
-			List<Object> args = new ArrayList<Object>();
-			args.add(role.getCode());
-			saveMessage(getText("role.assignPermissionSuccess", args));
-		} catch (Exception e) {
-			return showUnexpectException(e);
+			return INPUT;
 		}
 
+		prepare();
+		List<Object> args = new ArrayList<Object>();
+		args.add(role.getCode());
+		saveMessage(getText("role.assignPermissionSuccess", args));
+		return SUCCESS;
+	}
+
+	public String saveRoleUser() {
+		try {
+			this.roleManager.saveRoleUser(code, assignedUsers);
+		} catch (Exception ex) {
+			saveErrorForUnexpectException(ex);
+			prepare();
+			return INPUT;
+		}
+		
+		prepare();
+		List<Object> args = new ArrayList<Object>();
+		args.add(role.getCode());
+		saveMessage(getText("role.assignUserSuccess", args));
 		return SUCCESS;
 	}
 
@@ -224,24 +267,35 @@ public class RoleAction extends BaseAction {
 		if (role == null && StringHelper.isNotEmpty(code)) {
 			role = (Role) this.universalManager.get(Role.class, code);
 		}
-		
+
 		if (role != null && role.getVersion() != 0) {
-			prepareAssignRolePermission();
+			prepareAssignPermission();
+			prepareAssignUser();
 		}
 	}
 
+	private void prepareAssignPermission() {
+		List<Permission> availablePermissionList = universalManager.findByHql("from Permission where type = ?",
+				new Object[] { permissionType != null ? PermissionType.valueOf(permissionType) : PermissionType.U });
 
-	private void prepareAssignRolePermission() {
-		List<Permission> availablePermissionList = universalManager.findByNativeSql(Permission.class,
-				NativeSqlRepository.SELECT_ROLE_AVAILABLE_PERMISSION_STATEMENT,
-				new Object[] { permissionType != null ? permissionType : PermissionType.U.toString() });
-
-		List<String> assignedPermissionList = universalManager.findByNativeSql(
-				NativeSqlRepository.SELECT_ROLE_ASSIGNED_PERMISSION_STATEMENT,
-				new Object[] { permissionType != null ? permissionType : PermissionType.U.toString(), code });
+		List<String> assignedPermissionList = universalManager
+				.findByHql("select permissionCode from RolePermission where permissionType = ? and roleCode = ?",
+						new Object[] {
+								permissionType != null ? PermissionType.valueOf(permissionType) : PermissionType.U,
+								code });
 
 		this.assignedPermissions = assignedPermissionList;
 		this.availablePermissions = transferPermissionToLabelValue(availablePermissionList);
+	}
+
+	private void prepareAssignUser() {
+		List<User> availableUserList = universalManager.getAll(User.class);
+
+		List<String> assignedUserList = universalManager.findByHql("select username from UserRole where roleCode = ?",
+				new Object[] { code });
+
+		this.assignedUsers = assignedUserList;
+		this.availableUsers = transferUserToLabelValue(availableUserList);
 	}
 
 	private List<LabelValue> transferPermissionToLabelValue(List<Permission> permissionList) {
@@ -255,25 +309,21 @@ public class RoleAction extends BaseAction {
 		return lvList;
 	}
 
+	private List<LabelValue> transferUserToLabelValue(List<User> userList) {
+		List<LabelValue> lvList = new ArrayList<LabelValue>();
+		if (userList != null && userList.size() > 0) {
+			for (User user : userList) {
+				lvList.add(new LabelValue(user.getFullName(), user.getUsername()));
+			}
+		}
+
+		return lvList;
+	}
+
 	private String showRoleExistsException() {
 		List<Object> args = new ArrayList<Object>();
 		args.add(role.getCode());
 		addActionError(getText("role.errors.existingRole", args));
-
-		return INPUT;
-	}
-
-	private String showStaleObjectStateException() {
-		addActionError(getText("errors.staleObjectStateException"));
-
-		return INPUT;
-	}
-
-	private String showUnexpectException(Exception ex) {
-		log.error("Unexpect exception occur.", ex);
-		List<Object> args = new ArrayList<Object>();
-		args.add(ex.getMessage());
-		addActionError(getText("errors.unexpectError", args));
 
 		return INPUT;
 	}
