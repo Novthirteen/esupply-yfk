@@ -79,6 +79,13 @@ public class PurchaseOrderAction extends BaseAction {
 			purchaseOrder.setXpyhmstro_suppcode("ADKJ");
 			purchaseOrder.setXpyhmstro_shipto("ÐãÆÖÂ·426ºÅ");
 			purchaseOrder.setXpyhmstro_stat(2);
+			
+			purchaseOrderDetails = new ArrayList<PurchaseOrderDetail>();
+			PurchaseOrderDetail podet = new PurchaseOrderDetail();
+			podet.setXpyhddeto_creator("admin");
+			podet.setXpyhddeto_yhdnbr("ORD000001");
+			podet.setXpyhddeto_yhdnbr("ORD000001");
+			
 		} else {
 			purchaseOrder = new PurchaseOrder();
 			// purchaseOrder.addRole(new Role(Constants.USER_ROLE));
