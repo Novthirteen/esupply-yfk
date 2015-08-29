@@ -71,7 +71,6 @@ public class Role extends BaseObject implements Serializable, Auditable, Version
         return updateDate;
     }
     
-    @Column(insertable = false)
     @Version
     public int getVersion() {
     	return version;
