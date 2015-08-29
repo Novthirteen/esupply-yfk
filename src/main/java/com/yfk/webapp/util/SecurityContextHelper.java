@@ -21,14 +21,14 @@ public class SecurityContextHelper {
 		}
 	}
 	
-	public static List<UserMenu> getRemoteUserMenu() throws PrincipalNullException {
+	public static List<UserMenu> getRemoteUserMenu() {
 		SecurityContext context = SecurityContextHolder.getContext();
 
 		if (context != null && context.getAuthentication() != null && context.getAuthentication().getPrincipal() != null
 				&& context.getAuthentication().getPrincipal() instanceof User) {
 			return ((User) context.getAuthentication().getPrincipal()).getUserMenus();
 		} else {
-			throw new PrincipalNullException();
+			return null;
 		}
 	}
 }

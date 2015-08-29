@@ -11,7 +11,7 @@
 	<fmt:message key="userList.heading" />
 </h2>
 
-<s:form name="userForm" action="/admin/users" method="post"
+<s:form name="userForm" action="users" method="post"
 	validate="true">
 
 	<div class="row-fluid">
@@ -47,7 +47,7 @@
 	requestURI="" defaultsort="1" id="users" pagesize="25"
 	class="table table-condensed table-striped table-hover" export="true">
 	<display:column property="username" escapeXml="true" sortable="true"
-		titleKey="user.username" url="/admin/editUser?from=list"
+		titleKey="user.username" url="/user/editUser?from=list"
 		paramId="username" paramProperty="username" />
 	<display:column property="lastName" escapeXml="true" sortable="true"
 		titleKey="user.lastName" />

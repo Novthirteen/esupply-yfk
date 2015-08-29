@@ -93,13 +93,14 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
 
 	/**
 	 * {@inheritDoc}
-	 * @throws PrincipalNullException 
+	 * 
+	 * @throws PrincipalNullException
 	 */
 	public void save(T object) throws PrincipalNullException {
 		dao.save(object);
 	}
 
-	public void update(T object) throws PrincipalNullException  {
+	public void update(T object) throws PrincipalNullException {
 		dao.update(object);
 	}
 

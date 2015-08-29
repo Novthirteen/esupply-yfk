@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Table;
+import javax.servlet.ServletContext;
 
 import org.hibernate.Query;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.internal.util.StringHelper;
+import org.hibernate.internal.util.collections.CollectionHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +24,9 @@ import com.yfk.model.Menu;
 import com.yfk.model.User;
 import com.yfk.model.UserAuthority;
 import com.yfk.model.UserMenu;
+import com.yfk.service.UniversalManager;
+import com.yfk.webapp.action.NativeSqlRepository;
+import com.yfk.webapp.util.AppContextUtil;
 
 /**
  * This class interacts with Hibernate session to save/delete and retrieve User
@@ -36,6 +41,9 @@ import com.yfk.model.UserMenu;
  */
 @Repository("userDao")
 public class UserDaoHibernate extends GenericDaoHibernate<User, String>implements UserDao, UserDetailsService {
+
+	@Autowired
+	private UniversalManager universalManager;
 
 	/**
 	 * Constructor that sets the entity to User.class.
@@ -62,10 +70,9 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 			throw new UsernameNotFoundException("user '" + username + "' not found...");
 		} else {
 			User user = (User) users.get(0);
-			user.setUserAuthorities(
-					getSession().createCriteria(UserAuthority.class).add(Restrictions.eq("username", username)).list());
 
-			AssemblyUserMenu(user);
+			loadUserAuthority(user);
+			loadUserMenu(user);
 			return (UserDetails) user;
 		}
 	}
@@ -80,40 +87,48 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, String>implement
 				userName);
 	}
 
-	private void AssemblyUserMenu(User user) {
-		List<UserMenu> userMenus = new ArrayList<UserMenu>();
-		List<Menu> menus = getSession().createCriteria(Menu.class).add(Restrictions.eq("active", true))
-				.addOrder(Order.asc("sequence")).list();
-		for (Menu menu : menus) {
-			if (menu.getParent() == null || "".equals(menu.getParent())) {
-				UserMenu userMenu = new UserMenu();
-				userMenu.setValue(menu.getCode());
-				userMenu.setText(menu.getName());
-				userMenu.setImageUrl(menu.getImageUrl());
-				userMenu.setSequence(menu.getSequence());
-				userMenu.setUrl(menu.getPageUrl());
-				userMenus.add(userMenu);
-			} else {
-				for (GrantedAuthority authority : user.getAuthorities()) {
-					if (menu.getPermissionCode().equalsIgnoreCase(authority.getAuthority())) {
-						for (UserMenu um : userMenus) {
-							if (menu.getParent().equalsIgnoreCase(um.getValue())) {
-								UserMenu userMenu = new UserMenu();
-								userMenu.setValue(menu.getCode());
-								userMenu.setText(menu.getName());
-								userMenu.setImageUrl(menu.getImageUrl());
-								userMenu.setSequence(menu.getSequence());
-								userMenu.setUrl(menu.getPageUrl());
-								if (um.getItems() == null) {
-									um.setItems(new ArrayList<UserMenu>());
-								}
-								um.getItems().add(userMenu);
-							}
+	private void loadUserAuthority(User user) {
+		user.setUserAuthorities(getSession().createCriteria(UserAuthority.class)
+				.add(Restrictions.eq("username", user.getUsername())).list());
+	}
+
+	private void loadUserMenu(User user) {
+		List<Menu> authorityMenuList = universalManager.findByNativeSql(Menu.class,
+				NativeSqlRepository.SELECT_USER_MENU_STATEMENT,
+				new Object[] { user.getUsername(), user.getUsername() });
+
+		if (CollectionHelper.isNotEmpty(authorityMenuList)) {
+			List<UserMenu> userMenus = new ArrayList<UserMenu>();
+			for (Menu menu : authorityMenuList) {
+				if (StringHelper.isEmpty(menu.getParent())) {
+					UserMenu userMenu = this.assemblyUserMenu(menu);
+					userMenus.add(userMenu);
+					for (Menu childMenu : authorityMenuList) {
+						if (menu.getCode().equals(childMenu.getParent())) {
+							userMenu.addItem(this.assemblyUserMenu(childMenu));
 						}
 					}
 				}
 			}
+
+			user.setUserMenus(userMenus);
 		}
-		user.setUserMenus(userMenus);
+	}
+
+	private UserMenu assemblyUserMenu(Menu menu) {
+		ServletContext context = AppContextUtil.getServletContext();
+
+		UserMenu userMenu = new UserMenu();
+		userMenu.setValue(menu.getCode());
+		userMenu.setText(menu.getName());
+		if (StringHelper.isNotEmpty(menu.getImageUrl())) {
+			userMenu.setImageUrl(context.getContextPath() + menu.getImageUrl());
+		}
+		userMenu.setSequence(menu.getSequence());
+		if (StringHelper.isNotEmpty(menu.getPageUrl())) {
+			userMenu.setUrl(context.getContextPath() + menu.getPageUrl());
+		}
+
+		return userMenu;
 	}
 }

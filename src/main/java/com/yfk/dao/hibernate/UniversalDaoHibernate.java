@@ -116,7 +116,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 			((Traceable) object).setCreateDate(new Timestamp((new Date()).getTime()));
 			((Traceable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
 		}
-		
+
 		if (object instanceof Versionable) {
 			((Versionable) object).setVersion(1);
 		}

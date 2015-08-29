@@ -1,12 +1,13 @@
 package com.yfk.dao;
 
-import com.yfk.model.User;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.yfk.model.User;
 
 /**
  * User Data Access Object (GenericDao) interface.

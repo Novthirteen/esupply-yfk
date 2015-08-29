@@ -12,13 +12,13 @@
 <s:form name="roleForm" action="roles" method="post" validate="true"
 	cssClass="form-horizontal">
 	<div class="row-fluid">
-		<div class="span3">
+		<div class="span4">
 			<s:textfield key="role.code" />
 		</div>
-		<div class="span3">
+		<div class="span4">
 			<s:textfield key="role.name" />
 		</div>
-		<div class="span3">
+		<div class="span4">
 			<input type="hidden" name="from" value="list" />
 			<s:submit type="button" cssClass="btn" action="roles"
 				key="button.search" theme="simple">
@@ -35,14 +35,14 @@
 </s:form>
 
 <display:table name="roles" cellspacing="0" cellpadding="0"
-	requestURI="/admin/roles" defaultsort="1" id="roles" pagesize="25"
+	requestURI="/user/roles" defaultsort="1" id="roles" pagesize="25"
 	class="table table-condensed table-striped table-hover" export="true">
 
 	<display:column property="code" escapeXml="true" sortable="true"
-		titleKey="role.code" url="/admin/editRole?from=list" paramId="code"
+		titleKey="role.code" url="/user/editRole?from=list" paramId="code"
 		paramProperty="code" />
 	<display:column property="name" escapeXml="true" sortable="true"
-		titleKey="role.name" url="/admin/editRole?from=list" paramId="code"
+		titleKey="role.name" url="/user/editRole?from=list" paramId="code"
 		paramProperty="code" />
 
 	<display:setProperty name="paging.banner.item_name">

@@ -28,8 +28,8 @@
 	href="<c:url value='/styles/kendoui/kendo.dataviz.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="<c:url value='/styles/kendoui/kendo.dataviz.default.min.css'/>" />
-
 <decorator:head />
+
 
 <script type="text/javascript"
 	src="<c:url value='/scripts/lib/jquery-1.8.2.min.js'/>"></script>
@@ -61,12 +61,6 @@
 				</button>
 				<a class="brand" href="<c:url value='/'/>"><fmt:message
 						key="webapp.name" /></a>
-				<%@ include file="/common/menu.jsp"%>
-				<%--                 <c:if test="${pageContext.request.locale.language ne 'en'}"> --%>
-				<%--                     <div id="switchLocale"><a href="<c:url value='/?locale=en'/>"> --%>
-				<%--                         <fmt:message key="webapp.name"/> in English</a> --%>
-				<!--                     </div> -->
-				<%--                 </c:if> --%>
 			</div>
 		</div>
 	</div>
@@ -74,19 +68,8 @@
 	<div class="container-fluid">
 		<%@ include file="/common/messages.jsp"%>
 		<div class="row-fluid">
-			<div class="span1">
-				<menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm"
-					permissions="permissionAdapter">
-					<%--                 	<menu:displayMenu name="MainMenu"/> --%>
-					<menu:displayMenu name="EditProfile" />
-
-					<menu:displayMenu name="ViewUsers" />
-					<menu:displayMenu name="ViewRoles" />
-					<menu:displayMenu name="ViewPurchaseOrders" />
-					<menu:displayMenu name="ActiveUsers" />
-				</menu:useMenuDisplayer>
-			</div>
-			<div class="span11">
+			<%@ include file="/common/menu.jsp"%>
+			<div class="span10">
 				<decorator:body />
 			</div>
 		</div>
@@ -102,6 +85,8 @@
 		</span>
 	</div>
 	<%=(request.getAttribute("scripts") != null) ? request.getAttribute("scripts") : ""%>
+
+
 </body>
 </html>
 

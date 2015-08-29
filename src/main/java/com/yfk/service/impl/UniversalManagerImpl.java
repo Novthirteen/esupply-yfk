@@ -1,10 +1,7 @@
 package com.yfk.service.impl;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yfk.dao.UniversalDao;
-import com.yfk.model.Auditable;
-import com.yfk.model.Traceable;
 import com.yfk.service.UniversalManager;
 import com.yfk.webapp.util.PrincipalNullException;
 

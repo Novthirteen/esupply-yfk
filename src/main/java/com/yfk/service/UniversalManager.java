@@ -2,7 +2,6 @@ package com.yfk.service;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import com.yfk.webapp.util.PrincipalNullException;
 
@@ -22,7 +21,7 @@ public interface UniversalManager {
 	void remove(Object object);
 
 	void remove(Class clazz, Serializable id);
-	
+
 	void executeByHql(String hql);
 
 	void executeByHql(String hql, Object[] params);
@@ -36,6 +35,6 @@ public interface UniversalManager {
 	List findByHql(String hql, Object[] queryParams);
 
 	List findByNativeSql(String sql, Object[] queryParams);
-	
+
 	List findByNativeSql(Class clazz, String sql, Object[] queryParams);
 }
