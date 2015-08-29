@@ -81,6 +81,17 @@
 			method="edit">
 			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
 			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderList.jsp</result>
+			<result name="cancel" type="redirectAction">purchaseOrders</result>
+			<result name="confirm" type="redirectAction">confirmPurchaseOder</result>
+			<result name="close" type="redirectAction">confirmPurchaseOder</result>
+		</action>
+		<action name="confirmPurchaseOder" class="purchaseOrderAction" method="confirm">
+			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+		</action>
+		<action name="closePurchaseOder" class="purchaseOrderAction" method="close">
+			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
 		</action>
 	</package>
 

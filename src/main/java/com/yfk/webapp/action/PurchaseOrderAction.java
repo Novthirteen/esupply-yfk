@@ -1,6 +1,7 @@
 package com.yfk.webapp.action;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +80,30 @@ public class PurchaseOrderAction extends BaseAction {
 			purchaseOrder.setXpyhmstro_suppcode("ADKJ");
 			purchaseOrder.setXpyhmstro_shipto("秀浦路426号");
 			purchaseOrder.setXpyhmstro_stat(2);
+			
+			purchaseOrderDetails = new ArrayList<PurchaseOrderDetail>();
+			PurchaseOrderDetail podet = new PurchaseOrderDetail();
+			podet.setXpyhddeto_seq(new BigDecimal(10));
+			podet.setXpyhddeto_yhdnbr("ORD000001");
+			podet.setXpyhddeto_partnbr("1000001");
+			podet.setXpyhddeto_partdesc("螺丝");
+			podet.setXpyhddeto_spq(new BigDecimal(100));
+			podet.setXpyhddeto_uom("件");
+			podet.setXpyhddeto_reqqty(new BigDecimal(2000));
+			podet.setXpyhddeto_ordqty(new BigDecimal(2000));
+			purchaseOrderDetails.add(podet);
+			
+			PurchaseOrderDetail podet1 = new PurchaseOrderDetail();
+			podet1.setXpyhddeto_seq(new BigDecimal(20));
+			podet1.setXpyhddeto_yhdnbr("ORD000001");
+			podet1.setXpyhddeto_partnbr("1000002");
+			podet1.setXpyhddeto_partdesc("螺母");
+			podet1.setXpyhddeto_spq(new BigDecimal(100));
+			podet1.setXpyhddeto_uom("件");
+			podet1.setXpyhddeto_reqqty(new BigDecimal(2000));
+			podet1.setXpyhddeto_ordqty(new BigDecimal(2000));
+			purchaseOrderDetails.add(podet1);
+			
 		} else {
 			purchaseOrder = new PurchaseOrder();
 			// purchaseOrder.addRole(new Role(Constants.USER_ROLE));
@@ -87,16 +112,19 @@ public class PurchaseOrderAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	/**
-	 * Default: just returns "success"
-	 *
-	 * @return "success"
-	 */
-	public String execute() {
+	
+
+
+	public String confirm() {
+		xpyhmstro_yhdnbr = "ORD000001";
 		return SUCCESS;
 	}
-
-
+	
+	public String close() {
+		xpyhmstro_yhdnbr = "ORD000001";
+		return SUCCESS;
+	}
+	
 	/**
 	 * Fetch all purchaseOrders from database and put into local "purchaseOrders" variable for
 	 * retrieval in the UI.
