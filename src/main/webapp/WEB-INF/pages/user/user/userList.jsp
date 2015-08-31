@@ -3,70 +3,62 @@
 
 <head>
 <title><fmt:message key="userList.title" /></title>
-<meta name="menu" content="AdminMenu" />
+<meta name="menu" content=UserMenu />
 </head>
-
 
 <h2>
 	<fmt:message key="userList.heading" />
 </h2>
 
 <s:form name="userForm" action="users" method="post"
-	validate="true">
-
+	cssClass="form-horizontal">
 	<div class="row-fluid">
-		<div class="span3">
-			<s:textfield key="user.username" cssClass="text medium" />
+		<div class="span4">
+			<s:textfield key="user.username" />
 		</div>
-		<div class="span3">
-			<s:textfield key="user.lastName" cssClass="text medium" />
+		<div class="span4">
+			<s:textfield key="user.lastName" />
 		</div>
-		<div class="span3">
-			<s:textfield key="user.firstName" cssClass="text medium" />
+		<div class="span4">
+			<s:textfield key="user.firstName" />
 		</div>
 	</div>
-
 	<div class="row-fluid">
-		<div class="span3">
+		<div class="span4">
 			<input type="hidden" name="from" value="list" />
-			<s:submit type="button" cssClass="btn btn-primary" action="editUser"
-				key="button.add" theme="simple">
-				<i class="icon-plus icon-white"></i>
-				<fmt:message key="button.add" />
-			</s:submit>
 			<s:submit type="button" cssClass="btn" action="users"
 				key="button.search" theme="simple">
 				<i class="icon-search"></i>
 				<fmt:message key="button.search" />
+			</s:submit>
+			<s:submit type="button" cssClass="btn btn-primary" action="editUser"
+				key="button.add" theme="simple">
+				<i class="icon-plus icon-white"></i>
+				<fmt:message key="button.add" />
 			</s:submit>
 		</div>
 	</div>
 </s:form>
 
 <display:table name="users" cellspacing="0" cellpadding="0"
-	requestURI="" defaultsort="1" id="users" pagesize="25"
+	requestURI="users" defaultsort="1" id="users" pagesize="25"
 	class="table table-condensed table-striped table-hover" export="true">
+
 	<display:column property="username" escapeXml="true" sortable="true"
 		titleKey="user.username" url="/user/editUser?from=list"
 		paramId="username" paramProperty="username" />
 	<display:column property="lastName" escapeXml="true" sortable="true"
-		titleKey="user.lastName" />
+		titleKey="user.lastName" url="/user/editUser?from=list" />
 	<display:column property="firstName" escapeXml="true" sortable="true"
-		titleKey="user.firstName" />
+		titleKey="user.firstName" url="/user/editUser?from=list" />
 	<display:column property="email" sortable="true" titleKey="user.email"
-		autolink="true" media="html" />
-	<display:column property="email" titleKey="user.email"
-		media="csv xml excel pdf" />
-	<display:column property="address.address" sortable="true"
-		titleKey="user.address" autolink="true" media="html" />
-	<display:column property="gender" sortable="true"
-		titleKey="user.gender" autolink="true" media="html" />
+		autolink="true" media="html" url="/user/editUser?from=list" />
 	<display:column property="phoneNumber" sortable="true"
-		titleKey="user.phoneNumber" autolink="true" media="html" />
+		titleKey="user.phoneNumber" url="/user/editUser?from=list" />
 	<display:column property="mobilephone" sortable="true"
-		titleKey="user.mobilephone" autolink="true" media="html" />
+		titleKey="user.mobilephone" url="/user/editUser?from=list" />
 	<display:column sortProperty="enabled" sortable="true"
-		titleKey="user.enabled" style="width: 16%; padding-left: 15px"
+		titleKey="user.enabled"
 		media="html">
 		<input type="checkbox" disabled="disabled"
 			<c:if test="${users.enabled}">checked="checked"</c:if> />

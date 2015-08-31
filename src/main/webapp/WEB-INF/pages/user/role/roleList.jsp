@@ -2,14 +2,14 @@
 
 <head>
 <title><fmt:message key="roleList.title" /></title>
-<meta name="menu" content="AdminMenu" />
+<meta name="menu" content="UserMenu" />
 </head>
 
 <h2>
 	<fmt:message key="roleList.heading" />
 </h2>
 
-<s:form name="roleForm" action="roles" method="post" validate="true"
+<s:form name="roleForm" action="roles" method="post"
 	cssClass="form-horizontal">
 	<div class="row-fluid">
 		<div class="span4">
@@ -35,7 +35,7 @@
 </s:form>
 
 <display:table name="roles" cellspacing="0" cellpadding="0"
-	requestURI="/user/roles" defaultsort="1" id="roles" pagesize="25"
+	requestURI="roles" defaultsort="1" id="roles" pagesize="25"
 	class="table table-condensed table-striped table-hover" export="true">
 
 	<display:column property="code" escapeXml="true" sortable="true"

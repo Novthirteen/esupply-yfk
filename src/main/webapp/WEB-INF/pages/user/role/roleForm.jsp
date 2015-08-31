@@ -2,7 +2,7 @@
 
 <head>
 <title><fmt:message key="role.title" /></title>
-<meta name="menu" content="AdminMenu" />
+<meta name="menu" content="UserMenu" />
 </head>
 
 <h2>

@@ -54,7 +54,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, String>implements 
 	 */
 	public void saveUser(User user) throws UserExistsException {
 
-		if (user.getVersion() == null) {
+		if (user.getVersion() == 0) {
 			// if new user, lowercase userId
 			user.setUsername(user.getUsername().toLowerCase());
 		}
@@ -63,7 +63,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, String>implements 
 		boolean passwordChanged = false;
 		if (passwordEncoder != null) {
 			// Check whether we have to encrypt (or re-encrypt) the password
-			if (user.getVersion() == null) {
+			if (user.getVersion() == 0) {
 				// New user, always encrypt
 				passwordChanged = true;
 			} else {

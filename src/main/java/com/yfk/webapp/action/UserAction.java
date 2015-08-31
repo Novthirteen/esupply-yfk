@@ -17,9 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.opensymphony.xwork2.Preparable;
 import com.yfk.Constants;
 import com.yfk.dao.SearchException;
+import com.yfk.model.Gender;
+import com.yfk.model.LabelValue;
 import com.yfk.model.User;
 import com.yfk.service.UserExistsException;
 import com.yfk.webapp.util.RequestUtil;
@@ -27,25 +28,11 @@ import com.yfk.webapp.util.RequestUtil;
 /**
  * Action for facilitating User Management feature.
  */
-public class UserAction extends BaseAction implements Preparable {
+public class UserAction extends BaseAction {
 	private static final long serialVersionUID = 6776558938712115191L;
 	private List<User> users;
 	private User user;
 	private String username;
-	private String query;
-
-	/**
-	 * Grab the entity from the database before populating with request
-	 * parameters
-	 */
-	public void prepare() {
-		// prevent failures on new
-		if (getRequest().getMethod().equalsIgnoreCase("post")
-				&& (!"".equals(getRequest().getParameter("user.username")))
-				&& (!"".equals(getRequest().getParameter("user.version")))) {
-			user = userManager.getUser(getRequest().getParameter("user.username"));
-		}
-	}
 
 	/**
 	 * Holder for users to display on list screen
@@ -67,9 +54,13 @@ public class UserAction extends BaseAction implements Preparable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public List<LabelValue> getGenderList() {
+		List<LabelValue> genderList = new ArrayList<LabelValue>();
+		genderList.add(new LabelValue(getText("gender.male"), Gender.M.toString()));
+		genderList.add(new LabelValue(getText("gender.female"), Gender.F.toString()));
 
-	public void setQ(String q) {
-		this.query = q;
+		return genderList;
 	}
 
 	/**
