@@ -1,7 +1,14 @@
 package com.yfk.webapp.filter;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.yfk.Constants;
+import com.yfk.model.User;
+import com.yfk.webapp.util.PrincipalNullException;
+import com.yfk.webapp.util.SecurityContextHelper;
+
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -33,7 +40,7 @@ public class LocaleFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                  FilterChain chain)
             throws IOException, ServletException {
-
+    	
         String locale = request.getParameter("locale");
         Locale preferredLocale = null;
 
@@ -50,6 +57,7 @@ public class LocaleFilter extends OncePerRequestFilter {
 
         HttpSession session = request.getSession(false);
 
+
         if (session != null) {
             if (preferredLocale == null) {
                 preferredLocale = (Locale) session.getAttribute(Constants.PREFERRED_LOCALE_KEY);
@@ -61,6 +69,29 @@ public class LocaleFilter extends OncePerRequestFilter {
             if (preferredLocale != null && !(request instanceof LocaleRequestWrapper)) {
                 request = new LocaleRequestWrapper(request, preferredLocale);
                 LocaleContextHolder.setLocale(preferredLocale);
+            }
+            
+            if (preferredLocale == null) {
+            	
+            	Object contextFromSession = session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+        		
+        		if (contextFromSession != null && (contextFromSession instanceof SecurityContext))
+        		{
+        			SecurityContext context = (SecurityContext)contextFromSession;
+        			User user = (User)context.getAuthentication().getPrincipal();
+	                if(!user.getLanguage().isEmpty())
+	                {
+		            	int indexOfUnderscore = user.getLanguage().indexOf('_');
+		                if (indexOfUnderscore != -1) {
+		                    String language = user.getLanguage().substring(0, indexOfUnderscore);
+		                    String country = user.getLanguage().substring(indexOfUnderscore + 1);
+		                    preferredLocale = new Locale(language, country);
+		                } else {
+		                    preferredLocale = new Locale(locale);
+		                }
+		                LocaleContextHolder.setLocale(preferredLocale);
+	                }
+        		}
             }
         }
 

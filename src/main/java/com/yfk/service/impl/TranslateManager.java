@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.LocaleProvider;
 import com.opensymphony.xwork2.TextProvider;
@@ -74,28 +76,16 @@ public class TranslateManager implements TextProvider, LocaleProvider {
         return getTextProvider().getText(key, defaultValue, args, stack);
     }
 
+    public ResourceBundle getTexts() {
+        return getTextProvider().getTexts();
+    }
 
-	@Override
-	public ResourceBundle getTexts(String bundleName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public ResourceBundle getTexts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    public ResourceBundle getTexts(String aBundleName) {
+        return getTextProvider().getTexts(aBundleName);
+    }
 
 	@Override
 	public Locale getLocale() {
-		ActionContext ctx = ActionContext.getContext();
-        if (ctx != null) {
-            return ctx.getLocale();
-        } else {
-            return null;
-        }
+		return LocaleContextHolder.getLocale();
 	}
 }
