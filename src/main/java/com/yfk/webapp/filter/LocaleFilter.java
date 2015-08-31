@@ -70,29 +70,6 @@ public class LocaleFilter extends OncePerRequestFilter {
                 request = new LocaleRequestWrapper(request, preferredLocale);
                 LocaleContextHolder.setLocale(preferredLocale);
             }
-            
-            if (preferredLocale == null) {
-            	
-            	Object contextFromSession = session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-        		
-        		if (contextFromSession != null && (contextFromSession instanceof SecurityContext))
-        		{
-        			SecurityContext context = (SecurityContext)contextFromSession;
-        			User user = (User)context.getAuthentication().getPrincipal();
-	                if(!user.getLanguage().isEmpty())
-	                {
-		            	int indexOfUnderscore = user.getLanguage().indexOf('_');
-		                if (indexOfUnderscore != -1) {
-		                    String language = user.getLanguage().substring(0, indexOfUnderscore);
-		                    String country = user.getLanguage().substring(indexOfUnderscore + 1);
-		                    preferredLocale = new Locale(language, country);
-		                } else {
-		                    preferredLocale = new Locale(locale);
-		                }
-		                LocaleContextHolder.setLocale(preferredLocale);
-	                }
-        		}
-            }
         }
 
         chain.doFilter(request, response);
