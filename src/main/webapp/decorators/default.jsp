@@ -16,13 +16,20 @@
 	href="<c:url value='/styles/lib/bootstrap-responsive.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="<c:url value='/styles/style.css'/>" />
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.common.min.css'/>" />
-    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.rtl.min.css'/>" />
-    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.default.min.css'/>" />
-    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.dataviz.min.css'/>" />
-    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/kendoui/kendo.dataviz.default.min.css'/>" />
-
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/styles/lib/bootstrap-duallistbox.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.common.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.rtl.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.default.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.dataviz.min.css'/>" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="<c:url value='/styles/kendoui/kendo.dataviz.default.min.css'/>" />
 <decorator:head />
+
 
 <script type="text/javascript"
 	src="<c:url value='/scripts/lib/jquery-1.8.2.min.js'/>"></script>
@@ -31,7 +38,10 @@
 <script type="text/javascript"
 	src="<c:url value='/scripts/lib/plugins/jquery.cookie.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/script.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/scripts/kendoui/kendo.all.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/scripts/lib/jquery.bootstrap-duallistbox.min.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/scripts/kendoui/kendo.all.js'/>"></script>
 </head>
 <body
 	<decorator:getProperty property="body.id" writeEntireProperty="true"/>
@@ -51,12 +61,6 @@
 				</button>
 				<a class="brand" href="<c:url value='/'/>"><fmt:message
 						key="webapp.name" /></a>
-				<%@ include file="/common/menu.jsp"%>
-				<%--                 <c:if test="${pageContext.request.locale.language ne 'en'}"> --%>
-				<%--                     <div id="switchLocale"><a href="<c:url value='/?locale=en'/>"> --%>
-				<%--                         <fmt:message key="webapp.name"/> in English</a> --%>
-				<!--                     </div> -->
-				<%--                 </c:if> --%>
 			</div>
 		</div>
 	</div>
@@ -64,19 +68,8 @@
 	<div class="container-fluid">
 		<%@ include file="/common/messages.jsp"%>
 		<div class="row-fluid">
-			<div class="span1">
-				<menu:useMenuDisplayer name="Velocity" config="navlistMenu.vm"
-					permissions="permissionAdapter">
-					<%--                 	<menu:displayMenu name="MainMenu"/> --%>
-					<menu:displayMenu name="EditProfile" />
-
-					<menu:displayMenu name="ViewUsers" />
-					<menu:displayMenu name="ViewRoles" />
-					<menu:displayMenu name="ViewPurchaseOrders" />
-					<menu:displayMenu name="ActiveUsers" />
-				</menu:useMenuDisplayer>
-			</div>
-			<div class="span11">
+			<%@ include file="/common/menu.jsp"%>
+			<div class="span10">
 				<decorator:body />
 			</div>
 		</div>
@@ -92,6 +85,8 @@
 		</span>
 	</div>
 	<%=(request.getAttribute("scripts") != null) ? request.getAttribute("scripts") : ""%>
+
+
 </body>
 </html>
 

@@ -1,20 +1,11 @@
 <%@ include file="/common/taglibs.jsp"%>
 
-<head>
-<title><fmt:message key="role.title" /></title>
-<meta name="menu" content="AdminMenu" />
-</head>
-
 <c:set var="delObject" scope="request">
 	<fmt:message key="roleList.role" />
 </c:set>
 <script type="text/javascript">
 	var msgDelConfirm = "<fmt:message key="delete.confirm"><fmt:param value="${delObject}"/></fmt:message>";
 </script>
-
-<h2>
-	<fmt:message key="role.heading" />
-</h2>
 
 <c:choose>
 	<c:when test="${role.version == 0}">

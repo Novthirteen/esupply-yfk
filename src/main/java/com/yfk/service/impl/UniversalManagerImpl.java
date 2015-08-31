@@ -1,10 +1,7 @@
 package com.yfk.service.impl;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,19 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yfk.dao.UniversalDao;
-import com.yfk.model.Auditable;
-import com.yfk.model.Traceable;
 import com.yfk.service.UniversalManager;
 import com.yfk.webapp.util.PrincipalNullException;
 
 @Service("universalManager")
 public class UniversalManagerImpl implements UniversalManager {
-	
+
 	private final Log log = LogFactory.getLog(getClass());
-	
+
 	@Autowired
 	private UniversalDao dao;
-	
+
 	@Override
 	public List getAll(Class clazz) {
 		return dao.getAll(clazz);
@@ -65,6 +60,22 @@ public class UniversalManagerImpl implements UniversalManager {
 		dao.remove(clazz, id);
 	}
 
+	public void executeByHql(String hql) {
+		dao.executeByHql(hql);
+	}
+
+	public void executeByHql(String hql, Object[] params) {
+		dao.executeByHql(hql, params);
+	}
+
+	public void executeByNativeSql(String sql) {
+		dao.executeByNativeSql(sql);
+	}
+
+	public void executeByNativeSql(String sql, Object[] params) {
+		dao.executeByNativeSql(sql, params);
+	}
+
 	@Override
 	public List findByNamedQuery(String queryName, Object[] queryParams) {
 		return dao.findByNamedQuery(queryName, queryParams);
@@ -81,9 +92,7 @@ public class UniversalManagerImpl implements UniversalManager {
 	}
 
 	@Override
-	public List findByNativeSql(String sql, Object[] queryParams, Class clazz) {
-		return dao.findByNativeSql(sql, queryParams, clazz);
+	public List findByNativeSql(Class clazz, String sql, Object[] queryParams) {
+		return dao.findByNativeSql(clazz, sql, queryParams);
 	}
-	
-
 }

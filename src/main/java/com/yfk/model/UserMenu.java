@@ -1,22 +1,23 @@
 package com.yfk.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserMenu extends BaseObject  {
+public class UserMenu extends BaseObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2556637617544139689L;
-	
-	private String value;		// required
+
+	private String value; // required
 	private String text;
 	private String url;
 	private String imageUrl;
 	private Integer sequence;
 	private boolean isPathUpdate;
 	private List<UserMenu> items;
-	
+
 	public String getValue() {
 		return value;
 	}
@@ -24,7 +25,7 @@ public class UserMenu extends BaseObject  {
 	public String getText() {
 		return text;
 	}
-	
+
 	public String getUrl() {
 		return url;
 	}
@@ -32,23 +33,23 @@ public class UserMenu extends BaseObject  {
 	public Integer getSequence() {
 		return sequence;
 	}
-	
-	public List<UserMenu> getItems() {
-		return items;
-	}
 
 	public String getImageUrl() {
 		return imageUrl;
 	}
 
+	public boolean isPathUpdate() {
+		return isPathUpdate;
+	}
+
+	public List<UserMenu> getItems() {
+		return items;
+	}
+
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	
-	public void setItems(List<UserMenu> items) {
-		this.items = items;
-	}
-	
+
 	public void setValue(String value) {
 		this.value = value;
 	}
@@ -56,7 +57,6 @@ public class UserMenu extends BaseObject  {
 	public void setText(String text) {
 		this.text = text;
 	}
-
 
 	public void setUrl(String url) {
 		this.url = url;
@@ -66,7 +66,22 @@ public class UserMenu extends BaseObject  {
 		this.sequence = sequence;
 	}
 
-	
+	public void setPathUpdate(boolean isPathUpdate) {
+		this.isPathUpdate = isPathUpdate;
+	}
+
+	public void setItems(List<UserMenu> items) {
+		this.items = items;
+	}
+
+	public void addItem(UserMenu item) {
+		if (this.items == null) {
+			this.items = new ArrayList<UserMenu>();
+		}
+
+		this.items.add(item);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,16 +99,4 @@ public class UserMenu extends BaseObject  {
 	public String toString() {
 		return "UserMenu [value=" + value + "]";
 	}
-
-	public boolean isPathUpdate() {
-		return isPathUpdate;
-	}
-
-	public void setPathUpdate(boolean isPathUpdate) {
-		this.isPathUpdate = isPathUpdate;
-	}
-
-
-
-
 }

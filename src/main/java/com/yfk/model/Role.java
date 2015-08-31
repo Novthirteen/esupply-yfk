@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
 @Table(name = "role")
-public class Role extends BaseObject implements Serializable, Auditable {
+public class Role extends BaseObject implements Serializable, Auditable, Versionable {
     private static final long serialVersionUID = 3690197650654049848L;
     private String code;
     private String name;
@@ -71,7 +71,6 @@ public class Role extends BaseObject implements Serializable, Auditable {
         return updateDate;
     }
     
-    @Column(insertable = false)
     @Version
     public int getVersion() {
     	return version;

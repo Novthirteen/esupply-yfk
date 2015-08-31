@@ -2,6 +2,7 @@ package com.yfk.model;
 
 public enum PermissionType {
 	U("URL"), 
+	B("BUTTON"),
 	S("SUPPLIER"),
 	P("PLANT");
 

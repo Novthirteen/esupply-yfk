@@ -2,7 +2,6 @@ package com.yfk.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import com.yfk.webapp.util.PrincipalNullException;
 
@@ -23,11 +22,19 @@ public interface UniversalDao {
 
 	void remove(Class clazz, Serializable id);
 
+	void executeByHql(String hql);
+
+	void executeByHql(String hql, Object[] params);
+
+	void executeByNativeSql(String sql);
+
+	void executeByNativeSql(String sql, Object[] params);
+
 	List findByNamedQuery(String queryName, Object[] queryParams);
 
 	List findByHql(String hql, Object[] queryParams);
 
 	List findByNativeSql(String sql, Object[] queryParams);
-	
-	List findByNativeSql(String sql, Object[] queryParams, Class clazz);
+
+	List findByNativeSql(Class clazz, String sql, Object[] queryParams);
 }

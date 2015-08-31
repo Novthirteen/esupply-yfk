@@ -1,19 +1,5 @@
 package com.yfk.dao.hibernate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import com.yfk.dao.GenericDao;
-import com.yfk.dao.SearchException;
-import com.yfk.model.Auditable;
-import com.yfk.model.Traceable;
-import com.yfk.webapp.util.PrincipalNullException;
-import com.yfk.webapp.util.SecurityContextHelper;
-
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.orm.ObjectRetrievalFailureException;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,7 +8,11 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.ParseException;
@@ -31,8 +21,20 @@ import org.hibernate.HibernateException;
 import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.orm.ObjectRetrievalFailureException;
+
+import com.yfk.dao.GenericDao;
+import com.yfk.dao.SearchException;
+import com.yfk.model.Auditable;
+import com.yfk.model.Traceable;
+import com.yfk.model.Versionable;
+import com.yfk.webapp.util.PrincipalNullException;
+import com.yfk.webapp.util.SecurityContextHelper;
 
 /**
  * This class serves as the Base class for all other DAOs - namely to hold
@@ -177,7 +179,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 
 	/**
 	 * {@inheritDoc}
-	 * @throws PrincipalNullException 
+	 * 
+	 * @throws PrincipalNullException
 	 */
 	@SuppressWarnings("unchecked")
 	public void save(T object) throws PrincipalNullException {
@@ -187,8 +190,12 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 			((Auditable) object).setUpdateDate(((Auditable) object).getCreateDate());
 			((Auditable) object).setUpdateUser(((Auditable) object).getCreateUser());
 		} else if (object instanceof Traceable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+			((Traceable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Traceable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+		}
+
+		if (object instanceof Versionable) {
+			((Versionable) object).setVersion(1);
 		}
 
 		Session sess = getSession();
@@ -197,15 +204,16 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 
 	/**
 	 * {@inheritDoc}
-	 * @throws PrincipalNullException 
+	 * 
+	 * @throws PrincipalNullException
 	 */
 	@SuppressWarnings("unchecked")
 	public void update(T object) throws PrincipalNullException {
-		if (object instanceof Traceable) {
+		if (object instanceof Auditable) {
 			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
 			((Auditable) object).setUpdateUser(SecurityContextHelper.getRemoteUser());
 		}
-		
+
 		Session sess = getSession();
 		sess.update(object);
 	}
@@ -256,12 +264,12 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 	public void reindexAll(boolean async) {
 		HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
 	}
-	
+
 	public void flushSession() {
 		Session sess = getSession();
 		sess.flush();
 	}
-	
+
 	public void cleanSession() {
 		Session sess = getSession();
 		sess.clear();

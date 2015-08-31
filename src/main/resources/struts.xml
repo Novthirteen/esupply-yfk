@@ -67,37 +67,31 @@
 			<result name="success">/WEB-INF/pages/mainMenu.jsp</result>
 		</action>
 
-		<action name="signup">
-			<result>/WEB-INF/pages/signup.jsp</result>
-		</action>
-
-		<action name="saveSignup" class="signupAction" method="save">
-			<result name="cancel" type="redirect">/</result>
-			<result name="input">/WEB-INF/pages/signup.jsp</result>
-			<result name="success" type="redirectAction">mainMenu</result>
-		</action>
-
-	
-
-		<action name="uploadFile" class="com.yfk.webapp.action.FileUploadAction">
-			<interceptor-ref name="fileUploadStack" />
-			<result name="input">/WEB-INF/pages/uploadForm.jsp</result>
-			<result name="success">/WEB-INF/pages/uploadDisplay.jsp</result>
-			<result name="cancel" type="redirectAction">mainMenu</result>
-		</action>
-
-		<action name="passwordHint" class="passwordHintAction">
-			<result name="input">/</result>
-			<result name="success">/</result>
+		<action name="editProfile" class="userAction" method="edit">
+			<result name="success">/WEB-INF/pages/admin/user/userForm.jsp</result>
+			<result name="error">/WEB-INF/pages/admin/user/mainMenu.jsp</result>
 		</action>
 
 		<!-- Add additional actions here -->
-		<action name="purchaseOrders" class="purchaseOrderAction" method="list">
+		<action name="purchaseOrders" class="purchaseOrderAction"
+			method="list">
 			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderList.jsp</result>
 		</action>
-		<action name="editPurchaseOrder" class="purchaseOrderAction" method="edit">
+		<action name="editPurchaseOrder" class="purchaseOrderAction"
+			method="edit">
 			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
 			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderList.jsp</result>
+			<result name="cancel" type="redirectAction">purchaseOrders</result>
+			<result name="confirm" type="redirectAction">confirmPurchaseOder</result>
+			<result name="close" type="redirectAction">confirmPurchaseOder</result>
+		</action>
+		<action name="confirmPurchaseOder" class="purchaseOrderAction" method="confirm">
+			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+		</action>
+		<action name="closePurchaseOder" class="purchaseOrderAction" method="close">
+			<result name="success">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
+			<result name="input">/WEB-INF/pages/purchaseOrder/purchaseOrderForm.jsp</result>
 		</action>
 	</package>
 
@@ -110,45 +104,48 @@
 			<!-- this should never be used, it's here to prevent warnings -->
 			<result name="success">/WEB-INF/pages/mainMenu.jsp</result>
 		</action>
-
+	</package>
+	
+	<package name="user" extends="default" namespace="/user">
 		<!-- role -->
 		<action name="roles" class="roleAction" method="list">
-			<result name="success">/WEB-INF/pages/admin/role/roleList.jsp</result>
+			<result name="success">/WEB-INF/pages/user/role/roleList.jsp</result>
 		</action>
 		<action name="editRole" class="roleAction" method="edit">
-			<result name="success">/WEB-INF/pages/admin/role/roleForm.jsp</result>
-			<result name="input">/WEB-INF/pages/admin/role/roleList.jsp</result>
+			<result name="cancel" type="redirectAction">roles</result>
+			<result name="success">/WEB-INF/pages/user/role/roleForm.jsp</result>
+			<result name="input">/WEB-INF/pages/user/role/roleList.jsp</result>
 		</action>
 		<action name="saveRole" class="roleAction" method="save">
 			<result name="cancel" type="redirectAction">roles</result>
-			<result name="input">/WEB-INF/pages/admin/role/roleForm.jsp</result>
-			<result name="success" type="redirectAction">roles</result>
+			<result name="input">/WEB-INF/pages/user/role/roleForm.jsp</result>
+			<result name="success">/WEB-INF/pages/user/role/roleForm.jsp</result>
 		</action>
-		
-		<!-- user -->
-		<action name="users" class="userAction" method="list">
-			<result name="success">/WEB-INF/pages/admin/user/userList.jsp</result>
+		<action name="saveRolePermission" class="roleAction" method="saveRolePermission">
+			<result name="input">/WEB-INF/pages/user/role/roleForm.jsp</result>
+			<result name="success">/WEB-INF/pages/user/role/roleForm.jsp</result>
 		</action>
-		<action name="editUser" class="userAction" method="edit">
-			<result name="success">/WEB-INF/pages/admin/user/userForm.jsp</result>
-			<result name="input">/WEB-INF/pages/admin/user/userList.jsp</result>
+		<action name="saveRoleUser" class="roleAction" method="saveRoleUser">
+			<result name="input">/WEB-INF/pages/user/role/roleForm.jsp</result>
+			<result name="success">/WEB-INF/pages/user/role/roleForm.jsp</result>
 		</action>
 
+		<!-- user -->
+		<action name="users" class="userAction" method="list">
+			<result name="success">/WEB-INF/pages/user/user/userList.jsp</result>
+		</action>
+		<action name="editUser" class="userAction" method="edit">
+			<result name="success">/WEB-INF/pages/user/user/userForm.jsp</result>
+			<result name="input">/WEB-INF/pages/user/user/userList.jsp</result>
+		</action>
 		<action name="saveUser" class="userAction" method="save">
 			<result name="cancel" type="redirectAction">users</result>
-			<result name="input">/WEB-INF/pages/admin/user/userForm.jsp</result>
+			<result name="input">/WEB-INF/pages/user/user/userForm.jsp</result>
 			<result name="success" type="redirectAction">users</result>
 		</action>
-		
-		<!-- profile -->
-		<action name="editProfile" class="userAction" method="edit">
-			<result name="success">/WEB-INF/pages/admin/user/userForm.jsp</result>
-			<result name="error">/WEB-INF/pages/admin/user/mainMenu.jsp</result>
-		</action>
-		
+
 		<action name="permissions" class="permissionAction" method="list">
-			<result name="success">/WEB-INF/pages/admin/permissionList.jsp</result>
+			<result name="success">/WEB-INF/pages/user/permissionList.jsp</result>
 		</action>
-	
 	</package>
 </struts>

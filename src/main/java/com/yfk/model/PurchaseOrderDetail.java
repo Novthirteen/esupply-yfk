@@ -9,29 +9,30 @@ public class PurchaseOrderDetail extends BaseObject {
 	 * 
 	 */
 	private static final long serialVersionUID = -7409249741178402255L;
-	private int xpyhddeto_seq;                                 
-	private String xpyhddeto_yhdnbr;						   
-	private String xpyhddeto_partnbr;							
-	private String xpyhddeto_partdesc;							
-	private String xpyhddeto_supppart;							
-	private String xpyhddeto_suppcode;							
-	private String xpyhddeto_shipto;						
-	private String xpyhddeto_startdt;							
-	private String xpyhddeto_receptdt;							
-	private String xpyhddeto_priority;						
-	private String xpyhddeto_currcy;						
-	private String xpyhddeto_uom;								
-	private int xpyhddeto_spq;								
-	private int xpyhddeto_stat;									
-	private BigDecimal xpyhddeto_reqqty;					
-	private BigDecimal xpyhddeto_ordqty;						
-	private String xpyhddeto_creator;							
-	private String xpyhddeto_xpyhmstroid;					
-	private String xpyhddeto_xpyhddetoid;						
-	public int getXpyhddeto_seq() {
+	private BigDecimal xpyhddeto_seq;                        //序号(前端排序条件)
+	private String xpyhddeto_yhdnbr;						 //要货单号
+	private String xpyhddeto_partnbr;						 //物料号
+	private String xpyhddeto_partdesc;						 //物料描述
+	private String xpyhddeto_supppart;						 //供应商物料号
+	private String xpyhddeto_suppcode;						 //供应商代码
+	private String xpyhddeto_shipto;						 //收货地址
+	private String xpyhddeto_startdt;						 //开始日期时间
+	private String xpyhddeto_receptdt;						 //窗口日期时间
+	private String xpyhddeto_priority;						 //优先级
+	private String xpyhddeto_currcy;						 //货币
+	private String xpyhddeto_uom;							 //单位
+	private BigDecimal xpyhddeto_spq;						 //单包装
+	private int xpyhddeto_stat;								 //状态
+	private BigDecimal xpyhddeto_reqqty;					 //需求数
+	private BigDecimal xpyhddeto_ordqty;					 //订单数	
+	private String xpyhddeto_creator;						 //创建人	
+	private String xpyhddeto_xpyhmstroid;					 //xpyhmstr唯一标示(隐含，用户不可见)
+	private String xpyhddeto_xpyhddetoid;	                 //xpyhddet唯一标示(隐含，用户不可见)
+	
+	public BigDecimal getXpyhddeto_seq() {
 		return xpyhddeto_seq;
 	}
-	public void setXpyhddeto_seq(int xpyhddeto_seq) {
+	public void setXpyhddeto_seq(BigDecimal xpyhddeto_seq) {
 		this.xpyhddeto_seq = xpyhddeto_seq;
 	}
 	public String getXpyhddeto_yhdnbr() {
@@ -100,10 +101,10 @@ public class PurchaseOrderDetail extends BaseObject {
 	public void setXpyhddeto_uom(String xpyhddeto_uom) {
 		this.xpyhddeto_uom = xpyhddeto_uom;
 	}
-	public int getXpyhddeto_spq() {
+	public BigDecimal getXpyhddeto_spq() {
 		return xpyhddeto_spq;
 	}
-	public void setXpyhddeto_spq(int xpyhddeto_spq) {
+	public void setXpyhddeto_spq(BigDecimal xpyhddeto_spq) {
 		this.xpyhddeto_spq = xpyhddeto_spq;
 	}
 	public int getXpyhddeto_stat() {

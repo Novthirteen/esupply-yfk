@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -19,7 +18,6 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.internal.util.collections.CollectionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.ObjectRetrievalFailureException;
@@ -28,6 +26,7 @@ import org.springframework.stereotype.Repository;
 import com.yfk.dao.UniversalDao;
 import com.yfk.model.Auditable;
 import com.yfk.model.Traceable;
+import com.yfk.model.Versionable;
 import com.yfk.webapp.util.PrincipalNullException;
 import com.yfk.webapp.util.SecurityContextHelper;
 
@@ -104,7 +103,8 @@ public class UniversalDaoHibernate implements UniversalDao {
 
 	/**
 	 * {@inheritDoc}
-	 * @throws PrincipalNullException 
+	 * 
+	 * @throws PrincipalNullException
 	 */
 	public void save(Object object) throws PrincipalNullException {
 		if (object instanceof Auditable) {
@@ -113,8 +113,12 @@ public class UniversalDaoHibernate implements UniversalDao {
 			((Auditable) object).setUpdateDate(((Auditable) object).getCreateDate());
 			((Auditable) object).setUpdateUser(((Auditable) object).getCreateUser());
 		} else if (object instanceof Traceable) {
-			((Auditable) object).setCreateDate(new Timestamp((new Date()).getTime()));
-			((Auditable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+			((Traceable) object).setCreateDate(new Timestamp((new Date()).getTime()));
+			((Traceable) object).setCreateUser(SecurityContextHelper.getRemoteUser());
+		}
+
+		if (object instanceof Versionable) {
+			((Versionable) object).setVersion(1);
 		}
 
 		Session sess = getSession();
@@ -123,11 +127,12 @@ public class UniversalDaoHibernate implements UniversalDao {
 
 	/**
 	 * {@inheritDoc}
-	 * @throws PrincipalNullException 
+	 * 
+	 * @throws PrincipalNullException
 	 */
 	public void update(Object object) throws PrincipalNullException {
 
-		if (object instanceof Traceable) {
+		if (object instanceof Auditable) {
 			((Auditable) object).setUpdateDate(new Timestamp((new Date()).getTime()));
 			((Auditable) object).setUpdateUser(SecurityContextHelper.getRemoteUser());
 		}
@@ -151,6 +156,48 @@ public class UniversalDaoHibernate implements UniversalDao {
 		Session sess = getSession();
 		IdentifierLoadAccess byId = sess.byId(clazz);
 		sess.delete(byId.load(id));
+	}
+
+	public void executeByHql(String hql) {
+		Session sess = getSession();
+		Query query = sess.createQuery(hql);
+
+		query.executeUpdate();
+	}
+
+	public void executeByHql(String hql, Object[] params) {
+		Session sess = getSession();
+
+		Query query = sess.createQuery(hql);
+
+		if (params != null && params.length > 0) {
+			for (int i = 0; i < params.length; i++) {
+				query.setParameter(i, params[i]);
+			}
+		}
+
+		query.executeUpdate();
+	}
+
+	public void executeByNativeSql(String sql) {
+		Session sess = getSession();
+		Query query = sess.createSQLQuery(sql);
+
+		query.executeUpdate();
+	}
+
+	public void executeByNativeSql(String sql, Object[] params) {
+		Session sess = getSession();
+
+		Query query = sess.createSQLQuery(sql);
+
+		if (params != null && params.length > 0) {
+			for (int i = 0; i < params.length; i++) {
+				query.setParameter(i, params[i]);
+			}
+		}
+
+		query.executeUpdate();
 	}
 
 	/**
@@ -195,7 +242,7 @@ public class UniversalDaoHibernate implements UniversalDao {
 		return query.list();
 	}
 
-	public List findByNativeSql(String sql, Object[] queryParams, Class clazz) {
+	public List findByNativeSql(Class clazz, String sql, Object[] queryParams) {
 		Session sess = getSession();
 		SQLQuery query = sess.createSQLQuery(sql);
 

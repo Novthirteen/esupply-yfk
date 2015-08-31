@@ -220,4 +220,15 @@ public class BaseAction extends ActionSupport {
     public void setSave(String save) {
         this.save = save;
     }
+    
+    protected void saveErrorForStaleObjectStateException() {
+		addActionError(getText("errors.staleObjectStateException"));
+	}
+
+    protected void saveErrorForUnexpectException(Exception ex) {
+		log.error("Unexpect exception occur.", ex);
+		List<Object> args = new ArrayList<Object>();
+		args.add(ex.getMessage());
+		addActionError(getText("errors.unexpectError", args));
+	}
 }
