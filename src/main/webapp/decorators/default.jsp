@@ -23,11 +23,11 @@
 <link rel="stylesheet" type="text/css" media="all"
 	href="<c:url value='/styles/kendoui/kendo.rtl.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="<c:url value='/styles/kendoui/kendo.default.min.css'/>" />
+	href="<c:url value='/styles/kendoui/kendo.bootstrap.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="<c:url value='/styles/kendoui/kendo.dataviz.min.css'/>" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="<c:url value='/styles/kendoui/kendo.dataviz.default.min.css'/>" />
+	href="<c:url value='/styles/kendoui/kendo.dataviz.bootstrap.min.css'/>" />
 <decorator:head />
 
 
@@ -52,7 +52,7 @@
 
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
-			<div class="container-fluid">
+			<div class="container-fluid ">
 				<%-- For smartphones and smaller screens --%>
 				<button type="button" class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse">
@@ -64,6 +64,27 @@
 			</div>
 		</div>
 	</div>
+	
+		<div class="navbar-collapse collapse">
+			 <ul class="nav navbar-nav">
+			   <li class="dropdown">
+				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Themes <b class="caret"></b></a>
+				 <ul class="dropdown-menu">
+				   <li><a href="#" data-theme="default" class="theme-link">Default</a></li>
+				   <li><a href="#" data-theme="cerulean" class="theme-link">Cerulean</a></li>
+				   <li><a href="#" data-theme="cosmo" class="theme-link">Cosmo</a></li>
+				   <li><a href="#" data-theme="cyborg" class="theme-link">Cyborg</a></li>
+				   <li><a href="#" data-theme="flatly" class="theme-link">Flatly</a></li>
+				   <li><a href="#" data-theme="journal" class="theme-link">Journal</a></li>
+				   <li><a href="#" data-theme="readable" class="theme-link">Readable</a></li>
+				   <li><a href="#" data-theme="simplex" class="theme-link">Simplex</a></li>
+					<li><a href="#" data-theme="slate" class="theme-link">Slate</a></li>
+					 <li><a href="#" data-theme="spacelab" class="theme-link">Spacelab</a></li>
+					 <li><a href="#" data-theme="united" class="theme-link">United</a></li>
+				 </ul>
+			   </li>
+			 </ul>
+			</div><!--/.nav-collapse -->
 
 	<div class="container-fluid">
 		<%@ include file="/common/messages.jsp"%>
@@ -87,6 +108,29 @@
 	<%=(request.getAttribute("scripts") != null) ? request.getAttribute("scripts") : ""%>
 
 
+<script>
+	var themes = {
+	    "default": "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css",
+	    "cerulean" : "//bootswatch.com/cerulean/bootstrap.min.css",
+	    "cosmo" : "//bootswatch.com/cosmo/bootstrap.min.css",
+	    "cyborg" : "//bootswatch.com/cyborg/bootstrap.min.css",
+	    "flatly" : "//bootswatch.com/flatly/bootstrap.min.css",
+	    "journal" : "//bootswatch.com/journal/bootstrap.min.css",
+	    "readable" : "//bootswatch.com/readable/bootstrap.min.css",
+	    "simplex" : "//bootswatch.com/simplex/bootstrap.min.css",
+	    "slate" : "//bootswatch.com/slate/bootstrap.min.css",
+	    "spacelab" : "//bootswatch.com/spacelab/bootstrap.min.css",
+	    "united" : "//bootswatch.com/united/bootstrap.min.css"
+	}
+	$(function(){
+	   var themesheet = $('<link href="'+themes['default']+'" rel="stylesheet" />');
+	    themesheet.appendTo('head');
+	    $('.theme-link').click(function(){
+	       var themeurl = themes[$(this).attr('data-theme')]; 
+	        themesheet.attr('href',themeurl);
+	    });
+	});
+</script>
 </body>
 </html>
 
